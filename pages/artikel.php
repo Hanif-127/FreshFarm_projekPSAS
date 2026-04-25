@@ -10,6 +10,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM artikel ORDER BY tanggal_publish 
 <head>
     <meta charset="UTF-8">
     <title>Artikel - Fresh Smart Farm</title>
+    <link rel="stylesheet" href="../assets/css/artikel.css">
 </head>
 <body>
 

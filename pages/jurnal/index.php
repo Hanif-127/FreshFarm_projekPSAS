@@ -15,6 +15,7 @@ $query   = mysqli_query($koneksi, "SELECT * FROM jurnal_tanam WHERE user_id = $u
 <head>
     <meta charset="UTF-8">
     <title>Jurnal Tanam</title>
+    <link rel="stylesheet" href="../../assets/css/jurnal.css">
 </head>
 <body>
 

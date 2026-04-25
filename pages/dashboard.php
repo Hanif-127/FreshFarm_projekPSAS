@@ -22,6 +22,7 @@ $total   = $data['total'];
 <head>
     <meta charset="UTF-8">
     <title>Dashboard - Fresh Smart Farm</title>
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
 

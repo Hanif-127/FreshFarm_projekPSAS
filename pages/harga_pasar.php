@@ -10,6 +10,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC
 <head>
     <meta charset="UTF-8">
     <title>Harga Pasar - Fresh Smart Farm</title>
+    <link rel="stylesheet" href="../assets/css/harga_pasar.css">
 </head>
 <body>
 

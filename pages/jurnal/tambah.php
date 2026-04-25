@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Tambah Jurnal</title>
+    <link rel="stylesheet" href="../../assets/css/form_jurnal.css">
 </head>
 <body>
 

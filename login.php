@@ -16,6 +16,7 @@ $error = $_GET['error'] ?? '';
 <head>
     <meta charset="UTF-8">
     <title>Login - Fresh Smart Farm</title>
+     <link rel="stylesheet" href="assets/css/login.css">
 </head>
 <body>
 
