@@ -1,0 +1,17 @@
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+body { background:#f4f9f4; color:#333; }
+
+.container { max-width:1100px; margin:30px auto; padding:0 24px; }
+
+h2 { color:#2e7d32; margin-bottom:20px; border-left:5px solid #66bb6a; padding-left:12px; font-size:22px; }
+
+.stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-bottom:24px; }
+.stat-card { background:#2e7d32; color:white; border-radius:12px; padding:20px; text-align:center; }
+.stat-card h3 { font-size:30px; margin-bottom:4px; }
+.stat-card p { font-size:13px; opacity:0.85; }
+
+.chart-box { background:white; border-radius:12px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+.chart-box select { padding:8px 12px; border:1px solid #ddd; border-radius:8px; font-size:14px; margin-bottom:20px; outline:none; }
+.chart-box select:focus { border-color:#2e7d32; }
+
+.kosong { text-align:center; color:#999; padding:40px; background:white; border-radius:12px; }
