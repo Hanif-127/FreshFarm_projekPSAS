@@ -1,39 +1,26 @@
 <?php
 session_start();
+include 'includes/koneksi.php';
 
-// Kalau sudah login, langsung ke dashboard
-if (isset($_SESSION['user_id'])) {
+// Ambil data dari form
+$username = $_POST['username'];
+$password = md5($_POST['password']); // enkripsi sama seperti waktu insert user
+
+// Cari user di database
+$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+$hasil = mysqli_query($koneksi, $query);
+
+if (mysqli_num_rows($hasil) == 1) {
+    // Data valid → simpan sesi
+    $user = mysqli_fetch_assoc($hasil);
+    $_SESSION['user_id']  = $user['id'];
+    $_SESSION['username'] = $user['username'];
+
     header("Location: pages/dashboard.php");
     exit;
+} else {
+    // Data tidak valid → kembali ke login dengan pesan error
+    header("Location: login.php?error=1");
+    exit;
 }
-
-// Ambil pesan error kalau ada
-$error = $_GET['error'] ?? '';
 ?>
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - Fresh Smart Farm</title>
-</head>
-<body>
-
-<h2>Login Petani</h2>
-
-<?php if ($error): ?>
-    <p style="color:red;">Data tidak valid, silahkan coba lagi.</p>
-<?php endif; ?>
-
-<form action="proses_login.php" method="POST">
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
-
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-
-    <button type="submit">Login</button>
-</form>
-
-</body>
-</html>
