@@ -18,6 +18,8 @@ $query   = mysqli_query($koneksi, "SELECT * FROM jurnal_tanam WHERE user_id = $u
 </head>
 <body>
 
+<?php include '../../includes/header.php'; ?>
+
 <h2>📋 Jurnal Tanam Saya</h2>
 
 <?php if (isset($_GET['pesan'])): ?>

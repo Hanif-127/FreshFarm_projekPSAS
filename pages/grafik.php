@@ -40,6 +40,8 @@ $data_json  = json_encode($data_panen);
 </head>
 <body>
 
+<?php include '../includes/header.php'; ?>
+
 <h2>📊 Grafik & Statistik Jurnal Tanam</h2>
 
 <?php if ($total_data == 0): ?>

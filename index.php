@@ -2,11 +2,16 @@
 session_start();
 include 'includes/koneksi.php';
 
-// Ambil artikel terbaru (3 artikel)
+// Ambil artikel terbaru
 $artikel = mysqli_query($koneksi, "SELECT * FROM artikel ORDER BY tanggal_publish DESC LIMIT 3");
 
-// Ambil harga pasar terbaru
+// Ambil harga pasar
 $harga = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC LIMIT 6");
+
+// Hitung statistik
+$total_artikel = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM artikel"));
+$total_harga   = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM harga_pasar"));
+$total_user    = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM users"));
 ?>
 
 <!DOCTYPE html>
@@ -15,256 +20,17 @@ $harga = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fresh Smart Farm</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        body {
-            background: #f4f9f4;
-            color: #333;
-        }
-
-        /* ===== NAVBAR ===== */
-        nav {
-            background: #2e7d32;
-            padding: 14px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav .logo {
-            color: white;
-            font-size: 22px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        nav .logo span {
-            color: #a5d6a7;
-        }
-
-        nav a.btn-login {
-            background: white;
-            color: #2e7d32;
-            padding: 8px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-
-        nav a.btn-login:hover {
-            background: #c8e6c9;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            background: linear-gradient(135deg, #2e7d32, #66bb6a);
-            color: white;
-            text-align: center;
-            padding: 80px 20px;
-        }
-
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 16px;
-        }
-
-        .hero p {
-            font-size: 18px;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .hero a {
-            background: white;
-            color: #2e7d32;
-            padding: 12px 32px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-
-        .hero a:hover {
-            transform: scale(1.05);
-        }
-
-        /* ===== SECTION ===== */
-        section {
-            padding: 50px 40px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        section h2 {
-            font-size: 26px;
-            color: #2e7d32;
-            margin-bottom: 24px;
-            border-left: 5px solid #66bb6a;
-            padding-left: 12px;
-        }
-
-        /* ===== ARTIKEL CARDS ===== */
-        .artikel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .artikel-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
-        }
-
-        .artikel-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .artikel-card h3 {
-            font-size: 17px;
-            margin-bottom: 8px;
-            color: #1b5e20;
-        }
-
-        .artikel-card .tanggal {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 10px;
-        }
-
-        .artikel-card p {
-            font-size: 14px;
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 14px;
-        }
-
-        .artikel-card a {
-            color: #2e7d32;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .artikel-card a:hover {
-            text-decoration: underline;
-        }
-
-        /* ===== HARGA PASAR ===== */
-        .harga-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .harga-table th {
-            background: #2e7d32;
-            color: white;
-            padding: 12px 16px;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        .harga-table td {
-            padding: 12px 16px;
-            font-size: 14px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .harga-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .harga-table tr:hover td {
-            background: #f9fff9;
-        }
-
-        .harga-table a {
-            color: #2e7d32;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        /* ===== FITUR ===== */
-        .fitur-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .fitur-card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .fitur-card .icon {
-            font-size: 36px;
-            margin-bottom: 12px;
-        }
-
-        .fitur-card h3 {
-            font-size: 16px;
-            color: #2e7d32;
-            margin-bottom: 8px;
-        }
-
-        .fitur-card p {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* ===== KOSONG ===== */
-        .kosong {
-            text-align: center;
-            color: #999;
-            padding: 30px;
-            background: white;
-            border-radius: 12px;
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            background: #1b5e20;
-            color: #a5d6a7;
-            text-align: center;
-            padding: 24px;
-            font-size: 14px;
-            margin-top: 40px;
-        }
-
-        footer span {
-            color: white;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/landing.css">
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav>
-    <a class="logo" href="index.php">🌱 Fresh <span>Smart Farm</span></a>
+    <a class="logo" href="index.php">
+        <img src="assets/images/logo.png" alt="Logo Fresh Smart Farm"
+             onerror="this.style.display='none'">
+        <span class="logo-text">Fresh <span>Smart Farm</span></span>
+    </a>
     <?php if (isset($_SESSION['user_id'])): ?>
         <a class="btn-login" href="pages/dashboard.php">Dashboard →</a>
     <?php else: ?>
@@ -272,12 +38,67 @@ $harga = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC
     <?php endif; ?>
 </nav>
 
-<!-- HERO -->
+<!-- HERO dengan background -->
 <div class="hero">
-    <h1>🌾 Fresh Smart Farm</h1>
-    <p>Sistem pencatatan pertanian modern untuk petani Indonesia.</p>
-    <a href="login.php">Mulai Sekarang →</a>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <img class="logo-hero"
+             src="assets/images/logo.png"
+             alt="Logo Fresh Smart Farm"
+             onerror="this.style.display='none'">
+        <h1>🌾 Fresh Smart Farm</h1>
+        <p>Sistem pencatatan pertanian modern yang membantu petani Indonesia mencatat, memantau, dan menganalisa hasil pertanian dengan mudah.</p>
+        <a href="login.php">Mulai Sekarang →</a>
+    </div>
 </div>
+
+<!-- TENTANG FRESH SMART FARM -->
+<div class="about">
+    <div class="about-inner">
+        <div class="about-logo">
+            <img src="assets/images/logo.png"
+                 alt="Logo Fresh Smart Farm"
+                 onerror="this.src=''; this.alt='🌱'">
+            <p>Fresh Smart Farm</p>
+        </div>
+        <div class="about-text">
+            <h2>Apa itu Fresh Smart Farm?</h2>
+            <p>
+                <strong>Fresh Smart Farm</strong> adalah platform digital yang dirancang khusus untuk membantu para petani Indonesia dalam mengelola kegiatan pertanian mereka secara lebih terstruktur dan efisien.
+            </p>
+            <p>
+                Dengan sistem ini, petani dapat mencatat jurnal tanam harian, memantau harga pasar komoditas terkini, membaca artikel pertanian terpercaya, serta melihat statistik dan grafik perkembangan hasil panen mereka.
+            </p>
+            <p>Fitur yang tersedia:</p>
+            <ul>
+                <li>Jurnal tanam digital dengan sistem CRUD lengkap</li>
+                <li>Pantau harga komoditas pertanian terkini</li>
+                <li>Artikel dan tips pertanian terpercaya</li>
+                <li>Grafik & statistik hasil panen interaktif</li>
+                <li>Sistem login aman untuk setiap petani</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- STATISTIK -->
+<section>
+    <h2>📈 Statistik Platform</h2>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3><?= $total_user ?>+</h3>
+            <p>Petani Terdaftar</p>
+        </div>
+        <div class="stat-card">
+            <h3><?= $total_artikel ?>+</h3>
+            <p>Artikel Tersedia</p>
+        </div>
+        <div class="stat-card">
+            <h3><?= $total_harga ?>+</h3>
+            <p>Data Harga Komoditas</p>
+        </div>
+    </div>
+</section>
 
 <!-- FITUR UNGGULAN -->
 <section>
@@ -286,7 +107,7 @@ $harga = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC
         <div class="fitur-card">
             <div class="icon">📋</div>
             <h3>Jurnal Tanam</h3>
-            <p>Catat semua aktivitas tanam kamu secara terstruktur dan rapi.</p>
+            <p>Catat semua aktivitas tanam kamu secara terstruktur dan rapi setiap harinya.</p>
         </div>
         <div class="fitur-card">
             <div class="icon">📊</div>
@@ -296,12 +117,12 @@ $harga = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC
         <div class="fitur-card">
             <div class="icon">💰</div>
             <h3>Harga Pasar</h3>
-            <p>Pantau harga komoditas pertanian terkini langsung dari dashboard.</p>
+            <p>Pantau harga komoditas pertanian terkini langsung dari dashboard kamu.</p>
         </div>
         <div class="fitur-card">
             <div class="icon">📰</div>
             <h3>Artikel Pertanian</h3>
-            <p>Baca tips dan informasi seputar dunia pertanian terpercaya.</p>
+            <p>Baca tips dan informasi seputar dunia pertanian yang terpercaya.</p>
         </div>
     </div>
 </section>
@@ -354,7 +175,13 @@ $harga = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC
 
 <!-- FOOTER -->
 <footer>
-    &copy; 2025 <span>Fresh Smart Farm</span> — Dibuat dengan ❤️ oleh siswa SMK Telkom Purwokerto
+    <div class="footer-logo">
+        <img src="assets/images/logo.png"
+             alt="Logo"
+             onerror="this.style.display='none'">
+        <span>Fresh Smart Farm</span>
+    </div>
+    <p>&copy; 2025 <span class="highlight">Fresh Smart Farm</span> — Dibuat dengan ❤️ oleh siswa SMK Telkom Purwokerto</p>
 </footer>
 
 </body>

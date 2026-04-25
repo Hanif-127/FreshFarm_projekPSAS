@@ -13,6 +13,8 @@ $query = mysqli_query($koneksi, "SELECT * FROM artikel ORDER BY tanggal_publish 
 </head>
 <body>
 
+<?php include '../includes/header.php'; ?>
+
 <h2>📰 Artikel Pertanian</h2>
 
 <?php if (mysqli_num_rows($query) == 0): ?>

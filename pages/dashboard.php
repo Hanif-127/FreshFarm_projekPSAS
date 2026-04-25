@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 include '../includes/koneksi.php';
 
+
 // Ambil jumlah jurnal milik user yang login
 $user_id = $_SESSION['user_id'];
 $query   = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM jurnal_tanam WHERE user_id = $user_id");
@@ -23,6 +24,8 @@ $total   = $data['total'];
     <title>Dashboard - Fresh Smart Farm</title>
 </head>
 <body>
+
+<?php include '../includes/header.php'; ?>
 
 <h2>Selamat datang, <?= $_SESSION['username'] ?>! 🌱</h2>
 
