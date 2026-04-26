@@ -20,169 +20,279 @@ $total_user    = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM users"))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fresh Smart Farm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/landing.css">
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav>
-    <a class="logo" href="index.php">
-        <img src="assets/images/logo.png" alt="Logo Fresh Smart Farm"
-             onerror="this.style.display='none'">
-        <span class="logo-text">Fresh <span>Smart Farm</span></span>
+    <a class="nav-brand" href="index.php">
+        <img src="assets/images/logo.png" alt="Logo" onerror="this.style.display='none'">
+        <div class="brand-text">
+            <span class="brand-name">Fresh <em>Smart Farm</em></span>
+            <span class="brand-tagline">Platform Pertanian Digital</span>
+        </div>
     </a>
+    <div class="nav-center">
+        <a href="#statistik">Tentang</a>
+        <a href="#fitur">Fitur</a>
+        <a href="#artikel">Artikel</a>
+        <a href="#harga">Harga Pasar</a>
+    </div>
     <?php if (isset($_SESSION['user_id'])): ?>
-        <a class="btn-login" href="pages/dashboard.php">Dashboard →</a>
+        <a class="nav-cta" href="pages/dashboard.php">Dashboard →</a>
     <?php else: ?>
-        <a class="btn-login" href="login.php">Login</a>
+        <a class="nav-cta" href="login.php">Masuk</a>
     <?php endif; ?>
 </nav>
 
-<!-- HERO dengan background -->
-<div class="hero">
-    <div class="hero-bg"></div>
+<!-- ===== HERO — background_logo.jpg ===== -->
+<section class="hero">
+    <div class="hero-overlay"></div>
+
+    <!-- Logo kecil mengambang di atas foto background -->
+    <div class="hero-logo-float">
+        <img src="assets/images/logo.png" alt="Fresh Smart Farm" onerror="this.style.display='none'">
+        <span>Fresh Smart Farm</span>
+    </div>
+
     <div class="hero-content">
-        <img class="logo-hero"
-             src="assets/images/logo.png"
-             alt="Logo Fresh Smart Farm"
-             onerror="this.style.display='none'">
-        <h1>🌾 Fresh Smart Farm</h1>
-        <p>Sistem pencatatan pertanian modern yang membantu petani Indonesia mencatat, memantau, dan menganalisa hasil pertanian dengan mudah.</p>
-        <a href="login.php">Mulai Sekarang →</a>
-    </div>
-</div>
-
-<!-- TENTANG FRESH SMART FARM -->
-<div class="about">
-    <div class="about-inner">
-        <div class="about-logo">
-            <img src="assets/images/logo.png"
-                 alt="Logo Fresh Smart Farm"
-                 onerror="this.src=''; this.alt='🌱'">
-            <p>Fresh Smart Farm</p>
-        </div>
-        <div class="about-text">
-            <h2>Apa itu Fresh Smart Farm?</h2>
-            <p>
-                <strong>Fresh Smart Farm</strong> adalah platform digital yang dirancang khusus untuk membantu para petani Indonesia dalam mengelola kegiatan pertanian mereka secara lebih terstruktur dan efisien.
-            </p>
-            <p>
-                Dengan sistem ini, petani dapat mencatat jurnal tanam harian, memantau harga pasar komoditas terkini, membaca artikel pertanian terpercaya, serta melihat statistik dan grafik perkembangan hasil panen mereka.
-            </p>
-            <p>Fitur yang tersedia:</p>
-            <ul>
-                <li>Jurnal tanam digital dengan sistem CRUD lengkap</li>
-                <li>Pantau harga komoditas pertanian terkini</li>
-                <li>Artikel dan tips pertanian terpercaya</li>
-                <li>Grafik & statistik hasil panen interaktif</li>
-                <li>Sistem login aman untuk setiap petani</li>
-            </ul>
+        <div class="hero-badge">🌱 Platform Pertanian #1 Indonesia</div>
+        <h1>Pertanian Cerdas<br><em>Dimulai dari Sini</em></h1>
+        <p>Platform digital terpadu untuk petani Indonesia yang ingin mengelola lahan dengan lebih efisien, terstruktur, dan menguntungkan.</p>
+        <div class="hero-actions">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="pages/dashboard.php" class="btn-primary">Buka Dashboard →</a>
+            <?php else: ?>
+                <a href="login.php" class="btn-primary">Mulai Gratis →</a>
+            <?php endif; ?>
+            <a href="#fitur" class="btn-ghost">Lihat Fitur</a>
         </div>
     </div>
-</div>
 
-<!-- STATISTIK -->
-<section>
-    <h2>📈 Statistik Platform</h2>
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3><?= $total_user ?>+</h3>
-            <p>Petani Terdaftar</p>
-        </div>
-        <div class="stat-card">
-            <h3><?= $total_artikel ?>+</h3>
-            <p>Artikel Tersedia</p>
-        </div>
-        <div class="stat-card">
-            <h3><?= $total_harga ?>+</h3>
-            <p>Data Harga Komoditas</p>
-        </div>
+    <div class="hero-scroll-hint">
+        <span>Scroll ke bawah</span>
+        <div class="scroll-arrow"></div>
     </div>
 </section>
 
-<!-- FITUR UNGGULAN -->
-<section>
-    <h2>✨ Fitur Unggulan</h2>
-    <div class="fitur-grid">
-        <div class="fitur-card">
-            <div class="icon">📋</div>
-            <h3>Jurnal Tanam</h3>
-            <p>Catat semua aktivitas tanam kamu secara terstruktur dan rapi setiap harinya.</p>
-        </div>
-        <div class="fitur-card">
-            <div class="icon">📊</div>
-            <h3>Grafik & Statistik</h3>
-            <p>Lihat perkembangan hasil panen dalam bentuk grafik yang mudah dipahami.</p>
-        </div>
-        <div class="fitur-card">
-            <div class="icon">💰</div>
-            <h3>Harga Pasar</h3>
-            <p>Pantau harga komoditas pertanian terkini langsung dari dashboard kamu.</p>
-        </div>
-        <div class="fitur-card">
-            <div class="icon">📰</div>
-            <h3>Artikel Pertanian</h3>
-            <p>Baca tips dan informasi seputar dunia pertanian yang terpercaya.</p>
-        </div>
-    </div>
-</section>
+<!-- ===== SECTION 1: TENTANG + STATISTIK — background_landing_1.png ===== -->
+<section class="section about-section" id="statistik">
+    <div class="section-inner">
 
-<!-- ARTIKEL TERBARU -->
-<section>
-    <h2>📰 Artikel Terbaru</h2>
-    <?php if (mysqli_num_rows($artikel) == 0): ?>
-        <div class="kosong">Belum ada artikel tersedia.</div>
-    <?php else: ?>
-        <div class="artikel-grid">
-            <?php while ($row = mysqli_fetch_assoc($artikel)): ?>
-                <div class="artikel-card">
-                    <h3><?= $row['judul'] ?></h3>
-                    <p class="tanggal">📅 <?= $row['tanggal_publish'] ?></p>
-                    <p><?= substr($row['isi'], 0, 120) ?>...</p>
-                    <a href="pages/detail_artikel.php?id=<?= $row['id'] ?>">Baca Selengkapnya →</a>
+        <div class="about-grid">
+            <div class="about-visual">
+                <div class="about-img-wrap">
+                    <img src="assets/images/logo.png" alt="Fresh Smart Farm Logo" onerror="this.src=''; this.alt='🌱'">
                 </div>
-            <?php endwhile; ?>
+                <p class="about-caption">Inovasi untuk Petani Indonesia</p>
+            </div>
+            <div class="about-body">
+                <span class="section-label">Mengapa Kami</span>
+                <h2>Solusi Digital untuk Pertanian yang Lebih Baik</h2>
+                <p>Pertanian Indonesia memerlukan solusi digital yang tepat untuk meningkatkan produktivitas. <strong>Fresh Smart Farm</strong> hadir sebagai partner terpercaya bagi petani modern.</p>
+                <p>Dari pencatatan jurnal harian hingga analisis harga pasar — semua dalam satu dashboard yang mudah digunakan.</p>
+                <ul class="feature-list">
+                    <li>Jurnal tanam digital dengan manajemen lengkap</li>
+                    <li>Grafik & statistik panen interaktif</li>
+                    <li>Monitor harga komoditas terkini setiap hari</li>
+                    <li>Artikel edukasi dari para ahli pertanian</li>
+                    <li>Sistem keamanan login terenkripsi</li>
+                    <li>Akses optimal dari semua perangkat</li>
+                </ul>
+            </div>
         </div>
-    <?php endif; ?>
+
+        <div class="stats-block">
+            <div class="stats-header">
+                <span class="section-label">Pencapaian</span>
+                <h2>Platform yang Dipercaya Petani</h2>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card scroll-reveal">
+                    <div class="stat-icon">👨‍🌾</div>
+                    <h3><?= $total_user ?>+</h3>
+                    <p>Petani Aktif</p>
+                </div>
+                <div class="stat-card scroll-reveal">
+                    <div class="stat-icon">📰</div>
+                    <h3><?= $total_artikel ?>+</h3>
+                    <p>Artikel Edukatif</p>
+                </div>
+                <div class="stat-card scroll-reveal">
+                    <div class="stat-icon">📊</div>
+                    <h3><?= $total_harga ?>+</h3>
+                    <p>Data Harga Pasar</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </section>
 
-<!-- HARGA PASAR -->
-<section>
-    <h2>💰 Harga Pasar Hari Ini</h2>
-    <?php if (mysqli_num_rows($harga) == 0): ?>
-        <div class="kosong">Data harga pasar belum tersedia.</div>
-    <?php else: ?>
-        <table class="harga-table">
-            <tr>
-                <th>Komoditas</th>
-                <th>Harga</th>
-                <th>Satuan</th>
-                <th>Tanggal</th>
-                <th>Detail</th>
-            </tr>
-            <?php while ($row = mysqli_fetch_assoc($harga)): ?>
-                <tr>
-                    <td><?= $row['nama_komoditas'] ?></td>
-                    <td>Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
-                    <td><?= $row['satuan'] ?></td>
-                    <td><?= $row['tanggal'] ?></td>
-                    <td><a href="pages/detail_harga.php?id=<?= $row['id'] ?>">Lihat →</a></td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
-    <?php endif; ?>
+<!-- ===== SECTION 2: FITUR UNGGULAN — background_landing_2.png ===== -->
+<section class="section fitur-section" id="fitur">
+    <div class="section-inner">
+        <div class="section-header center">
+            <span class="section-label-light">Fitur Unggulan</span>
+            <h2 class="heading-light">Semua yang Kamu Butuhkan</h2>
+            <p class="section-desc-light">Dirancang khusus untuk memenuhi kebutuhan petani Indonesia modern.</p>
+        </div>
+        <div class="fitur-grid">
+            <div class="fitur-card scroll-reveal">
+                <div class="fitur-icon">📋</div>
+                <h3>Jurnal Tanam Digital</h3>
+                <p>Catat setiap aktivitas tanam, perawatan, dan hasil panen dengan sistem terstruktur dan mudah diakses kapan saja.</p>
+            </div>
+            <div class="fitur-card scroll-reveal">
+                <div class="fitur-icon">📊</div>
+                <h3>Grafik & Statistik</h3>
+                <p>Visualisasi data panen dalam bentuk grafik interaktif untuk analisis dan perencanaan pertanian lebih baik.</p>
+            </div>
+            <div class="fitur-card scroll-reveal">
+                <div class="fitur-icon">💰</div>
+                <h3>Harga Pasar Terkini</h3>
+                <p>Pantau harga komoditas pertanian langsung dari dashboard dan buat keputusan jual yang lebih strategis.</p>
+            </div>
+            <div class="fitur-card scroll-reveal">
+                <div class="fitur-icon">📰</div>
+                <h3>Artikel & Tips Pertanian</h3>
+                <p>Baca tips, trik, dan informasi terpercaya dari para ahli untuk meningkatkan hasil panen kamu.</p>
+            </div>
+            <div class="fitur-card scroll-reveal">
+                <div class="fitur-icon">🔐</div>
+                <h3>Keamanan Terjamin</h3>
+                <p>Login aman dengan enkripsi modern menjamin data pertanian kamu tetap pribadi dan terlindungi.</p>
+            </div>
+            <div class="fitur-card scroll-reveal">
+                <div class="fitur-icon">📱</div>
+                <h3>Responsif & Cepat</h3>
+                <p>Akses dari desktop, tablet, atau smartphone dengan performa optimal dan antarmuka yang nyaman.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SECTION 3: ARTIKEL + HARGA PASAR — background_landing_3.png ===== -->
+<section class="section konten-section" id="artikel">
+    <div class="section-inner">
+
+        <!-- ARTIKEL TERBARU -->
+        <div class="konten-block">
+            <div class="section-header">
+                <span class="section-label">Konten Terbaru</span>
+                <h2>Artikel & Tips Pertanian</h2>
+            </div>
+            <?php if (mysqli_num_rows($artikel) == 0): ?>
+                <div class="empty-state">
+                    <span>📚</span>
+                    <p>Belum ada artikel tersedia. Segera kembali untuk membaca artikel edukatif terbaru!</p>
+                </div>
+            <?php else: ?>
+                <div class="artikel-grid">
+                    <?php while ($row = mysqli_fetch_assoc($artikel)): ?>
+                        <div class="artikel-card scroll-reveal">
+                            <div class="artikel-img-wrap">
+                                <img src="<?= !empty($row['gambar']) ? $row['gambar'] : 'assets/images/artikel_default.png' ?>" alt="Thumbnail Artikel">
+                            </div>
+                            <div class="artikel-body">
+                                <span class="artikel-date">📅 <?= date('d M Y', strtotime($row['tanggal_publish'])) ?></span>
+                                <h3><?= htmlspecialchars($row['judul']) ?></h3>
+                                <p><?= substr(htmlspecialchars($row['isi']), 0, 130) ?>…</p>
+                                <a href="pages/detail_artikel.php?id=<?= $row['id'] ?>" class="artikel-link">Baca Selengkapnya →</a>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- HARGA PASAR -->
+        <div class="konten-block" id="harga">
+            <div class="section-header">
+                <span class="section-label">Update Harian</span>
+                <h2>Harga Pasar Komoditas</h2>
+            </div>
+            <?php if (mysqli_num_rows($harga) == 0): ?>
+                <div class="empty-state">
+                    <span>💹</span>
+                    <p>Data harga pasar belum tersedia. Pantau terus untuk update harga terbaru!</p>
+                </div>
+            <?php else: ?>
+                <div class="table-wrap scroll-reveal">
+                    <table class="harga-table">
+                        <thead>
+                            <tr>
+                                <th>Komoditas</th>
+                                <th>Harga</th>
+                                <th>Satuan</th>
+                                <th>Tanggal Update</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php while ($row = mysqli_fetch_assoc($harga)): ?>
+                                <tr>
+                                    <td class="td-name"><?= htmlspecialchars($row['nama_komoditas']) ?></td>
+                                    <td class="td-price">Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
+                                    <td><?= htmlspecialchars($row['satuan']) ?></td>
+                                    <td><?= date('d M Y', strtotime($row['tanggal'])) ?></td>
+                                    <td><a href="pages/detail_harga.php?id=<?= $row['id'] ?>">Lihat →</a></td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+
+    </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-    <div class="footer-logo">
-        <img src="assets/images/logo.png"
-             alt="Logo"
-             onerror="this.style.display='none'">
-        <span>Fresh Smart Farm</span>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="assets/images/logo.png" alt="Logo" onerror="this.style.display='none'">
+            <span>Fresh Smart Farm</span>
+        </div>
+        <p>&copy; 2025 Fresh Smart Farm — Platform Pertanian Cerdas Indonesia</p>
+        <p class="footer-credit">Dibuat dengan hati-hati oleh siswa SMK Telkom Purwokerto</p>
     </div>
-    <p>&copy; 2025 <span class="highlight">Fresh Smart Farm</span> — Dibuat dengan ❤️ oleh siswa SMK Telkom Purwokerto</p>
 </footer>
+
+<script>
+// ===== SCROLL REVEAL — muncul satu-satu saat masuk viewport =====
+(function () {
+    var cards = document.querySelectorAll('.scroll-reveal');
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                // Hitung urutan di antara saudara .scroll-reveal dalam container yang sama
+                var siblings = Array.from(entry.target.parentElement.querySelectorAll('.scroll-reveal'));
+                var idx = siblings.indexOf(entry.target);
+                entry.target.style.transitionDelay = (idx * 130) + 'ms';
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.10,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    cards.forEach(function (card) { observer.observe(card); });
+})();
+
+// ===== NAVBAR SHADOW =====
+window.addEventListener('scroll', function () {
+    document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+</script>
 
 </body>
 </html>
