@@ -43,85 +43,154 @@ $data_json  = json_encode($data_panen);
 
 <?php include '../includes/header.php'; ?>
 
-<h2>📊 Grafik & Statistik Jurnal Tanam</h2>
-
-<?php if ($total_data == 0): ?>
-    <p>Belum ada data jurnal tanam.</p>
-<?php else: ?>
-
-    <!-- Ringkasan -->
-    <div style="display:flex; gap:20px; margin-bottom:20px;">
-        <div style="border:1px solid #ccc; padding:16px; border-radius:8px; text-align:center;">
-            <h3><?= $total_tanaman ?></h3>
-            <p>Total Tanaman</p>
+<main class="grafik-page">
+    <section class="grafik-hero">
+        <div class="grafik-hero__overlay"></div>
+        <div class="grafik-hero__content">
+            <span class="grafik-label">Analisis Data</span>
+            <h1>Grafik & Statistik Pertanian</h1>
+            <p>Visualisasikan data jurnal tanam Anda dalam bentuk grafik interaktif untuk memantau produktivitas pertanian.</p>
         </div>
-        <div style="border:1px solid #ccc; padding:16px; border-radius:8px; text-align:center;">
-            <h3><?= $total_panen ?> kg</h3>
-            <p>Total Hasil Panen</p>
-        </div>
-        <div style="border:1px solid #ccc; padding:16px; border-radius:8px; text-align:center;">
-            <h3><?= $total_data ?></h3>
-            <p>Total Data Jurnal</p>
-        </div>
-    </div>
+    </section>
 
-    <!-- Filter jenis grafik -->
-    <label>Pilih Jenis Grafik:</label>
-    <select id="filterGrafik" onchange="gantiGrafik()">
-        <option value="bar">Batang (Bar)</option>
-        <option value="pie">Lingkaran (Pie)</option>
-        <option value="line">Garis (Line)</option>
-    </select>
-    <br><br>
+    <section class="grafik-content">
+        <?php if ($total_data == 0): ?>
+            <div class="grafik-empty">
+                <p>Belum ada data jurnal tanam untuk ditampilkan dalam grafik.</p>
+                <a href="jurnal/index.php" class="btn btn-primary">Tambah Data Jurnal</a>
+            </div>
+        <?php else: ?>
 
-    <!-- Canvas grafik -->
-    <canvas id="myChart" style="max-width:600px; max-height:400px;"></canvas>
+            <!-- Ringkasan Statistik -->
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <h3><?= number_format($total_tanaman) ?></h3>
+                    <p>Total Tanaman</p>
+                </div>
+                <div class="stat-card">
+                    <h3><?= number_format($total_panen) ?> <small>kg</small></h3>
+                    <p>Total Hasil Panen</p>
+                </div>
+                <div class="stat-card">
+                    <h3><?= $total_data ?></h3>
+                    <p>Data Jurnal</p>
+                </div>
+            </div>
 
-    <script>
-        const labels = <?= $label_json ?>;
-        const data   = <?= $data_json ?>;
+            <!-- Grafik -->
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h3>Visualisasi Hasil Panen</h3>
+                    <div class="chart-controls">
+                        <label for="filterGrafik">Jenis Grafik:</label>
+                        <select id="filterGrafik" onchange="gantiGrafik()">
+                            <option value="bar">Batang (Bar)</option>
+                            <option value="pie">Lingkaran (Pie)</option>
+                            <option value="line">Garis (Line)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
 
-        let myChart = null;
+            <script>
+                const labels = <?= $label_json ?>;
+                const data   = <?= $data_json ?>;
 
-        function gantiGrafik() {
-            const jenis = document.getElementById('filterGrafik').value;
+                let myChart = null;
 
-            // Hapus grafik lama
-            if (myChart) myChart.destroy();
+                function gantiGrafik() {
+                    const jenis = document.getElementById('filterGrafik').value;
 
-            const ctx = document.getElementById('myChart').getContext('2d');
-
-            myChart = new Chart(ctx, {
-                type: jenis,
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Hasil Panen (kg)',
-                        data: data,
-                        backgroundColor: [
-                            '#4CAF50', '#2196F3', '#FF9800',
-                            '#E91E63', '#9C27B0', '#00BCD4'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' }
+                    if (myChart) {
+                        myChart.destroy();
                     }
+
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    const chartConfig = {
+                        type: jenis,
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Hasil Panen (kg)',
+                                data: data,
+                                backgroundColor: jenis === 'pie' ? [
+                                    '#4CAF50', '#2196F3', '#FF9800',
+                                    '#E91E63', '#9C27B0', '#00BCD4',
+                                    '#FF5722', '#795548', '#607D8B'
+                                ] : 'rgba(36, 185, 86, 0.8)',
+                                borderColor: jenis === 'pie' ? undefined : '#24b956',
+                                borderWidth: 2,
+                                fill: jenis === 'line' ? false : true,
+                                tension: jenis === 'line' ? 0.35 : 0,
+                                pointRadius: jenis === 'line' ? 6 : 4,
+                                pointBackgroundColor: '#24b956'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            layout: {
+                                padding: 12
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        color: '#f5f7f3',
+                                        font: {
+                                            size: 12
+                                        },
+                                        padding: 16
+                                    }
+                                },
+                                tooltip: {
+                                    bodyColor: '#f5f7f3',
+                                    titleColor: '#ffffff',
+                                    backgroundColor: 'rgba(16, 62, 35, 0.95)',
+                                    borderColor: 'rgba(255, 255, 255, 0.12)',
+                                    borderWidth: 1
+                                }
+                            },
+                            scales: jenis !== 'pie' ? {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        color: 'rgba(255, 255, 255, 0.1)'
+                                    },
+                                    ticks: {
+                                        color: '#f5f7f3',
+                                        padding: 8
+                                    }
+                                },
+                                x: {
+                                    grid: {
+                                        color: 'rgba(255, 255, 255, 0.1)'
+                                    },
+                                    ticks: {
+                                        color: '#f5f7f3',
+                                        padding: 8
+                                    }
+                                }
+                            } : {}
+                        }
+                    };
+
+                    myChart = new Chart(ctx, chartConfig);
                 }
-            });
-        }
 
-        // Tampilkan grafik default saat halaman dibuka
-        gantiGrafik();
-    </script>
+                window.addEventListener('DOMContentLoaded', gantiGrafik);
+            </script>
 
-<?php endif; ?>
+        <?php endif; ?>
 
-<br>
-<a href="dashboard.php">← Kembali ke Dashboard</a>
+        <div class="grafik-footer-link">
+            <a href="dashboard.php" class="btn btn-secondary">← Kembali ke Dashboard</a>
+        </div>
+    </section>
+</main>
 
 </body>
 </html>

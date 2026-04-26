@@ -52,35 +52,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php include '../../includes/header.php'; ?>
 
-<h2>✏️ Edit Data Jurnal Tanam</h2>
+<main class="form-jurnal-page">
+    <section class="form-jurnal-hero">
+        <div class="form-jurnal-hero__overlay"></div>
+        <div class="form-jurnal-hero__content">
+            <span class="form-jurnal-label">Edit Jurnal</span>
+            <h1>Edit Data Jurnal Tanam</h1>
+            <p>Perbarui informasi tanaman Anda untuk catatan yang akurat.</p>
+        </div>
+    </section>
 
-<?php if ($error): ?>
-    <p style="color:red;"><?= $error ?></p>
-<?php endif; ?>
+    <section class="form-jurnal-content">
+        <div class="form-jurnal-card">
+            <h2>✏️ Edit Data Jurnal Tanam</h2>
 
-<form method="POST">
-    <label>Nama Tanaman:</label><br>
-    <input type="text" name="nama_tanaman" value="<?= $data['nama_tanaman'] ?>"><br><br>
+            <?php if ($error): ?>
+                <div class="alert-error">
+                    <?= htmlspecialchars($error) ?>
+                </div>
+            <?php endif; ?>
 
-    <label>Tanggal Tanam:</label><br>
-    <input type="date" name="tanggal_tanam" value="<?= $data['tanggal_tanam'] ?>"><br><br>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="nama_tanaman">Nama Tanaman</label>
+                    <input type="text" id="nama_tanaman" name="nama_tanaman" value="<?= htmlspecialchars($data['nama_tanaman']) ?>" placeholder="Contoh: Tomat, Cabai, dll" required>
+                </div>
 
-    <label>Jumlah:</label><br>
-    <input type="number" name="jumlah" value="<?= $data['jumlah'] ?>"><br><br>
+                <div class="form-group">
+                    <label for="tanggal_tanam">Tanggal Tanam</label>
+                    <input type="date" id="tanggal_tanam" name="tanggal_tanam" value="<?= htmlspecialchars($data['tanggal_tanam']) ?>" required>
+                </div>
 
-    <label>Status:</label><br>
-    <select name="status">
-        <option <?= $data['status'] == 'Sedang Tanam' ? 'selected' : '' ?>>Sedang Tanam</option>
-        <option <?= $data['status'] == 'Sudah Panen' ? 'selected' : '' ?>>Sudah Panen</option>
-        <option <?= $data['status'] == 'Gagal' ? 'selected' : '' ?>>Gagal</option>
-    </select><br><br>
+                <div class="form-group">
+                    <label for="jumlah">Jumlah Tanaman</label>
+                    <input type="number" id="jumlah" name="jumlah" value="<?= htmlspecialchars($data['jumlah']) ?>" placeholder="Jumlah bibit yang ditanam" min="1" required>
+                </div>
 
-    <label>Hasil Panen (kg):</label><br>
-    <input type="number" name="hasil_panen" value="<?= $data['hasil_panen'] ?>"><br><br>
+                <div class="form-group">
+                    <label for="status">Status Tanaman</label>
+                    <select id="status" name="status" required>
+                        <option value="">Pilih Status</option>
+                        <option value="Sedang Tanam" <?= $data['status'] == 'Sedang Tanam' ? 'selected' : '' ?>>Sedang Tanam</option>
+                        <option value="Sudah Panen" <?= $data['status'] == 'Sudah Panen' ? 'selected' : '' ?>>Sudah Panen</option>
+                        <option value="Gagal" <?= $data['status'] == 'Gagal' ? 'selected' : '' ?>>Gagal</option>
+                    </select>
+                </div>
 
-    <button type="submit">Update</button>
-    <a href="index.php">Batal</a>
-</form>
+                <div class="form-group">
+                    <label for="hasil_panen">Hasil Panen (kg)</label>
+                    <input type="number" id="hasil_panen" name="hasil_panen" value="<?= htmlspecialchars($data['hasil_panen']) ?>" placeholder="0 jika belum panen" min="0" step="0.1">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Update Data</button>
+                    <a href="index.php" class="btn btn-secondary">Batal</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-jurnal-footer-link">
+            <a href="index.php" class="btn btn-secondary">← Kembali ke Jurnal</a>
+        </div>
+    </section>
+</main>
 
 </body>
 </html>

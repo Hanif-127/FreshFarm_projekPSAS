@@ -17,28 +17,45 @@ if (!$data) {
 <head>
     <meta charset="UTF-8">
     <title>Detail Harga - Fresh Smart Farm</title>
+    <link rel="stylesheet" href="../assets/css/harga_pasar.css">
 </head>
 <body>
 
-<h2>📦 <?= $data['nama_komoditas'] ?></h2>
+<?php include '../includes/header.php'; ?>
 
-<table border="1" cellpadding="8">
-    <tr>
-        <td>Harga</td>
-        <td>Rp <?= number_format($data['harga'], 0, ',', '.') ?></td>
-    </tr>
-    <tr>
-        <td>Satuan</td>
-        <td><?= $data['satuan'] ?></td>
-    </tr>
-    <tr>
-        <td>Tanggal Update</td>
-        <td><?= $data['tanggal'] ?></td>
-    </tr>
-</table>
+<main class="harga-pasar-page">
+    <section class="harga-pasar-hero">
+        <div class="harga-pasar-hero__overlay"></div>
+        <div class="harga-pasar-hero__content">
+            <span class="harga-pasar-label">Detail Harga</span>
+            <h1><?= htmlspecialchars($data['nama_komoditas']) ?></h1>
+            <p>Informasi lengkap harga pasar komoditas ini.</p>
+        </div>
+    </section>
 
-<br>
-<a href="harga_pasar.php">← Kembali ke Daftar Harga</a>
+    <section class="harga-pasar-detail">
+        <div class="harga-pasar-detail__content">
+            <div class="harga-pasar-detail__info">
+                <div class="harga-pasar-detail__item">
+                    <span class="harga-pasar-detail__label">Harga</span>
+                    <span class="harga-pasar-detail__value">Rp <?= number_format($data['harga'], 0, ',', '.') ?></span>
+                </div>
+                <div class="harga-pasar-detail__item">
+                    <span class="harga-pasar-detail__label">Satuan</span>
+                    <span class="harga-pasar-detail__value"><?= htmlspecialchars($data['satuan']) ?></span>
+                </div>
+                <div class="harga-pasar-detail__item">
+                    <span class="harga-pasar-detail__label">Tanggal Update</span>
+                    <span class="harga-pasar-detail__value"><?= date('d F Y', strtotime($data['tanggal'])) ?></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="harga-pasar-footer-link">
+            <a href="harga_pasar.php" class="btn btn-secondary">← Kembali ke Daftar Harga</a>
+        </div>
+    </section>
+</main>
 
 </body>
 </html>

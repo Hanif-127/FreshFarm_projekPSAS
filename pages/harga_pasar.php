@@ -16,39 +16,54 @@ $query = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC
 
 <?php include '../includes/header.php'; ?>
 
-<h2>💰 Harga Pasar Komoditas</h2>
+<main class="harga-pasar-page">
+    <section class="harga-pasar-hero">
+        <div class="harga-pasar-hero__overlay"></div>
+        <div class="harga-pasar-hero__content">
+            <span class="harga-pasar-label">Harga Pasar</span>
+            <h1>Harga Komoditas Terkini</h1>
+            <p>Pantau harga pasar komoditas pertanian terkini untuk membantu perencanaan panen dan penjualan Anda.</p>
+        </div>
+    </section>
 
-<?php if (mysqli_num_rows($query) == 0): ?>
-    <p>Data tidak tersedia.</p>
-<?php else: ?>
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>No</th>
-            <th>Komoditas</th>
-            <th>Harga</th>
-            <th>Satuan</th>
-            <th>Tanggal</th>
-            <th>Detail</th>
-        </tr>
-        <?php $no = 1; while ($row = mysqli_fetch_assoc($query)): ?>
-        <tr>
-            <td><?= $no++ ?></td>
-            <td><?= $row['nama_komoditas'] ?></td>
-            <td>Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
-            <td><?= $row['satuan'] ?></td>
-            <td><?= $row['tanggal'] ?></td>
-            <td><a href="detail_harga.php?id=<?= $row['id'] ?>">Lihat Detail</a></td>
-        </tr>
-        <?php endwhile; ?>
-    </table>
-<?php endif; ?>
+    <section class="harga-pasar-listing">
+        <div class="harga-pasar-listing__header">
+            <h2>Daftar Harga Pasar</h2>
+            <p>Data harga terbaru dari pasar lokal untuk berbagai komoditas pertanian.</p>
+        </div>
 
-<br>
-<?php if (isset($_SESSION['user_id'])): ?>
-    <a href="dashboard.php">← Kembali ke Dashboard</a>
-<?php else: ?>
-    <a href="../index.php">← Kembali ke Beranda</a>
-<?php endif; ?>
+        <?php if (mysqli_num_rows($query) == 0): ?>
+            <div class="harga-pasar-empty">
+                <p>Data harga pasar belum tersedia saat ini.</p>
+            </div>
+        <?php else: ?>
+            <div class="harga-pasar-grid">
+                <?php while ($row = mysqli_fetch_assoc($query)): ?>
+                    <article class="harga-pasar-card">
+                        <div class="harga-pasar-card__top">
+                            <span class="harga-pasar-card__tag">Komoditas</span>
+                            <span class="harga-pasar-card__date">📅 <?= date('d M Y', strtotime($row['tanggal'])) ?></span>
+                        </div>
+                        <h3><?= htmlspecialchars($row['nama_komoditas']) ?></h3>
+                        <div class="harga-pasar-card__price">
+                            <span class="harga-pasar-card__amount">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>
+                            <span class="harga-pasar-card__unit">per <?= htmlspecialchars($row['satuan']) ?></span>
+                        </div>
+                        <a href="detail_harga.php?id=<?= $row['id'] ?>" class="btn btn-primary">Lihat Detail</a>
+                    </article>
+                <?php endwhile; ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="harga-pasar-footer-link">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="dashboard.php" class="btn btn-secondary">← Kembali ke Dashboard</a>
+            <?php else: ?>
+                <a href="../index.php" class="btn btn-secondary">← Kembali ke Beranda</a>
+            <?php endif; ?>
+        </div>
+    </section>
+</main>
 
 </body>
 </html>

@@ -16,21 +16,41 @@ if (!$data) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title><?= $data['judul'] ?> - Fresh Smart Farm</title>
+    <title><?= htmlspecialchars($data['judul']) ?> - Fresh Smart Farm</title>
+    <link rel="stylesheet" href="../assets/css/artikel.css">
 </head>
 <body>
 
-<h2><?= $data['judul'] ?></h2>
-<p style="color:gray;">📅 <?= $data['tanggal_publish'] ?></p>
+<?php include '../includes/header.php'; ?>
 
-<?php if ($data['gambar']): ?>
-    <img src="../assets/images/<?= $data['gambar'] ?>" style="max-width:500px;"><br><br>
-<?php endif; ?>
+<main class="artikel-page">
+    <section class="artikel-hero">
+        <div class="artikel-hero__overlay"></div>
+        <div class="artikel-hero__content">
+            <span class="artikel-label">Artikel Detail</span>
+            <h1><?= htmlspecialchars($data['judul']) ?></h1>
+            <p>📅 <?= date('d F Y', strtotime($data['tanggal_publish'])) ?></p>
+        </div>
+    </section>
 
-<p><?= nl2br($data['isi']) ?></p>
+    <section class="artikel-detail">
+        <div class="artikel-detail__content">
+            <?php if ($data['gambar']): ?>
+                <div class="artikel-detail__image">
+                    <img src="../assets/images/<?= htmlspecialchars($data['gambar']) ?>" alt="<?= htmlspecialchars($data['judul']) ?>">
+                </div>
+            <?php endif; ?>
 
-<br>
-<a href="artikel.php">← Kembali ke Daftar Artikel</a>
+            <div class="artikel-detail__text">
+                <?= nl2br(htmlspecialchars($data['isi'])) ?>
+            </div>
+        </div>
+
+        <div class="artikel-footer-link">
+            <a href="artikel.php" class="btn btn-secondary">← Kembali ke Daftar Artikel</a>
+        </div>
+    </section>
+</main>
 
 </body>
 </html>

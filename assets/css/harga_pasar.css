@@ -1,24 +1,316 @@
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-body { background:#f4f9f4; color:#333; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-.container { max-width:1100px; margin:30px auto; padding:0 24px; }
+body {
+    min-height: 100vh;
+    background: linear-gradient(180deg, rgba(5, 28, 15, 0.7), rgba(13, 47, 26, 0.8)),
+        url('../images/background_artikel.png') center / cover no-repeat fixed;
+    color: #f5f7f3;
+}
 
-h2 { color:#2e7d32; margin-bottom:20px; border-left:5px solid #66bb6a; padding-left:12px; font-size:22px; }
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 19, 12, 0.35);
+    pointer-events: none;
+}
 
-.table-wrapper { overflow-x:auto; }
-table { width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
-thead tr { background:#2e7d32; color:white; }
-th, td { padding:12px 16px; font-size:14px; text-align:left; }
-tbody tr { border-bottom:1px solid #f0f0f0; }
-tbody tr:last-child { border-bottom:none; }
-tbody tr:hover td { background:#f9fff9; }
+.harga-pasar-page {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 26px 24px 40px;
+}
 
-.detail-box { background:white; border-radius:12px; padding:32px; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
-.detail-box table { box-shadow:none; }
+.harga-pasar-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+    margin-bottom: 30px;
+    min-height: 320px;
+    background: rgba(16, 60, 32, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+}
 
-.btn { display:inline-block; padding:8px 16px; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold; transition:opacity 0.2s; }
-.btn:hover { opacity:0.85; }
-.btn-hijau { background:#2e7d32; color:white; }
-.btn-abu   { background:#eee; color:#333; }
+.harga-pasar-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(6, 30, 16, 0.5), rgba(6, 30, 16, 0.6));
+}
 
-.kosong { text-align:center; color:#999; padding:40px; background:white; border-radius:12px; }
+.harga-pasar-hero__content {
+    position: relative;
+    z-index: 1;
+    padding: 38px 36px;
+}
+
+.harga-pasar-hero__content::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 80px;
+    height: 80px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23b2f2c1" stroke-width="2" opacity="0.3"/><circle cx="50" cy="50" r="20" fill="%23b2f2c1" opacity="0.2"/></svg>') no-repeat center;
+    background-size: contain;
+    opacity: 0.6;
+}
+
+.harga-pasar-hero__content::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10 10 L90 10 L90 90 L10 90 Z" fill="none" stroke="%23b2f2c1" stroke-width="1" opacity="0.4"/><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="%23b2f2c1" stroke-width="1" opacity="0.3"/></svg>') no-repeat center;
+    background-size: contain;
+    opacity: 0.5;
+}
+
+.harga-pasar-label {
+    display: inline-flex;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #b2f2c1;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+}
+
+.harga-pasar-hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    margin-bottom: 16px;
+    color: #f8fdf8;
+}
+
+.harga-pasar-hero p {
+    max-width: 720px;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(245, 247, 243, 0.88);
+}
+
+.harga-pasar-listing {
+    display: grid;
+    gap: 22px;
+}
+
+.harga-pasar-listing__header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px 22px;
+    background: rgba(12, 46, 26, 0.9);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.harga-pasar-listing__header h2 {
+    font-size: 1.85rem;
+    color: #f8fdf8;
+}
+
+.harga-pasar-listing__header p {
+    color: rgba(245, 247, 243, 0.8);
+    max-width: 760px;
+    line-height: 1.7;
+}
+
+.harga-pasar-empty {
+    padding: 40px 28px;
+    background: rgba(12, 46, 26, 0.88);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(245, 247, 243, 0.82);
+}
+
+.harga-pasar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.harga-pasar-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+    padding: 26px;
+    background: rgba(16, 62, 35, 0.92);
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.24);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.harga-pasar-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.28);
+}
+
+.harga-pasar-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.harga-pasar-card__tag {
+    display: inline-flex;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #c8f2c8;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.harga-pasar-card__date {
+    color: rgba(245, 247, 243, 0.75);
+    font-size: 0.92rem;
+}
+
+.harga-pasar-card h3 {
+    font-size: 1.35rem;
+    margin-bottom: 14px;
+    line-height: 1.3;
+    color: #f7fff7;
+}
+
+.harga-pasar-card__price {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 22px;
+}
+
+.harga-pasar-card__amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #b2f2c1;
+}
+
+.harga-pasar-card__unit {
+    font-size: 0.9rem;
+    color: rgba(245, 247, 243, 0.7);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary {
+    background: #24b956;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #1f9a4a;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f5f7f3;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.harga-pasar-footer-link {
+    padding: 12px 0 16px;
+}
+
+.harga-pasar-detail {
+    display: grid;
+    gap: 24px;
+}
+
+.harga-pasar-detail__content {
+    padding: 32px;
+    background: rgba(12, 46, 26, 0.9);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.24);
+}
+
+.harga-pasar-detail__info {
+    display: grid;
+    gap: 20px;
+}
+
+.harga-pasar-detail__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.harga-pasar-detail__item:last-child {
+    border-bottom: none;
+}
+
+.harga-pasar-detail__label {
+    font-weight: 600;
+    color: #f8fdf8;
+}
+
+.harga-pasar-detail__value {
+    color: #b2f2c1;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .harga-pasar-page {
+        padding: 22px 18px 30px;
+    }
+
+    .harga-pasar-hero__content {
+        padding: 28px 24px;
+    }
+
+    .harga-pasar-grid {
+        gap: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .harga-pasar-hero {
+        min-height: auto;
+    }
+
+    .harga-pasar-hero h1 {
+        font-size: 2rem;
+    }
+
+    .harga-pasar-card {
+        padding: 22px;
+    }
+
+    .harga-pasar-listing__header {
+        padding: 20px 18px;
+    }
+}
