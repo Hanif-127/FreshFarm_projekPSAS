@@ -1,0 +1,303 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(180deg, rgba(5, 28, 15, 0.7), rgba(13, 47, 26, 0.8)),
+        url('../images/background_artikel.png') center / cover no-repeat fixed;
+    color: #f5f7f3;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 19, 12, 0.35);
+    pointer-events: none;
+}
+
+.grafik-page {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 26px 24px 40px;
+}
+
+.grafik-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+    margin-bottom: 30px;
+    min-height: 320px;
+    background: rgba(16, 60, 32, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+}
+
+.grafik-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(6, 30, 16, 0.5), rgba(6, 30, 16, 0.6));
+}
+
+.grafik-hero__content {
+    position: relative;
+    z-index: 1;
+    padding: 38px 36px;
+}
+
+.grafik-hero__content::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 80px;
+    height: 80px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23b2f2c1" stroke-width="2" opacity="0.3"/><circle cx="50" cy="50" r="20" fill="%23b2f2c1" opacity="0.2"/></svg>') no-repeat center;
+    background-size: contain;
+    opacity: 0.6;
+}
+
+.grafik-hero__content::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10 10 L90 10 L90 90 L10 90 Z" fill="none" stroke="%23b2f2c1" stroke-width="1" opacity="0.4"/><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="%23b2f2c1" stroke-width="1" opacity="0.3"/></svg>') no-repeat center;
+    background-size: contain;
+    opacity: 0.5;
+}
+
+.grafik-label {
+    display: inline-flex;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #b2f2c1;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+}
+
+.grafik-hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    margin-bottom: 16px;
+    color: #f8fdf8;
+}
+
+.grafik-hero p {
+    max-width: 720px;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(245, 247, 243, 0.88);
+}
+
+.grafik-content {
+    display: grid;
+    gap: 24px;
+}
+
+.grafik-empty {
+    padding: 40px 28px;
+    background: rgba(12, 46, 26, 0.88);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(245, 247, 243, 0.82);
+}
+
+.grafik-empty .btn {
+    margin-top: 16px;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: rgba(16, 62, 35, 0.92);
+    border-radius: 20px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-card h3 {
+    font-size: 2.2rem;
+    margin-bottom: 6px;
+    color: #b2f2c1;
+    font-weight: 700;
+}
+
+.stat-card h3 small {
+    font-size: 0.7em;
+    opacity: 0.8;
+}
+
+.stat-card p {
+    font-size: 0.9rem;
+    color: rgba(245, 247, 243, 0.8);
+    font-weight: 500;
+}
+
+.chart-box {
+    background: rgba(12, 46, 26, 0.9);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.24);
+    overflow: hidden;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 28px 0;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.chart-header h3 {
+    font-size: 1.4rem;
+    color: #f8fdf8;
+    margin: 0;
+}
+
+.chart-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chart-controls label {
+    color: rgba(245, 247, 243, 0.9);
+    font-weight: 500;
+}
+
+.chart-controls select {
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #f5f7f3;
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.chart-controls select:focus {
+    border-color: #b2f2c1;
+}
+
+.chart-container {
+    padding: 0 28px 28px;
+    min-height: 450px;
+    max-height: 550px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-container canvas {
+    max-width: 100%;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary {
+    background: #24b956;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #1f9a4a;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f5f7f3;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.grafik-footer-link {
+    padding: 12px 0 16px;
+}
+
+@media (max-width: 900px) {
+    .grafik-page {
+        padding: 22px 18px 30px;
+    }
+
+    .grafik-hero__content {
+        padding: 28px 24px;
+    }
+
+    .stat-grid {
+        gap: 16px;
+    }
+
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .chart-container {
+        height: 350px;
+        padding: 0 20px 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .grafik-hero {
+        min-height: auto;
+    }
+
+    .grafik-hero h1 {
+        font-size: 2rem;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .stat-card h3 {
+        font-size: 1.8rem;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+}

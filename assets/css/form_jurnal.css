@@ -1,0 +1,238 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(180deg, rgba(5, 28, 15, 0.7), rgba(13, 47, 26, 0.8)),
+        url('../images/background_dashboard.png') center / cover no-repeat fixed;
+    color: #f5f7f3;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 19, 12, 0.35);
+    pointer-events: none;
+}
+
+.form-jurnal-page {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 26px 24px 40px;
+}
+
+.form-jurnal-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+    margin-bottom: 30px;
+    min-height: 280px;
+    background: rgba(16, 60, 32, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+}
+
+.form-jurnal-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(6, 30, 16, 0.5), rgba(6, 30, 16, 0.6));
+}
+
+.form-jurnal-hero__content {
+    position: relative;
+    z-index: 1;
+    padding: 32px 28px;
+}
+
+.form-jurnal-hero__content::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 60px;
+    height: 60px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23b2f2c1" stroke-width="2" opacity="0.3"/><circle cx="50" cy="50" r="20" fill="%23b2f2c1" opacity="0.2"/></svg>') no-repeat center;
+    background-size: contain;
+    opacity: 0.6;
+}
+
+.form-jurnal-hero__content::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 90px;
+    height: 90px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10 10 L90 10 L90 90 L10 90 Z" fill="none" stroke="%23b2f2c1" stroke-width="1" opacity="0.4"/><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="%23b2f2c1" stroke-width="1" opacity="0.3"/></svg>') no-repeat center;
+    background-size: contain;
+    opacity: 0.5;
+}
+
+.form-jurnal-label {
+    display: inline-flex;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #b2f2c1;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+}
+
+.form-jurnal-hero h1 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.1;
+    margin-bottom: 12px;
+    color: #f8fdf8;
+}
+
+.form-jurnal-hero p {
+    max-width: 600px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(245, 247, 243, 0.88);
+}
+
+.form-jurnal-content {
+    display: grid;
+    gap: 24px;
+}
+
+.form-jurnal-card {
+    padding: 32px;
+    background: rgba(12, 46, 26, 0.9);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.24);
+}
+
+.form-jurnal-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+    color: #f8fdf8;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #f8fdf8;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: #f5f7f3;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: rgba(245, 247, 243, 0.6);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #b2f2c1;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.form-group select {
+    cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+    border: none;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.btn-primary {
+    background: #24b956;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #1f9a4a;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f5f7f3;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.alert-error {
+    background: rgba(244, 67, 54, 0.1);
+    color: #ffcdd2;
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(244, 67, 54, 0.2);
+    margin-bottom: 24px;
+}
+
+.form-jurnal-footer-link {
+    padding: 12px 0 16px;
+}
+
+@media (max-width: 640px) {
+    .form-jurnal-page {
+        padding: 22px 18px 30px;
+    }
+
+    .form-jurnal-hero__content {
+        padding: 24px 20px;
+    }
+
+    .form-jurnal-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .form-jurnal-card {
+        padding: 24px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
