@@ -5,6 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 include '../includes/koneksi.php';
+include '../includes/module_icons.php';
 $dashboard_css_version = filemtime(__DIR__ . '/../assets/css/dashboard.css');
 $app_base_path = rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
 
@@ -75,7 +76,10 @@ if ($aktivitas_stmt) {
 <body class="module-page">
 <?php include '../includes/header.php'; ?>
 
-<main class="module-wrap">
+<div class="dashboard-shell-layout">
+    <?php include '../includes/sidebar.php'; ?>
+    <main class="dashboard-main-content">
+        <div class="module-wrap">
     <section class="ringkasan-kpi-grid">
         <article class="module-card ringkasan-kpi-card">
             <span>Total Jurnal</span>
@@ -96,7 +100,7 @@ if ($aktivitas_stmt) {
     </section>
 
     <section class="module-card">
-        <h2>Alert Penting</h2>
+        <h2 class="module-title-with-icon"><span class="module-title-icon" aria-hidden="true"><?= module_ui_icon('alert') ?></span><span>Alert Penting</span></h2>
         <ul class="ringkasan-list">
             <li><?= $jadwal_hari_ini > 0 ? "Ada $jadwal_hari_ini jadwal yang perlu dikerjakan hari ini." : "Tidak ada jadwal mendesak hari ini." ?></li>
             <li><?= $stok_tipis > 0 ? "Ada $stok_tipis item inventaris dengan stok menipis." : "Stok inventaris dalam kondisi aman." ?></li>
@@ -105,7 +109,7 @@ if ($aktivitas_stmt) {
     </section>
 
     <section class="module-card">
-        <h2>Harga Terbaru</h2>
+        <h2 class="module-title-with-icon"><span class="module-title-icon" aria-hidden="true"><?= module_ui_icon('market') ?></span><span>Harga Terbaru</span></h2>
         <?php if (count($harga_terbaru) === 0): ?>
             <p class="module-empty">Belum ada data harga terbaru.</p>
         <?php else: ?>
@@ -135,7 +139,7 @@ if ($aktivitas_stmt) {
     </section>
 
     <section class="module-card">
-        <h2>Aktivitas Terakhir</h2>
+        <h2 class="module-title-with-icon"><span class="module-title-icon" aria-hidden="true"><?= module_ui_icon('activity') ?></span><span>Aktivitas Terakhir</span></h2>
         <?php if (count($aktivitas) === 0): ?>
             <p class="module-empty">Belum ada aktivitas jurnal.</p>
         <?php else: ?>
@@ -146,6 +150,8 @@ if ($aktivitas_stmt) {
             </ul>
         <?php endif; ?>
     </section>
-</main>
+        </div>
+    </main>
+</div>
 </body>
 </html>

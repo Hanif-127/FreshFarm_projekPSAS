@@ -72,3 +72,36 @@ CREATE TABLE IF NOT EXISTS user_security_settings (
     PRIMARY KEY (user_id),
     CONSTRAINT fk_security_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS user_settings (
+    user_id INT(11) NOT NULL,
+    kebun_nama VARCHAR(120) NOT NULL DEFAULT 'Kebun Saya',
+    kebun_lokasi VARCHAR(180) DEFAULT NULL,
+    satuan_utama VARCHAR(20) NOT NULL DEFAULT 'kg',
+    format_tanggal VARCHAR(30) NOT NULL DEFAULT 'd M Y',
+    timezone VARCHAR(60) NOT NULL DEFAULT 'Asia/Jakarta',
+    bahasa VARCHAR(20) NOT NULL DEFAULT 'id',
+    notif_jadwal TINYINT(1) NOT NULL DEFAULT 1,
+    notif_stok TINYINT(1) NOT NULL DEFAULT 1,
+    notif_pengaduan TINYINT(1) NOT NULL DEFAULT 1,
+    notif_ringkasan TINYINT(1) NOT NULL DEFAULT 1,
+    notif_email TINYINT(1) NOT NULL DEFAULT 0,
+    dashboard_mode VARCHAR(20) NOT NULL DEFAULT 'compact',
+    show_focus TINYINT(1) NOT NULL DEFAULT 1,
+    show_quick_actions TINYINT(1) NOT NULL DEFAULT 1,
+    show_schedule TINYINT(1) NOT NULL DEFAULT 1,
+    show_market TINYINT(1) NOT NULL DEFAULT 1,
+    show_complaint TINYINT(1) NOT NULL DEFAULT 1,
+    show_critical_stock TINYINT(1) NOT NULL DEFAULT 1,
+    show_plant_status TINYINT(1) NOT NULL DEFAULT 1,
+    limit_recent_activities INT(11) NOT NULL DEFAULT 4,
+    limit_market_prices INT(11) NOT NULL DEFAULT 4,
+    limit_plant_status INT(11) NOT NULL DEFAULT 5,
+    account_full_name VARCHAR(120) DEFAULT NULL,
+    account_email VARCHAR(160) DEFAULT NULL,
+    account_phone VARCHAR(30) DEFAULT NULL,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id),
+    CONSTRAINT fk_user_settings_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

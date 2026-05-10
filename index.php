@@ -34,6 +34,21 @@ function landing_ringkas_teks($teks, $batas = 130) {
 
     return $bersih;
 }
+
+function landing_ui_icon(string $name): string
+{
+    $icons = [
+        'petani' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="4"/><path d="M5 8h14"/></svg>',
+        'artikel' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12a2 2 0 0 1 2 2v12H8a2 2 0 0 0-2 2"/><path d="M6 4v16"/><path d="M10 8h6"/><path d="M10 12h6"/></svg>',
+        'harga' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v8"/><path d="M9.5 10.5c0-1 1-1.8 2.5-1.8 1.3 0 2.2.6 2.2 1.6 0 2.5-4.7 1.2-4.7 3.8 0 1 1 1.8 2.6 1.8 1.3 0 2.4-.6 2.4-1.6"/></svg>',
+        'jurnal' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M9 4v16"/><path d="M11 9h4"/><path d="M11 13h4"/></svg>',
+        'grafik' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20V11"/><path d="M12 20V7"/><path d="M17 20v-5"/></svg>',
+        'keamanan' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.4-2.9 7.8-7 9-4.1-1.2-7-4.6-7-9V6z"/><path d="m9.5 12.5 2 2 3-4"/></svg>',
+        'responsif' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="13" height="10" rx="2"/><path d="M8 19h3"/><rect x="18" y="8" width="3" height="8" rx="1.2"/></svg>',
+    ];
+
+    return $icons[$name] ?? $icons['grafik'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +79,7 @@ function landing_ringkas_teks($teks, $batas = 130) {
     </div>
 
     <div class="hero-content">
-        <div class="hero-badge">🌱 Platform Pertanian #1 Indonesia</div>
+        <div class="hero-badge">Platform Pertanian #1 Indonesia</div>
         <h1>Pertanian Cerdas<br><em>Dimulai dari Sini</em></h1>
         <p>Platform digital terpadu untuk petani Indonesia yang ingin mengelola lahan dengan lebih efisien, terstruktur, dan menguntungkan.</p>
         <div class="hero-actions">
@@ -90,7 +105,7 @@ function landing_ringkas_teks($teks, $batas = 130) {
         <div class="about-grid">
             <div class="about-visual">
                 <div class="about-img-wrap">
-                    <img src="assets/images/logo.png" alt="Fresh Smart Farm Logo" onerror="this.src=''; this.alt='🌱'">
+                    <img src="assets/images/logo.png" alt="Fresh Smart Farm Logo" onerror="this.src=''; this.alt='Fresh Smart Farm'">
                 </div>
                 <p class="about-caption">Inovasi untuk Petani Indonesia</p>
             </div>
@@ -117,17 +132,17 @@ function landing_ringkas_teks($teks, $batas = 130) {
             </div>
             <div class="stats-grid">
                 <div class="stat-card scroll-reveal">
-                    <div class="stat-icon">👨‍🌾</div>
+                    <div class="stat-icon" aria-hidden="true"><?= landing_ui_icon('petani') ?></div>
                     <h3><?= $total_user ?>+</h3>
                     <p>Petani Aktif</p>
                 </div>
                 <div class="stat-card scroll-reveal">
-                    <div class="stat-icon">📰</div>
+                    <div class="stat-icon" aria-hidden="true"><?= landing_ui_icon('artikel') ?></div>
                     <h3><?= $total_artikel ?>+</h3>
                     <p>Artikel Edukatif</p>
                 </div>
                 <div class="stat-card scroll-reveal">
-                    <div class="stat-icon">📊</div>
+                    <div class="stat-icon" aria-hidden="true"><?= landing_ui_icon('harga') ?></div>
                     <h3><?= $total_harga ?>+</h3>
                     <p>Data Harga Pasar</p>
                 </div>
@@ -147,32 +162,32 @@ function landing_ringkas_teks($teks, $batas = 130) {
         </div>
         <div class="fitur-grid">
             <div class="fitur-card scroll-reveal">
-                <div class="fitur-icon">📋</div>
+                <div class="fitur-icon" aria-hidden="true"><?= landing_ui_icon('jurnal') ?></div>
                 <h3>Jurnal Tanam Digital</h3>
                 <p>Catat setiap aktivitas tanam, perawatan, dan hasil panen dengan sistem terstruktur dan mudah diakses kapan saja.</p>
             </div>
             <div class="fitur-card scroll-reveal">
-                <div class="fitur-icon">📊</div>
+                <div class="fitur-icon" aria-hidden="true"><?= landing_ui_icon('grafik') ?></div>
                 <h3>Grafik & Statistik</h3>
                 <p>Visualisasi data panen dalam bentuk grafik interaktif untuk analisis dan perencanaan pertanian lebih baik.</p>
             </div>
             <div class="fitur-card scroll-reveal">
-                <div class="fitur-icon">💰</div>
+                <div class="fitur-icon" aria-hidden="true"><?= landing_ui_icon('harga') ?></div>
                 <h3>Harga Pasar Terkini</h3>
                 <p>Pantau harga komoditas pertanian langsung dari dashboard dan buat keputusan jual yang lebih strategis.</p>
             </div>
             <div class="fitur-card scroll-reveal">
-                <div class="fitur-icon">📰</div>
+                <div class="fitur-icon" aria-hidden="true"><?= landing_ui_icon('artikel') ?></div>
                 <h3>Artikel & Tips Pertanian</h3>
                 <p>Baca tips, trik, dan informasi terpercaya dari para ahli untuk meningkatkan hasil panen kamu.</p>
             </div>
             <div class="fitur-card scroll-reveal">
-                <div class="fitur-icon">🔐</div>
+                <div class="fitur-icon" aria-hidden="true"><?= landing_ui_icon('keamanan') ?></div>
                 <h3>Keamanan Terjamin</h3>
                 <p>Login aman dengan enkripsi modern menjamin data pertanian kamu tetap pribadi dan terlindungi.</p>
             </div>
             <div class="fitur-card scroll-reveal">
-                <div class="fitur-icon">📱</div>
+                <div class="fitur-icon" aria-hidden="true"><?= landing_ui_icon('responsif') ?></div>
                 <h3>Responsif & Cepat</h3>
                 <p>Akses dari desktop, tablet, atau smartphone dengan performa optimal dan antarmuka yang nyaman.</p>
             </div>

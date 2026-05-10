@@ -5,6 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 include '../includes/koneksi.php';
+include '../includes/module_icons.php';
 $dashboard_css_version = filemtime(__DIR__ . '/../assets/css/dashboard.css');
 $app_base_path = rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
 
@@ -276,9 +277,12 @@ $end_row = min($offset + $per_page, $total_rows);
 </head>
 <body class="module-page">
 <?php include '../includes/header.php'; ?>
-<main class="module-wrap">
+<div class="dashboard-shell-layout">
+    <?php include '../includes/sidebar.php'; ?>
+    <main class="dashboard-main-content">
+        <div class="module-wrap">
     <section class="module-card">
-        <h2><?= $edit_data ? 'Edit Jadwal Tanam' : 'Tambah Jadwal Tanam' ?></h2>
+        <h2 class="module-title-with-icon"><span class="module-title-icon" aria-hidden="true"><?= module_ui_icon('calendar') ?></span><span><?= $edit_data ? 'Edit Jadwal Tanam' : 'Tambah Jadwal Tanam' ?></span></h2>
         <?php if (isset($_GET['pesan'])): ?><div class="module-msg"><?= htmlspecialchars($_GET['pesan']) ?></div><?php endif; ?>
         <?php if ($error !== ''): ?><div class="module-err"><?= htmlspecialchars($error) ?></div><?php endif; ?>
         <form method="POST">
@@ -326,21 +330,21 @@ $end_row = min($offset + $per_page, $total_rows);
                 <textarea name="catatan" maxlength="2000"><?= htmlspecialchars($edit_data['catatan'] ?? '') ?></textarea>
             </div>
             <div class="module-actions">
-                <button class="module-btn module-btn-primary" type="submit"><?= $edit_data ? 'Update Jadwal' : 'Simpan Jadwal' ?></button>
+                <button class="module-btn module-btn-primary" type="submit"><span class="module-btn__icon" aria-hidden="true"><?= module_ui_icon($edit_data ? 'settings' : 'plus') ?></span><span><?= $edit_data ? 'Update Jadwal' : 'Simpan Jadwal' ?></span></button>
                 <?php if ($edit_data): ?><a class="module-btn module-btn-muted" href="kalender.php">Batal Edit</a><?php endif; ?>
             </div>
         </form>
     </section>
 
     <section class="module-card">
-        <h2>Daftar Jadwal</h2>
+        <h2 class="module-title-with-icon"><span class="module-title-icon" aria-hidden="true"><?= module_ui_icon('list') ?></span><span>Daftar Jadwal</span></h2>
         <div class="module-toolbar">
             <form class="module-search" method="GET">
                 <div class="module-field">
                     <label>Cari jadwal</label>
                     <input type="text" name="q" value="<?= htmlspecialchars($q) ?>" placeholder="Nama kegiatan, tipe, komoditas, status">
                 </div>
-                <button class="module-btn module-btn-primary" type="submit">Cari</button>
+                <button class="module-btn module-btn-primary" type="submit"><span class="module-btn__icon" aria-hidden="true"><?= module_ui_icon('filter') ?></span><span>Cari</span></button>
                 <a class="module-btn module-btn-ghost" href="kalender.php">Reset</a>
             </form>
         </div>
@@ -386,6 +390,8 @@ $end_row = min($offset + $per_page, $total_rows);
             </div>
         <?php endif; ?>
     </section>
-</main>
+        </div>
+    </main>
+</div>
 </body>
 </html>

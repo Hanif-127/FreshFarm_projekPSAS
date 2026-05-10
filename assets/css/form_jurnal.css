@@ -1,238 +1,179 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-body {
-    min-height: 100vh;
-    background: linear-gradient(180deg, rgba(5, 28, 15, 0.7), rgba(13, 47, 26, 0.8)),
-        url('../images/background_dashboard.png') center / cover no-repeat fixed;
-    color: #f5f7f3;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(2, 19, 12, 0.35);
-    pointer-events: none;
-}
-
 .form-jurnal-page {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 26px 24px 40px;
-}
-
-.form-jurnal-hero {
-    position: relative;
-    overflow: hidden;
-    border-radius: 32px;
-    margin-bottom: 30px;
-    min-height: 280px;
-    background: rgba(16, 60, 32, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
-}
-
-.form-jurnal-hero__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(6, 30, 16, 0.5), rgba(6, 30, 16, 0.6));
-}
-
-.form-jurnal-hero__content {
-    position: relative;
-    z-index: 1;
-    padding: 32px 28px;
-}
-
-.form-jurnal-hero__content::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: -15px;
-    width: 60px;
-    height: 60px;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23b2f2c1" stroke-width="2" opacity="0.3"/><circle cx="50" cy="50" r="20" fill="%23b2f2c1" opacity="0.2"/></svg>') no-repeat center;
-    background-size: contain;
-    opacity: 0.6;
-}
-
-.form-jurnal-hero__content::after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    right: -20px;
-    width: 90px;
-    height: 90px;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10 10 L90 10 L90 90 L10 90 Z" fill="none" stroke="%23b2f2c1" stroke-width="1" opacity="0.4"/><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="%23b2f2c1" stroke-width="1" opacity="0.3"/></svg>') no-repeat center;
-    background-size: contain;
-    opacity: 0.5;
-}
-
-.form-jurnal-label {
-    display: inline-flex;
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    color: #b2f2c1;
-    font-size: 0.85rem;
-    margin-bottom: 16px;
-}
-
-.form-jurnal-hero h1 {
-    font-size: clamp(2rem, 4vw, 2.8rem);
-    line-height: 1.1;
-    margin-bottom: 12px;
-    color: #f8fdf8;
-}
-
-.form-jurnal-hero p {
-    max-width: 600px;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: rgba(245, 247, 243, 0.88);
-}
-
-.form-jurnal-content {
+    padding: 20px;
     display: grid;
-    gap: 24px;
+    gap: 16px;
 }
 
-.form-jurnal-card {
-    padding: 32px;
-    background: rgba(12, 46, 26, 0.9);
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.24);
-}
-
-.form-jurnal-card h2 {
-    font-size: 1.6rem;
-    margin-bottom: 24px;
-    color: #f8fdf8;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #f8fdf8;
-    margin-bottom: 8px;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    font-size: 0.95rem;
-    background: rgba(255, 255, 255, 0.05);
-    color: #f5f7f3;
-    outline: none;
-    transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.form-group input::placeholder {
-    color: rgba(245, 247, 243, 0.6);
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    border-color: #b2f2c1;
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.form-group select {
-    cursor: pointer;
-}
-
-.form-actions {
-    display: flex;
+.jurnal-create-wrap {
+    width: min(1120px, calc(100% - 40px));
+    margin: 22px auto 38px;
     gap: 14px;
-    margin-top: 28px;
-    flex-wrap: wrap;
 }
 
-.btn {
+.jurnal-create-hero {
+    display: grid;
+    gap: 10px;
+    background:
+        radial-gradient(130% 150% at 100% 0%, rgba(217, 164, 65, 0.22), transparent 42%),
+        linear-gradient(145deg, rgba(33, 94, 54, 0.97), rgba(19, 62, 38, 0.96));
+    color: #f2fbf3;
+    border-color: rgba(35, 70, 42, 0.24);
+    box-shadow: 0 14px 30px rgba(18, 42, 24, 0.2);
+}
+
+.jurnal-create-hero::before {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.3));
+    opacity: 0.35;
+}
+
+.jurnal-create-badge {
+    justify-self: start;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    padding: 14px 24px;
+    min-height: 28px;
+    padding: 5px 12px;
     border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    background: rgba(255, 255, 255, 0.13);
+    color: #f7fff8;
+    font-size: 0.74rem;
+    font-weight: 850;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.jurnal-create-hero h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(1.5rem, 2.5vw, 2.05rem);
+    line-height: 1.2;
+}
+
+.jurnal-create-hero p {
+    margin: 0;
+    max-width: 760px;
+    color: rgba(242, 251, 244, 0.88);
     font-size: 0.95rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: transform 0.2s ease, background 0.2s ease;
-    border: none;
-    cursor: pointer;
-    min-width: 120px;
+    line-height: 1.65;
 }
 
-.btn-primary {
-    background: #24b956;
-    color: #fff;
+.jurnal-create-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 2px;
 }
 
-.btn-primary:hover {
-    background: #1f9a4a;
-    transform: translateY(-1px);
+.jurnal-meta-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 25px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.12);
+    color: #f4fff6;
+    font-size: 0.74rem;
+    font-weight: 780;
 }
 
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.08);
-    color: #f5f7f3;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+.jurnal-create-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(270px, 0.75fr);
+    gap: 14px;
+    align-items: start;
 }
 
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.14);
+.jurnal-create-form-card,
+.jurnal-create-side-card {
+    min-width: 0;
 }
 
-.alert-error {
-    background: rgba(244, 67, 54, 0.1);
-    color: #ffcdd2;
-    padding: 16px 20px;
+.jurnal-create-form-card h2,
+.jurnal-create-side-card h2 {
+    margin-bottom: 14px;
+}
+
+.jurnal-create-form .module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.jurnal-field-span-2 {
+    grid-column: 1 / -1;
+}
+
+.jurnal-field-note {
+    display: block;
+    margin-top: 6px;
+    color: #607564;
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+.jurnal-create-form .module-actions {
+    margin-top: 16px;
+}
+
+.jurnal-guide-list {
+    margin: 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 8px;
+    color: #4e6452;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+.jurnal-preview-box {
+    margin-top: 16px;
+    padding: 12px;
+    border: 1px solid rgba(47, 125, 69, 0.18);
     border-radius: 12px;
-    border: 1px solid rgba(244, 67, 54, 0.2);
-    margin-bottom: 24px;
+    background: rgba(233, 245, 232, 0.68);
 }
 
-.form-jurnal-footer-link {
-    padding: 12px 0 16px;
+.jurnal-preview-title {
+    margin-bottom: 8px;
+    color: #1f5632;
+    font-size: 0.84rem;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
-@media (max-width: 640px) {
-    .form-jurnal-page {
-        padding: 22px 18px 30px;
+.jurnal-preview-box p {
+    margin: 0 0 6px;
+    color: #49604d;
+    font-size: 0.87rem;
+}
+
+.jurnal-preview-box p:last-child {
+    margin-bottom: 0;
+}
+
+.jurnal-back-link {
+    margin-top: 14px;
+    width: 100%;
+}
+
+@media (max-width: 1060px) {
+    .jurnal-create-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 820px) {
+    .jurnal-create-wrap {
+        width: min(1120px, calc(100% - 26px));
+        margin: 16px auto 26px;
     }
 
-    .form-jurnal-hero__content {
-        padding: 24px 20px;
+    .jurnal-create-form .module-grid {
+        grid-template-columns: 1fr;
     }
 
-    .form-jurnal-hero h1 {
-        font-size: 1.8rem;
-    }
-
-    .form-jurnal-card {
-        padding: 24px;
-    }
-
-    .form-actions {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
+    .jurnal-field-span-2 {
+        grid-column: auto;
     }
 }

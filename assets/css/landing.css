@@ -519,15 +519,22 @@ em { font-style: italic; }
 .stat-card:hover::after { transform: scaleX(1); }
 
 .stat-icon {
-    font-size: 28px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 60px;
     height: 60px;
-    background: var(--sage-pale);
+    background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(237,246,234,0.95));
+    border: 1px solid rgba(168,192,122,0.32);
     border-radius: var(--radius-md);
     margin: 0 auto 16px;
+    color: var(--forest);
+}
+
+.stat-icon svg {
+    width: 25px;
+    height: 25px;
+    display: block;
 }
 
 .stat-card h3 {
@@ -608,7 +615,6 @@ em { font-style: italic; }
 .fitur-card:hover::before { transform: scaleX(1); }
 
 .fitur-icon {
-    font-size: 26px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -618,12 +624,19 @@ em { font-style: italic; }
     border: 1px solid rgba(255,255,255,0.16);
     border-radius: var(--radius-md);
     margin-bottom: 20px;
+    color: rgba(233,246,211,0.95);
     transition: background var(--t), transform var(--t) var(--ease);
 }
 
+.fitur-icon svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
 .fitur-card:hover .fitur-icon {
-    background: rgba(90,122,58,0.55);
-    transform: rotate(6deg) scale(1.06);
+    background: rgba(90,122,58,0.45);
+    transform: translateY(-1px);
 }
 
 .fitur-card h3 {

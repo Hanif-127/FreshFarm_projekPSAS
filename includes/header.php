@@ -32,7 +32,7 @@ $artikel_href = $is_landing_page ? '#artikel' : $root . 'pages/artikel.php';
 $harga_href = $is_landing_page ? '#harga' : $root . 'pages/harga_pasar.php';
 $dashboard_href = isset($_SESSION['user_id']) ? $root . 'pages/dashboard.php' : $root . 'login.php';
 $pengaturan_href = $root . 'pages/pengaturan.php';
-$akun_href = $root . 'pages/akun_anda.php';
+$akun_href = $root . 'pages/pengaturan.php?tab=account';
 $pengaduan_href = $root . 'pages/pengaduan.php';
 ?>
 
@@ -317,6 +317,33 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
 }
 
+.nav-auth {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-register {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 8px 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(46, 125, 50, 0.26);
+    background: rgba(46, 125, 50, 0.1);
+    color: #1b5e20;
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 600;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-register:hover {
+    background: rgba(46, 125, 50, 0.16);
+    border-color: rgba(46, 125, 50, 0.34);
+}
+
 .hamburger {
     display: none;
     background: none;
@@ -439,7 +466,10 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
                 </div>
             </div>
         <?php else: ?>
-            <a href="<?= $root ?>login.php" class="btn-login">Login</a>
+            <div class="nav-auth">
+                <a href="<?= $root ?>register.php" class="btn-register">Buat Akun</a>
+                <a href="<?= $root ?>login.php" class="btn-login">Login</a>
+            </div>
         <?php endif; ?>
     </div>
 

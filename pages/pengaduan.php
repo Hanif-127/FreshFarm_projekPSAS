@@ -5,6 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 include '../includes/koneksi.php';
+include '../includes/module_icons.php';
 $dashboard_css_version = filemtime(__DIR__ . '/../assets/css/dashboard.css');
 $app_base_path = rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
 
@@ -88,9 +89,12 @@ function status_badge_class(string $status): string {
 <body class="module-page">
 <?php include '../includes/header.php'; ?>
 
-<main class="module-wrap">
+<div class="dashboard-shell-layout">
+    <?php include '../includes/sidebar.php'; ?>
+    <main class="dashboard-main-content">
+        <div class="module-wrap">
     <section class="module-card">
-        <h2>Kirim Pengaduan</h2>
+        <h2 class="module-title-with-icon"><span class="module-title-icon" aria-hidden="true"><?= module_ui_icon('complaint') ?></span><span>Kirim Pengaduan</span></h2>
         <?php if (isset($_GET['pesan'])): ?><div class="module-msg"><?= htmlspecialchars($_GET['pesan']) ?></div><?php endif; ?>
         <?php if ($error !== ''): ?><div class="module-err"><?= htmlspecialchars($error) ?></div><?php endif; ?>
         <form method="POST">
@@ -113,13 +117,13 @@ function status_badge_class(string $status): string {
                 <textarea name="pesan" required maxlength="4000" placeholder="Jelaskan masalah yang terjadi, langkah reproduksi, dan dampaknya."></textarea>
             </div>
             <div class="module-actions">
-                <button class="module-btn module-btn-primary" type="submit">Kirim Pengaduan</button>
+                <button class="module-btn module-btn-primary" type="submit"><span class="module-btn__icon" aria-hidden="true"><?= module_ui_icon('plus') ?></span><span>Kirim Pengaduan</span></button>
             </div>
         </form>
     </section>
 
     <section class="module-card">
-        <h2>Riwayat Pengaduan Anda</h2>
+        <h2 class="module-title-with-icon"><span class="module-title-icon" aria-hidden="true"><?= module_ui_icon('list') ?></span><span>Riwayat Pengaduan Anda</span></h2>
         <?php if (count($pengaduan_list) === 0): ?>
             <p class="module-empty">Belum ada pengaduan yang dikirim.</p>
         <?php else: ?>
@@ -149,6 +153,8 @@ function status_badge_class(string $status): string {
             </div>
         <?php endif; ?>
     </section>
-</main>
+        </div>
+    </main>
+</div>
 </body>
 </html>
