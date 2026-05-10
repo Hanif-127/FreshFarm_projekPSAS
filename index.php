@@ -12,6 +12,28 @@ $harga = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC
 $total_artikel = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM artikel"));
 $total_harga   = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM harga_pasar"));
 $total_user    = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM users"));
+
+function landing_artikel_gambar($gambar) {
+    if (empty($gambar)) {
+        return 'assets/images/artikel_default.png';
+    }
+
+    return 'assets/images/' . htmlspecialchars(basename($gambar), ENT_QUOTES, 'UTF-8');
+}
+
+function landing_ringkas_teks($teks, $batas = 130) {
+    $bersih = trim(preg_replace('/\s+/', ' ', strip_tags($teks)));
+
+    if (function_exists('mb_strlen') && mb_strlen($bersih) > $batas) {
+        return mb_substr($bersih, 0, $batas) . '...';
+    }
+
+    if (strlen($bersih) > $batas) {
+        return substr($bersih, 0, $batas) . '...';
+    }
+
+    return $bersih;
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,165 +46,12 @@ $total_user    = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM users"))
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/landing.css">
-    <style>
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            height: 64px;
-            padding: 0 32px;
-            background: rgba(253, 252, 248, 0.94);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(90, 122, 58, 0.12);
-            transition: box-shadow 0.3s ease;
-        }
-
-        .navbar .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .navbar .nav-brand img {
-            height: 36px;
-            width: 36px;
-            object-fit: contain;
-            border-radius: 10px;
-            background: rgba(168, 192, 122, 0.18);
-            padding: 4px;
-        }
-
-        .navbar .brand-text {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-        }
-
-        .navbar .brand-name {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1rem;
-            color: #2d5016;
-            line-height: 1;
-        }
-
-        .navbar .brand-name em {
-            color: #7a9e52;
-            font-style: normal;
-        }
-
-        .navbar .brand-tagline {
-            font-size: 10px;
-            color: #7a8c6a;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
-        .navbar .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .navbar .nav-menu a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #4a5c35;
-            text-decoration: none;
-            font-size: 0.92rem;
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 14px;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
-
-        .navbar .nav-menu a:hover {
-            color: #2d5016;
-            background: rgba(90, 122, 58, 0.08);
-        }
-
-        .navbar .nav-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #2d5016;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 9px 20px;
-            border-radius: 999px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .navbar .nav-cta:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(45, 80, 22, 0.18);
-        }
-
-        @media (max-width: 920px) {
-            .navbar {
-                padding: 0 20px;
-            }
-            .navbar .nav-menu {
-                gap: 6px;
-            }
-            .navbar .nav-menu a {
-                padding: 8px 10px;
-            }
-        }
-    </style>
 </head>
-<body>
+<body class="landing-page">
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <a class="nav-brand" href="index.php">
-        <img src="assets/images/logo.png" alt="Logo" onerror="this.style.display='none'">
-        <div class="brand-text">
-            <span class="brand-name">Fresh <em>Smart Farm</em></span>
-            <span class="brand-tagline">Platform Pertanian Digital</span>
-        </div>
-    </a>
-    <div class="nav-menu">
-        <a href="#statistik">
-            <img src="assets/icons/nav-tentang.svg" alt="Tentang" style="height:18px;width:18px;">
-            Tentang
-        </a>
-        <a href="#fitur">
-            <img src="assets/icons/nav-fitur.svg" alt="Fitur" style="height:18px;width:18px;">
-            Fitur
-        </a>
-        <a href="#artikel">
-            <img src="assets/icons/nav_artikel.svg" alt="Artikel" style="height:18px;width:18px;">
-            Artikel
-        </a>
-        <a href="#harga">
-            <img src="assets/icons/nav_harga_pasar.svg" alt="Harga Pasar" style="height:18px;width:18px;">
-            Harga Pasar
-        </a>
-    </div>
-    <?php if (isset($_SESSION['user_id'])): ?>
-        <a class="nav-cta" href="pages/dashboard.php">
-            <img src="assets/icons/nav_dashboard-putih.svg" alt="Dashboard" style="height:18px;width:18px;">
-            Dashboard
-        </a>
-    <?php else: ?>
-        <a class="nav-cta" href="login.php">
-            <img src="assets/icons/nav_dashboard.svg" alt="Masuk" style="height:18px;width:18px;">
-            Masuk
-        </a>
-    <?php endif; ?>
-</nav>
+<?php include 'includes/header.php'; ?>
+
+<main class="landing-main">
 
 <!-- ===== HERO — background_logo.jpg ===== -->
 <section class="hero">
@@ -331,16 +200,19 @@ $total_user    = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM users"))
                     <?php while ($row = mysqli_fetch_assoc($artikel)): ?>
                         <div class="artikel-card scroll-reveal">
                             <div class="artikel-img-wrap">
-                                <img src="<?= !empty($row['gambar']) ? $row['gambar'] : 'assets/images/artikel_default.png' ?>" alt="Thumbnail Artikel">
+                                <img src="<?= landing_artikel_gambar($row['gambar']) ?>" alt="Thumbnail Artikel">
                             </div>
                             <div class="artikel-body">
                                 <span class="artikel-date">📅 <?= date('d M Y', strtotime($row['tanggal_publish'])) ?></span>
                                 <h3><?= htmlspecialchars($row['judul']) ?></h3>
-                                <p><?= substr(htmlspecialchars($row['isi']), 0, 130) ?>…</p>
+                                <p><?= htmlspecialchars(landing_ringkas_teks($row['isi'])) ?></p>
                                 <a href="pages/detail_artikel.php?id=<?= $row['id'] ?>" class="artikel-link">Baca Selengkapnya →</a>
                             </div>
                         </div>
                     <?php endwhile; ?>
+                </div>
+                <div class="konten-more">
+                    <a href="pages/artikel.php" class="btn-more">Lihat lainnya</a>
                 </div>
             <?php endif; ?>
         </div>
@@ -381,11 +253,16 @@ $total_user    = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM users"))
                         </tbody>
                     </table>
                 </div>
+                <div class="konten-more">
+                    <a href="pages/harga_pasar.php" class="btn-more">Lihat lainnya</a>
+                </div>
             <?php endif; ?>
         </div>
 
     </div>
 </section>
+
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -423,10 +300,27 @@ $total_user    = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM users"))
     cards.forEach(function (card) { observer.observe(card); });
 })();
 
-// ===== NAVBAR SHADOW =====
-window.addEventListener('scroll', function () {
-    document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 20);
-});
+// ===== TRANSISI HALUS UNTUK LINK "LIHAT LAINNYA" =====
+(function () {
+    var links = document.querySelectorAll('.btn-more[href]');
+
+    links.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            var href = link.getAttribute('href');
+
+            if (!href || href.charAt(0) === '#') return;
+
+            event.preventDefault();
+            document.body.classList.add('is-leaving');
+            window.dispatchEvent(new CustomEvent('landing:leave'));
+
+            window.setTimeout(function () {
+                window.location.href = href;
+            }, 180);
+        });
+    });
+})();
+
 </script>
 
 </body>

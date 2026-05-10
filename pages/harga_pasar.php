@@ -2,13 +2,36 @@
 session_start();
 include '../includes/koneksi.php';
 
-$query = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC");
+$query = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC, nama_komoditas ASC");
+$harga_pasar = [];
+
+while ($row = mysqli_fetch_assoc($query)) {
+    $harga_pasar[] = $row;
+}
+
+$total_harga = count($harga_pasar);
+$update_terakhir = $total_harga > 0 ? format_tanggal_harga($harga_pasar[0]['tanggal'], 'd M Y') : '-';
+
+function format_tanggal_harga($tanggal, $format = 'd M Y') {
+    $waktu = strtotime((string) $tanggal);
+
+    if (!$waktu) {
+        return '-';
+    }
+
+    return date($format, $waktu);
+}
+
+function format_rupiah($nilai) {
+    return 'Rp ' . number_format((float) $nilai, 0, ',', '.');
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harga Pasar - Fresh Smart Farm</title>
     <link rel="stylesheet" href="../assets/css/harga_pasar.css">
 </head>
@@ -18,48 +41,72 @@ $query = mysqli_query($koneksi, "SELECT * FROM harga_pasar ORDER BY tanggal DESC
 
 <main class="harga-pasar-page">
     <section class="harga-pasar-hero">
-        <div class="harga-pasar-hero__overlay"></div>
         <div class="harga-pasar-hero__content">
             <span class="harga-pasar-label">Harga Pasar</span>
-            <h1>Harga Komoditas Terkini</h1>
-            <p>Pantau harga pasar komoditas pertanian terkini untuk membantu perencanaan panen dan penjualan Anda.</p>
+            <h1>Daftar Harga Komoditas</h1>
+            <p>Landing page hanya menampilkan beberapa harga terbaru. Di halaman ini semua data harga pasar dikumpulkan agar lebih mudah dibandingkan.</p>
+        </div>
+        <div class="harga-pasar-hero__stats" aria-label="Ringkasan harga pasar">
+            <div class="harga-pasar-stat">
+                <strong><?= $total_harga ?></strong>
+                <span>Data harga</span>
+            </div>
+            <div class="harga-pasar-stat">
+                <strong><?= $update_terakhir ?></strong>
+                <span>Update terbaru</span>
+            </div>
         </div>
     </section>
 
     <section class="harga-pasar-listing">
         <div class="harga-pasar-listing__header">
-            <h2>Daftar Harga Pasar</h2>
-            <p>Data harga terbaru dari pasar lokal untuk berbagai komoditas pertanian.</p>
+            <div>
+                <span class="harga-pasar-kicker">Katalog Harga</span>
+                <h2>Semua Harga Pasar</h2>
+                <p>Gunakan daftar ini untuk melihat komoditas, harga, satuan, dan tanggal update terbaru.</p>
+            </div>
+            <a href="../index.php#harga" class="btn btn-secondary">Kembali ke Preview</a>
         </div>
 
-        <?php if (mysqli_num_rows($query) == 0): ?>
+        <?php if ($total_harga == 0): ?>
             <div class="harga-pasar-empty">
-                <p>Data harga pasar belum tersedia saat ini.</p>
+                <strong>Data harga pasar belum tersedia.</strong>
+                <p>Data baru akan muncul di sini setelah harga komoditas ditambahkan ke sistem.</p>
             </div>
         <?php else: ?>
-            <div class="harga-pasar-grid">
-                <?php while ($row = mysqli_fetch_assoc($query)): ?>
-                    <article class="harga-pasar-card">
-                        <div class="harga-pasar-card__top">
-                            <span class="harga-pasar-card__tag">Komoditas</span>
-                            <span class="harga-pasar-card__date">📅 <?= date('d M Y', strtotime($row['tanggal'])) ?></span>
-                        </div>
-                        <h3><?= htmlspecialchars($row['nama_komoditas']) ?></h3>
-                        <div class="harga-pasar-card__price">
-                            <span class="harga-pasar-card__amount">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>
-                            <span class="harga-pasar-card__unit">per <?= htmlspecialchars($row['satuan']) ?></span>
-                        </div>
-                        <a href="detail_harga.php?id=<?= $row['id'] ?>" class="btn btn-primary">Lihat Detail</a>
-                    </article>
-                <?php endwhile; ?>
+            <div class="harga-pasar-table-wrap">
+                <table class="harga-pasar-table">
+                    <thead>
+                        <tr>
+                            <th>Komoditas</th>
+                            <th>Harga</th>
+                            <th>Satuan</th>
+                            <th>Tanggal Update</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($harga_pasar as $row): ?>
+                            <tr>
+                                <td class="harga-pasar-name"><?= htmlspecialchars($row['nama_komoditas']) ?></td>
+                                <td class="harga-pasar-price"><?= format_rupiah($row['harga']) ?></td>
+                                <td><?= htmlspecialchars($row['satuan']) ?></td>
+                                <td><?= format_tanggal_harga($row['tanggal']) ?></td>
+                                <td>
+                                    <a href="detail_harga.php?id=<?= (int) $row['id'] ?>" class="table-link">Lihat Detail</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         <?php endif; ?>
 
         <div class="harga-pasar-footer-link">
             <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="dashboard.php" class="btn btn-secondary">← Kembali ke Dashboard</a>
+                <a href="dashboard.php" class="btn btn-secondary">Kembali ke Dashboard</a>
             <?php else: ?>
-                <a href="../index.php" class="btn btn-secondary">← Kembali ke Beranda</a>
+                <a href="../index.php" class="btn btn-secondary">Kembali ke Beranda</a>
             <?php endif; ?>
         </div>
     </section>
