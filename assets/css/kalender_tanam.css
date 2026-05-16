@@ -1,0 +1,88 @@
+/* Kalender Tanam module */
+
+.module-wrap {
+    width: 100%;
+    max-width: none;
+    gap: 16px;
+}
+
+.module-card {
+    width: 100%;
+}
+
+.module-card:first-child {
+    background:
+        radial-gradient(120% 160% at 100% 0%, rgba(217, 164, 65, 0.16), transparent 42%),
+        rgba(255, 255, 255, 0.92);
+}
+
+.module-card:first-child .module-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.module-card:first-child .module-field:nth-child(1),
+.module-card:first-child .module-field:nth-child(3) {
+    grid-column: span 2;
+}
+
+.module-field-gap {
+    margin-top: 12px;
+}
+
+.module-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.module-search {
+    grid-template-columns: minmax(260px, 1fr) auto auto;
+}
+
+.module-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.module-item {
+    min-height: 150px;
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    border-radius: 8px;
+}
+
+.module-item-title {
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.module-meta {
+    overflow-wrap: anywhere;
+}
+
+.module-item-actions {
+    align-self: end;
+    margin-top: 6px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(35, 70, 42, 0.1);
+}
+
+@media (max-width: 1180px) {
+    .module-card:first-child .module-grid,
+    .module-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .module-card:first-child .module-field:nth-child(1),
+    .module-card:first-child .module-field:nth-child(3) {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 720px) {
+    .module-card:first-child .module-grid,
+    .module-search,
+    .module-list {
+        grid-template-columns: 1fr;
+    }
+}

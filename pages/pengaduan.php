@@ -6,7 +6,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 include '../includes/koneksi.php';
 include '../includes/module_icons.php';
-$dashboard_css_version = filemtime(__DIR__ . '/../assets/css/dashboard.css');
+$dashboard_base_css_version = filemtime(__DIR__ . '/../assets/css/dashboard_base.css');
+$pengaduan_css_version = filemtime(__DIR__ . '/../assets/css/pengaduan.css');
 $app_base_path = rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
 
 $user_id = (int) $_SESSION['user_id'];
@@ -84,7 +85,8 @@ function status_badge_class(string $status): string {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengaduan - Fresh Smart Farm</title>
-    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard.css?v=<?= $dashboard_css_version ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard_base.css?v=<?= $dashboard_base_css_version ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/pengaduan.css?v=<?= $pengaduan_css_version ?>">
 </head>
 <body class="module-page">
 <?php include '../includes/header.php'; ?>

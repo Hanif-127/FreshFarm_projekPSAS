@@ -8,8 +8,8 @@ if (!isset($_SESSION['user_id'])) {
 include '../../includes/koneksi.php';
 include '../../includes/module_icons.php';
 
-$dashboard_css_version = filemtime(__DIR__ . '/../../assets/css/dashboard.css');
-$form_jurnal_css_version = filemtime(__DIR__ . '/../../assets/css/form_jurnal.css');
+$dashboard_base_css_version = filemtime(__DIR__ . '/../../assets/css/dashboard_base.css');
+$jurnal_tanam_css_version = filemtime(__DIR__ . '/../../assets/css/jurnal_tanam.css');
 $current_script = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 $app_base_path = '';
 if (preg_match('~^(.+?)/pages/~', $current_script, $matches)) {
@@ -107,8 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Jurnal Tanam</title>
-    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard.css?v=<?= (int) $dashboard_css_version ?>">
-    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/form_jurnal.css?v=<?= (int) $form_jurnal_css_version ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard_base.css?v=<?= (int) $dashboard_base_css_version ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/jurnal_tanam.css?v=<?= (int) $jurnal_tanam_css_version ?>">
 </head>
 <body class="module-page">
 <?php include '../../includes/header.php'; ?>

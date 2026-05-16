@@ -1,0 +1,67 @@
+/* Pengaduan module */
+
+.module-wrap {
+    width: 100%;
+    max-width: none;
+    gap: 16px;
+}
+
+.module-card {
+    width: 100%;
+}
+
+.module-card:first-child {
+    background:
+        radial-gradient(120% 160% at 100% 0%, rgba(45, 110, 179, 0.12), transparent 44%),
+        rgba(255, 255, 255, 0.92);
+}
+
+.module-card:first-child .module-grid {
+    grid-template-columns: minmax(0, 2fr) minmax(220px, 0.65fr);
+}
+
+.module-field textarea {
+    min-height: 170px;
+}
+
+.module-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.module-item {
+    min-height: 180px;
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    border-radius: 8px;
+}
+
+.module-item-title {
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.module-item p {
+    margin: 0;
+    color: var(--dash-ink-soft);
+}
+
+.module-danger-link {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: 4px;
+}
+
+@media (max-width: 980px) {
+    .module-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .module-card:first-child .module-grid {
+        grid-template-columns: 1fr;
+    }
+}

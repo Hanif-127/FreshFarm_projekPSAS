@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 include '../includes/koneksi.php';
 include '../includes/user_settings.php';
 
+$dashboard_base_css_version = filemtime(__DIR__ . '/../assets/css/dashboard_base.css');
 $dashboard_css_version = filemtime(__DIR__ . '/../assets/css/dashboard.css');
 $app_base_path = rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
 $debug_mode = isset($_GET['debug']) && $_GET['debug'] === '1';
@@ -293,6 +294,7 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Fresh Smart Farm</title>
+    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard_base.css?v=<?= (int) $dashboard_base_css_version ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard.css?v=<?= (int) $dashboard_css_version ?>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>

@@ -9,7 +9,7 @@ include '../includes/koneksi.php';
 include '../includes/user_settings.php';
 include '../includes/module_icons.php';
 
-$dashboard_css_version = filemtime(__DIR__ . '/../assets/css/dashboard.css');
+$dashboard_base_css_version = filemtime(__DIR__ . '/../assets/css/dashboard_base.css');
 $pengaturan_css_version = filemtime(__DIR__ . '/../assets/css/pengaturan.css');
 $app_base_path = rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
 $user_id = (int) $_SESSION['user_id'];
@@ -247,7 +247,7 @@ function settings_section_active(string $tab, string $active_tab): string
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengaturan - Fresh Smart Farm</title>
-    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard.css?v=<?= (int) $dashboard_css_version ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard_base.css?v=<?= (int) $dashboard_base_css_version ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/pengaturan.css?v=<?= (int) $pengaturan_css_version ?>">
 </head>
 <body class="module-page">

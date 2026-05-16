@@ -7,7 +7,8 @@ if (!isset($_SESSION['user_id'])) {
 include '../includes/koneksi.php';
 include '../includes/module_icons.php';
 
-$dashboard_css_version = filemtime(__DIR__ . '/../assets/css/dashboard.css');
+$dashboard_base_css_version = filemtime(__DIR__ . '/../assets/css/dashboard_base.css');
+$laporan_grafik_css_version = filemtime(__DIR__ . '/../assets/css/laporan_grafik.css');
 $app_base_path = rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
 
 $user_id = (int) $_SESSION['user_id'];
@@ -268,8 +269,8 @@ $has_data = ((int) $summary['total_entri']) > 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan & Grafik - Fresh Smart Farm</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard.css?v=<?= $dashboard_css_version ?>">
-    <link rel="stylesheet" href="../assets/css/grafik.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard_base.css?v=<?= $dashboard_base_css_version ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/laporan_grafik.css?v=<?= $laporan_grafik_css_version ?>">
 </head>
 <body class="module-page">
 <?php include '../includes/header.php'; ?>
