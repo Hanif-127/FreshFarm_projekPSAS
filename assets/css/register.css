@@ -1,4 +1,4 @@
-﻿* {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,7 +10,7 @@ body {
     background-color: #ffffff;
 }
 
-.login-page {
+.register-page {
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -19,7 +19,7 @@ body {
 
 /* ================= KIRI ================= */
 
-.login-left {
+.register-left {
     width: 49%;
     min-height: 100vh;
     background-color: #ffffff;
@@ -28,30 +28,30 @@ body {
     justify-content: center;
 }
 
-.login-box {
+.register-box {
     width: 100%;
     max-width: 300px;
     text-align: center;
-    margin-top: -25px;
+    margin-top: -10px;
 }
 
 .logo-wrap {
     display: inline-block;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
 }
 
 .logo-wrap img {
-    width: 115px;
+    width: 108px;
     height: auto;
     object-fit: contain;
 }
 
-.login-box h1 {
+.register-box h1 {
     font-size: 27px;
     font-weight: 800;
     letter-spacing: 3px;
     color: #111111;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 }
 
 .social-login {
@@ -59,57 +59,45 @@ body {
     justify-content: center;
     align-items: center;
     gap: 18px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 
 .social-login span {
-    font-size: 26px;
+    font-size: 25px;
     font-weight: 800;
     color: #9b9b9b;
     line-height: 1;
 }
 
-.login-form {
+.register-form {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.login-form input {
+.register-form input {
     width: 260px;
-    height: 38px;
+    height: 36px;
     border: none;
     outline: none;
     background-color: #eeeeee;
     color: #333333;
     font-size: 12px;
     padding: 0 12px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
-.login-form input::placeholder {
+.register-form input::placeholder {
     color: #8b8b8b;
 }
 
-.login-form input:focus {
+.register-form input:focus {
     border: 1px solid #2aa84f;
     background-color: #f7f7f7;
 }
 
-.forgot {
-    margin-top: 16px;
-    margin-bottom: 12px;
-    font-size: 12px;
-    color: #777777;
-    text-decoration: none;
-}
-
-.forgot:hover {
-    text-decoration: underline;
-}
-
-.login-form button {
+.register-form button {
     width: 108px;
     height: 33px;
     border: none;
@@ -118,24 +106,29 @@ body {
     color: #777777;
     font-size: 12px;
     cursor: pointer;
+    margin-top: 8px;
     transition: 0.3s ease;
 }
 
-.login-form button:hover {
+.register-form button:hover {
     background-color: #2aa84f;
     color: #ffffff;
 }
 
-.register-text {
-    margin-top: 22px;
+.login-text {
+    margin-top: 18px;
     font-size: 12px;
     color: #777777;
 }
 
-.register-text a {
+.login-text a {
     color: #2aa84f;
     font-weight: 700;
     text-decoration: none;
+}
+
+.login-text a:hover {
+    text-decoration: underline;
 }
 
 /* ================= ALERT ================= */
@@ -149,12 +142,6 @@ body {
     text-align: left;
 }
 
-.alert.success {
-    background-color: #e7f8ee;
-    color: #1d8f43;
-    border: 1px solid #8be0aa;
-}
-
 .alert.error {
     background-color: #ffeaea;
     color: #c62828;
@@ -163,18 +150,18 @@ body {
 
 /* ================= KANAN ================= */
 
-.login-right {
-    width: 51%;
+.register-right {
+    width: 50%;
     min-height: 100vh;
     border-radius: 0 0 0 8px;
     background:
         linear-gradient(
             180deg,
-            rgba(38, 166, 74, 0.96) 0%,
-            rgba(38, 166, 74, 0.96) 55%,
-            rgba(11, 92, 39, 0.98) 100%
+            rgba(38, 166, 74, 0.8) 0%,
+            rgba(38, 166, 74, 0.8) 55%,
+            rgba(11, 92, 39, 0.8) 100%
         ),
-        url("../images/background_login.png");
+        url("../images/background_login.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -184,7 +171,7 @@ body {
 }
 
 .right-content {
-    max-width: 460px;
+    max-width: 470px;
     margin-left: 34px;
     margin-top: 48px;
     color: #ffffff;
@@ -201,28 +188,28 @@ body {
     font-size: 16px;
     line-height: 1.35;
     font-weight: 400;
-    max-width: 390px;
+    max-width: 420px;
 }
 
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 900px) {
-    .login-page {
+    .register-page {
         flex-direction: column;
     }
 
-    .login-left,
-    .login-right {
+    .register-left,
+    .register-right {
         width: 100%;
     }
 
-    .login-left {
-        min-height: 62vh;
+    .register-left {
+        min-height: 68vh;
         padding: 40px 20px;
     }
 
-    .login-right {
-        min-height: 38vh;
+    .register-right {
+        min-height: 32vh;
         justify-content: center;
         text-align: center;
         border-radius: 0;

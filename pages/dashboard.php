@@ -10,7 +10,6 @@ include '../includes/koneksi.php';
 include '../includes/user_settings.php';
 
 $dashboard_base_css_version = filemtime(__DIR__ . '/../assets/css/dashboard_base.css');
-$dashboard_css_version = filemtime(__DIR__ . '/../assets/css/dashboard.css');
 $app_base_path = rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
 $debug_mode = isset($_GET['debug']) && $_GET['debug'] === '1';
 $user_id = (int) $_SESSION['user_id'];
@@ -295,7 +294,6 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Fresh Smart Farm</title>
     <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard_base.css?v=<?= (int) $dashboard_base_css_version ?>">
-    <link rel="stylesheet" href="<?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard.css?v=<?= (int) $dashboard_css_version ?>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="dashboard-home dashboard-<?= htmlspecialchars($dashboard_mode) ?>">
@@ -310,163 +308,156 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
                 <div class="debug-panel">
                     <strong>DEBUG MODE ACTIVE</strong><br>
                     FILE: <?= htmlspecialchars(__FILE__) ?><br>
-                    CSS: <?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard.css?v=<?= (int) $dashboard_css_version ?><br>
+                    CSS: <?= htmlspecialchars($app_base_path) ?>/assets/css/dashboard_base.css?v=<?= (int) $dashboard_base_css_version ?><br>
                     HASH: <?= hash_file('sha256', __FILE__) ?>
                 </div>
             <?php endif; ?>
 
-            <section class="overview-grid">
-                <article class="hero" data-reveal>
-                    <div class="hero-header">
-                        <h1>Halo, <?= htmlspecialchars($_SESSION['username']) ?>!</h1>
-                        <p>Monitoring cepat untuk <?= htmlspecialchars((string) ($settings['kebun_nama'] ?? 'kebunmu')) ?> hari ini.</p>
-                        <span class="dashboard-mode-pill"><?= $is_normal_mode ? 'Mode Normal' : 'Mode Compact' ?></span>
+            <section class="dashboard-command-center" data-reveal>
+                <div class="command-copy">
+                    <span class="dashboard-eyebrow">Dashboard Operasional</span>
+                    <h1>Halo, <?= htmlspecialchars($_SESSION['username']) ?>!</h1>
+                    <p>Semua hal penting untuk <?= htmlspecialchars((string) ($settings['kebun_nama'] ?? 'kebunmu')) ?> diringkas dari yang paling perlu ditindak sampai data pendukung.</p>
+                    <div class="command-meta">
+                        <span><?= dashboard_format_date(date('Y-m-d'), $date_format) ?></span>
+                        <span><?= $is_normal_mode ? 'Mode Normal' : 'Mode Compact' ?></span>
                     </div>
                     <?php if ($is_normal_mode): ?>
-                    <blockquote>"<?= htmlspecialchars($motivasi_random) ?>"</blockquote>
+                        <p class="command-quote">"<?= htmlspecialchars($motivasi_random) ?>"</p>
                     <?php endif; ?>
-                    <div class="hero-pill-grid">
-                        <div class="hero-pill hero-pill-neutral">
-                            <span>Total Jurnal</span>
-                            <strong><?= $total ?></strong>
-                            <em class="metric-state-pill state-safe">Aman</em>
-                        </div>
-                        <div class="hero-pill <?= htmlspecialchars($jadwal_state) ?>">
-                            <span>Jadwal Hari Ini</span>
-                            <strong><?= $jadwal_hari_ini ?></strong>
-                            <em class="metric-state-pill <?= htmlspecialchars($jadwal_state) ?>"><?= htmlspecialchars(dashboard_state_label($jadwal_state)) ?></em>
-                        </div>
-                        <div class="hero-pill <?= htmlspecialchars($stok_state) ?>">
-                            <span>Stok Menipis</span>
-                            <strong><?= $stok_tipis ?></strong>
-                            <em class="metric-state-pill <?= htmlspecialchars($stok_state) ?>"><?= htmlspecialchars(dashboard_state_label($stok_state)) ?></em>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="stat-card" data-reveal>
-                    <div class="stat-card-title">Ringkasan Minggu Ini</div>
-                    <div class="stat-number"><?= $aktivitas_minggu_ini ?></div>
-                    <div class="stat-label">Aktivitas Tanam 7 Hari</div>
-                    <p class="stat-note">Total tanaman tercatat: <strong><?= rtrim(rtrim(number_format($total_jumlah_tanaman, 2, '.', ''), '0'), '.') ?></strong>.</p>
-                    <div class="inline-state-row">
-                        <span class="state-chip <?= htmlspecialchars($pengaduan_state) ?>">Pengaduan aktif: <?= $pengaduan_aktif ?> (<?= htmlspecialchars(dashboard_state_label($pengaduan_state)) ?>)</span>
-                    </div>
-                    <?= dashboard_card_caption('Ringkasan ini menunjukkan intensitas aktivitas mingguan dan kondisi pengaduan aktif saat ini.') ?>
-                </article>
-            </section>
-
-            <section class="dashboard-focus-grid">
-                <?php if ($show_focus): ?>
-                <article class="dashboard-focus-card focus-card--focus" data-reveal>
-                    <div class="section-header">
-                        <h3>Fokus Hari Ini</h3>
-                        <span class="section-badge"><?= count($focus_hari_ini) ?> poin</span>
-                    </div>
-                    <ul class="focus-list">
-                        <?php foreach ($focus_hari_ini as $point): ?>
-                            <li class="<?= htmlspecialchars($point['state']) ?>">
-                                <?= htmlspecialchars($point['text']) ?>
-                                <span class="focus-state-badge <?= htmlspecialchars($point['state']) ?>"><?= htmlspecialchars(dashboard_state_label((string) $point['state'])) ?></span>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </article>
-                <?php endif; ?>
-
-                <article class="dashboard-focus-card focus-card--health" data-reveal>
-                    <h3>Kesehatan Operasional</h3>
-                    <p class="health-score-line">
-                        <strong><?= $health_score ?>%</strong>
-                        <span class="health-tag <?= htmlspecialchars($health_class) ?>"><?= htmlspecialchars($health_label) ?></span>
-                    </p>
-                    <div class="health-meter" role="img" aria-label="Skor kesehatan operasional <?= $health_score ?> persen">
-                        <span style="width: <?= $health_score ?>%"></span>
-                    </div>
-                    <p class="focus-note">Skor dihitung dari kondisi stok, beban jadwal hari ini, dan pengaduan aktif.</p>
-                    <?= dashboard_card_caption('Semakin tinggi skor, semakin stabil operasional harian kebun Anda.') ?>
-                </article>
+                </div>
 
                 <?php if ($show_quick_actions): ?>
-                <article class="dashboard-focus-card focus-card--quick" data-reveal>
-                    <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('spark') ?></span><span>Aksi Cepat</span></h3>
-                    <div class="quick-link-grid">
-                        <a class="quick-link-pill" href="jurnal/tambah.php"><span class="quick-link-pill__icon" aria-hidden="true"><?= dashboard_ui_icon('plus') ?></span><span>Tambah Jurnal</span></a>
-                        <a class="quick-link-pill" href="kalender.php"><span class="quick-link-pill__icon" aria-hidden="true"><?= dashboard_ui_icon('calendar') ?></span><span>Buka Kalender</span></a>
-                        <a class="quick-link-pill" href="inventaris.php"><span class="quick-link-pill__icon" aria-hidden="true"><?= dashboard_ui_icon('inventory') ?></span><span>Kelola Inventaris</span></a>
-                        <a class="quick-link-pill" href="ringkasan.php"><span class="quick-link-pill__icon" aria-hidden="true"><?= dashboard_ui_icon('summary') ?></span><span>Lihat Ringkasan</span></a>
+                    <div class="command-actions" aria-label="Aksi cepat dashboard">
+                        <span class="command-actions-title">Aksi cepat</span>
+                        <a class="command-action command-action--primary" href="jurnal/tambah.php">
+                            <span class="quick-link-pill__icon" aria-hidden="true"><?= dashboard_ui_icon('plus') ?></span>
+                            <span>Tambah Jurnal</span>
+                        </a>
+                        <a class="command-action" href="kalender.php">
+                            <span class="quick-link-pill__icon" aria-hidden="true"><?= dashboard_ui_icon('calendar') ?></span>
+                            <span>Kalender</span>
+                        </a>
+                        <a class="command-action" href="inventaris.php">
+                            <span class="quick-link-pill__icon" aria-hidden="true"><?= dashboard_ui_icon('inventory') ?></span>
+                            <span>Inventaris</span>
+                        </a>
+                        <a class="command-action" href="ringkasan.php">
+                            <span class="quick-link-pill__icon" aria-hidden="true"><?= dashboard_ui_icon('summary') ?></span>
+                            <span>Ringkasan</span>
+                        </a>
                     </div>
-                    <?= dashboard_card_caption('Akses cepat ke halaman yang paling sering dipakai saat pencatatan dan monitoring harian.') ?>
-                </article>
-                <?php endif; ?>
-
-                <?php if ($show_plant_status): ?>
-                <article class="dashboard-focus-card focus-card--status-chart" data-reveal>
-                    <div class="section-header">
-                        <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('plant') ?></span><span>Grafik Status Tanaman</span></h3>
-                        <span class="section-badge"><?= count($status_tanaman) ?> status</span>
-                    </div>
-                    <?php if (count($status_tanaman) > 0): ?>
-                        <div class="mini-chart-wrapper">
-                            <canvas id="statusChartCanvas"></canvas>
-                        </div>
-                        <?= dashboard_card_caption('Komposisi status memudahkan Anda melihat distribusi tanaman aktif, panen, atau terkendala.') ?>
-                    <?php else: ?>
-                        <?= dashboard_empty_state('Belum Ada Status Tanaman', 'Status tanaman akan muncul setelah jurnal dicatat.', 'Tambah Data Pertama', 'jurnal/tambah.php') ?>
-                    <?php endif; ?>
-                </article>
-                <?php endif; ?>
-
-                <?php if ($is_normal_mode): ?>
-                <article class="dashboard-focus-card focus-card--insight" data-reveal>
-                    <div class="section-header">
-                        <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('summary') ?></span><span>Insight Operasional</span></h3>
-                        <span class="section-badge">Mode Normal</span>
-                    </div>
-                    <ul class="mini-list">
-                        <li>
-                            <span>Aktivitas Terbaru</span>
-                            <strong><?= count($recent_plants) ?> / <?= $limit_recent_activities ?></strong>
-                        </li>
-                        <li>
-                            <span>Harga Pasar</span>
-                            <strong><?= count($latest_prices) ?> / <?= $limit_market_prices ?></strong>
-                        </li>
-                        <li>
-                            <span>Status Tanaman</span>
-                            <strong><?= count($status_tanaman) ?> / <?= $limit_plant_status ?></strong>
-                        </li>
-                    </ul>
-                    <p class="focus-note">Normal mode menampilkan data lebih lengkap agar monitoring harian lebih detail.</p>
-                    <?= dashboard_card_caption('Insight ini membantu memastikan data inti tetap terisi stabil pada semua modul operasional.') ?>
-                </article>
                 <?php endif; ?>
             </section>
 
-            <section class="content-grid">
-                <article class="recent-list" data-reveal>
+            <section class="dashboard-kpi-grid" aria-label="Indikator utama dashboard">
+                <article class="metric-card metric-card--primary" data-reveal>
+                    <span class="metric-label">Total Jurnal</span>
+                    <strong><?= $total ?></strong>
+                    <small>Catatan tanam tersimpan</small>
+                </article>
+
+                <article class="metric-card" data-reveal>
+                    <span class="metric-label">Tanaman Tercatat</span>
+                    <strong><?= rtrim(rtrim(number_format($total_jumlah_tanaman, 2, '.', ''), '0'), '.') ?></strong>
+                    <small>Total jumlah dari jurnal</small>
+                </article>
+
+                <article class="metric-card <?= htmlspecialchars($jadwal_state) ?>" data-reveal>
+                    <span class="metric-label">Jadwal Hari Ini</span>
+                    <strong><?= $jadwal_hari_ini ?></strong>
+                    <small><?= htmlspecialchars(dashboard_state_label($jadwal_state)) ?></small>
+                </article>
+
+                <article class="metric-card <?= htmlspecialchars($stok_state) ?>" data-reveal>
+                    <span class="metric-label">Stok Menipis</span>
+                    <strong><?= $stok_tipis ?></strong>
+                    <small><?= htmlspecialchars(dashboard_state_label($stok_state)) ?></small>
+                </article>
+
+                <article class="metric-card <?= htmlspecialchars($pengaduan_state) ?>" data-reveal>
+                    <span class="metric-label">Pengaduan Aktif</span>
+                    <strong><?= $pengaduan_aktif ?></strong>
+                    <small><?= htmlspecialchars(dashboard_state_label($pengaduan_state)) ?></small>
+                </article>
+            </section>
+
+            <section class="dashboard-workspace-grid">
+                <article class="dashboard-panel dashboard-panel--priority" data-reveal>
                     <div class="section-header">
-                        <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('activity') ?></span><span>Aktivitas Terbaru</span></h3>
-                        <span class="section-badge"><?= count($recent_plants) ?> data</span>
+                        <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('spark') ?></span><span>Prioritas Hari Ini</span></h3>
+                        <span class="section-badge"><?= count($focus_hari_ini) ?> poin</span>
                     </div>
-                    <?php if (count($recent_plants) > 0): ?>
-                        <ul>
-                            <?php foreach ($recent_plants as $plant): ?>
-                                <li>
-                                    <div class="plant-name"><?= htmlspecialchars($plant['nama_tanaman']) ?></div>
-                                    <div class="plant-meta">Tanggal: <strong><?= dashboard_format_date((string) $plant['tanggal_tanam'], $date_format) ?></strong></div>
-                                    <div class="plant-meta">Jumlah: <strong><?= rtrim(rtrim(number_format((float) $plant['jumlah'], 2, '.', ''), '0'), '.') ?></strong></div>
-                                    <div class="plant-status">Status: <strong><?= htmlspecialchars($plant['status']) ?></strong></div>
+
+                    <?php if ($show_focus): ?>
+                        <ul class="focus-list">
+                            <?php foreach ($focus_hari_ini as $point): ?>
+                                <li class="<?= htmlspecialchars($point['state']) ?>">
+                                    <span><?= htmlspecialchars($point['text']) ?></span>
+                                    <span class="focus-state-badge <?= htmlspecialchars($point['state']) ?>"><?= htmlspecialchars(dashboard_state_label((string) $point['state'])) ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
-                        <?= dashboard_card_caption('Daftar ini menampilkan entri jurnal terbaru agar progres penanaman lebih mudah ditelusuri.') ?>
                     <?php else: ?>
-                        <?= dashboard_empty_state('Aktivitas Masih Kosong', 'Mulai catat aktivitas tanam untuk melihat ringkasan harian.', 'Tambah Data Pertama', 'jurnal/tambah.php') ?>
+                        <p class="focus-note">Daftar fokus disembunyikan dari preferensi dashboard.</p>
                     <?php endif; ?>
+
+                    <div class="dashboard-health-card">
+                        <div>
+                            <span class="metric-label">Kesehatan Operasional</span>
+                            <p class="health-score-line">
+                                <strong><?= $health_score ?>%</strong>
+                                <span class="health-tag <?= htmlspecialchars($health_class) ?>"><?= htmlspecialchars($health_label) ?></span>
+                            </p>
+                        </div>
+                        <div class="health-meter" role="img" aria-label="Skor kesehatan operasional <?= $health_score ?> persen">
+                            <span style="width: <?= $health_score ?>%"></span>
+                        </div>
+                    </div>
                 </article>
 
-                <article class="chart-section" data-reveal>
+                <?php if ($show_schedule): ?>
+                    <article class="dashboard-panel" data-reveal>
+                        <div class="section-header">
+                            <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('clock') ?></span><span>Jadwal Terdekat</span></h3>
+                            <span class="section-badge"><?= $jadwal_minggu_ini ?> agenda</span>
+                        </div>
+                        <?php if ($next_jadwal): ?>
+                            <div class="extra-highlight"><?= htmlspecialchars($next_jadwal['nama_kegiatan']) ?></div>
+                            <p><?= htmlspecialchars(ucfirst($next_jadwal['tipe_kegiatan'])) ?> | <?= dashboard_format_date((string) $next_jadwal['tanggal_jadwal'], $date_format) ?><?= !empty($next_jadwal['jam_jadwal']) ? ' | ' . substr((string) $next_jadwal['jam_jadwal'], 0, 5) : '' ?></p>
+                            <span class="state-chip <?= htmlspecialchars($jadwal_minggu_state) ?>"><?= htmlspecialchars(dashboard_state_label($jadwal_minggu_state)) ?></span>
+                        <?php else: ?>
+                            <?= dashboard_empty_state('Belum Ada Jadwal', 'Jadwalkan kegiatan tanam supaya ritme kerja tetap teratur.', 'Tambah Data Pertama', 'kalender.php') ?>
+                        <?php endif; ?>
+                        <a class="extra-link" href="kalender.php"><span>Kelola Kalender</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
+                    </article>
+                <?php endif; ?>
+
+                <?php if ($show_critical_stock): ?>
+                    <article class="dashboard-panel" data-reveal>
+                        <div class="section-header">
+                            <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('stock') ?></span><span>Stok Kritis</span></h3>
+                            <span class="section-badge"><?= count($stok_kritis_items) ?> item</span>
+                        </div>
+                        <?php if (count($stok_kritis_items) > 0): ?>
+                            <ul class="mini-list">
+                                <?php foreach ($stok_kritis_items as $stok): ?>
+                                    <li>
+                                        <span><?= htmlspecialchars($stok['nama_item']) ?></span>
+                                        <strong><?= rtrim(rtrim(number_format((float) $stok['jumlah_stok'], 2, '.', ''), '0'), '.') ?> / <?= rtrim(rtrim(number_format((float) $stok['stok_minimum'], 2, '.', ''), '0'), '.') ?> <?= htmlspecialchars($stok['satuan']) ?></strong>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <p>Tidak ada stok kritis. Kondisi inventaris aman.</p>
+                        <?php endif; ?>
+                        <a class="extra-link" href="inventaris.php"><span>Cek Inventaris</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
+                    </article>
+                <?php endif; ?>
+            </section>
+
+            <section class="dashboard-analytics-grid">
+                <article class="dashboard-panel dashboard-panel--chart" data-reveal>
                     <div class="section-header">
                         <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('chart') ?></span><span>Grafik Jumlah Tanam</span></h3>
                         <span class="section-badge"><?= count($chart_data) ?> titik</span>
@@ -475,112 +466,118 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
                         <div class="chart-wrapper">
                             <canvas id="chartCanvas"></canvas>
                         </div>
-                        <?= dashboard_card_caption('Grafik memperlihatkan perbandingan jumlah tanam antar entri terbaru dalam periode aktif.') ?>
                     <?php else: ?>
                         <?= dashboard_empty_state('Grafik Belum Tersedia', 'Tambahkan data jurnal tanam agar grafik bisa ditampilkan.', 'Tambah Data Pertama', 'jurnal/tambah.php') ?>
                     <?php endif; ?>
                 </article>
+
+                <article class="dashboard-panel dashboard-panel--recent" data-reveal>
+                    <div class="section-header">
+                        <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('activity') ?></span><span>Aktivitas Terbaru</span></h3>
+                        <span class="section-badge"><?= count($recent_plants) ?> data</span>
+                    </div>
+                    <?php if (count($recent_plants) > 0): ?>
+                        <ul class="dashboard-timeline">
+                            <?php foreach ($recent_plants as $plant): ?>
+                                <li>
+                                    <div class="plant-name"><?= htmlspecialchars($plant['nama_tanaman']) ?></div>
+                                    <div class="plant-meta"><?= dashboard_format_date((string) $plant['tanggal_tanam'], $date_format) ?> | <?= rtrim(rtrim(number_format((float) $plant['jumlah'], 2, '.', ''), '0'), '.') ?> tanaman</div>
+                                    <div class="plant-status"><?= htmlspecialchars($plant['status']) ?></div>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <?= dashboard_empty_state('Aktivitas Masih Kosong', 'Mulai catat aktivitas tanam untuk melihat ringkasan harian.', 'Tambah Data Pertama', 'jurnal/tambah.php') ?>
+                    <?php endif; ?>
+                </article>
             </section>
 
-            <section class="dashboard-extra-grid">
-                <?php if ($show_schedule): ?>
-                <article class="dashboard-extra-card" data-reveal>
-                    <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('clock') ?></span><span>Jadwal Terdekat</span></h3>
-                    <?php if ($next_jadwal): ?>
-                        <div class="extra-highlight"><?= htmlspecialchars($next_jadwal['nama_kegiatan']) ?></div>
-                        <p><?= htmlspecialchars(ucfirst($next_jadwal['tipe_kegiatan'])) ?> | <?= dashboard_format_date((string) $next_jadwal['tanggal_jadwal'], $date_format) ?><?= !empty($next_jadwal['jam_jadwal']) ? ' | ' . substr((string) $next_jadwal['jam_jadwal'], 0, 5) : '' ?></p>
-                        <p>Agenda 7 hari: <strong><?= $jadwal_minggu_ini ?></strong> kegiatan.</p>
-                        <span class="state-chip <?= htmlspecialchars($jadwal_minggu_state) ?>"><?= htmlspecialchars(dashboard_state_label($jadwal_minggu_state)) ?></span>
-                    <?php else: ?>
-                        <?= dashboard_empty_state('Belum Ada Jadwal', 'Jadwalkan kegiatan tanam supaya ritme kerja tetap teratur.', 'Tambah Data Pertama', 'kalender.php') ?>
-                    <?php endif; ?>
-                    <a class="extra-link" href="kalender.php"><span>Kelola Kalender</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
-                    <?= dashboard_card_caption('Pantau agenda terdekat agar kegiatan lapangan lebih teratur dan tidak terlewat.') ?>
-                </article>
-                <?php endif; ?>
-
+            <section class="dashboard-support-grid">
                 <?php if ($show_market): ?>
-                <article class="dashboard-extra-card" data-reveal>
-                    <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('market') ?></span><span>Harga Pasar Terkini</span></h3>
-                    <?php if (count($latest_prices) > 0): ?>
-                        <ul class="price-list">
-                            <?php foreach ($latest_prices as $item): ?>
-                                <li>
-                                    <span><?= htmlspecialchars($item['nama_komoditas']) ?></span>
-                                    <strong>Rp <?= number_format((int) $item['harga'], 0, ',', '.') ?></strong>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php else: ?>
-                        <?= dashboard_empty_state('Harga Pasar Masih Kosong', 'Data harga belum tersedia. Anda bisa isi data harga terbaru.', 'Tambah Data Pertama', 'harga_pasar.php') ?>
-                    <?php endif; ?>
-                    <a class="extra-link" href="harga_pasar.php"><span>Lihat Harga Pasar</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
-                    <?= dashboard_card_caption('Update harga terbaru membantu menentukan keputusan jual, panen, dan estimasi pendapatan.') ?>
-                </article>
-                <?php endif; ?>
-
-                <?php if ($show_complaint): ?>
-                <article class="dashboard-extra-card" data-reveal>
-                    <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('complaint') ?></span><span>Status Pengaduan</span></h3>
-                    <?php if ($latest_pengaduan): ?>
-                        <div class="extra-highlight"><?= htmlspecialchars($latest_pengaduan['judul']) ?></div>
-                        <p>Status: <strong><?= htmlspecialchars(ucfirst($latest_pengaduan['status'])) ?></strong></p>
-                        <p>Dikirim: <?= dashboard_format_date((string) $latest_pengaduan['created_at'], $date_format . ' H:i') ?></p>
-                        <span class="state-chip <?= htmlspecialchars($latest_pengaduan_state) ?>"><?= htmlspecialchars(dashboard_state_label($latest_pengaduan_state)) ?></span>
-                    <?php else: ?>
-                        <?= dashboard_empty_state('Belum Ada Pengaduan', 'Jika ada kendala, kirim pengaduan agar tim dapat membantu.', 'Tambah Data Pertama', 'pengaduan.php') ?>
-                    <?php endif; ?>
-                    <a class="extra-link" href="pengaduan.php"><span>Buka Pengaduan</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
-                    <?= dashboard_card_caption('Status pengaduan menampilkan progres tindak lanjut kendala yang pernah dilaporkan.') ?>
-                </article>
-                <?php endif; ?>
-
-                <?php if ($show_critical_stock): ?>
-                <article class="dashboard-extra-card" data-reveal>
-                    <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('stock') ?></span><span>Stok Kritis</span></h3>
-                    <?php if (count($stok_kritis_items) > 0): ?>
-                        <ul class="mini-list">
-                            <?php foreach ($stok_kritis_items as $stok): ?>
-                                <li>
-                                    <span><?= htmlspecialchars($stok['nama_item']) ?></span>
-                                    <strong><?= rtrim(rtrim(number_format((float) $stok['jumlah_stok'], 2, '.', ''), '0'), '.') ?> / <?= rtrim(rtrim(number_format((float) $stok['stok_minimum'], 2, '.', ''), '0'), '.') ?> <?= htmlspecialchars($stok['satuan']) ?></strong>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php else: ?>
-                        <p>Tidak ada stok kritis. Kondisi inventaris aman.</p>
-                    <?php endif; ?>
-                    <a class="extra-link" href="inventaris.php"><span>Cek Inventaris</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
-                    <?= dashboard_card_caption('Bagian ini menandai item yang mendekati batas minimum agar restok bisa lebih cepat.') ?>
-                </article>
+                    <article class="dashboard-panel" data-reveal>
+                        <div class="section-header">
+                            <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('market') ?></span><span>Harga Pasar</span></h3>
+                            <span class="section-badge"><?= count($latest_prices) ?> komoditas</span>
+                        </div>
+                        <?php if (count($latest_prices) > 0): ?>
+                            <ul class="price-list">
+                                <?php foreach ($latest_prices as $item): ?>
+                                    <li>
+                                        <span><?= htmlspecialchars($item['nama_komoditas']) ?></span>
+                                        <strong>Rp <?= number_format((int) $item['harga'], 0, ',', '.') ?></strong>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <?= dashboard_empty_state('Harga Pasar Masih Kosong', 'Data harga belum tersedia. Anda bisa isi data harga terbaru.', 'Tambah Data Pertama', 'harga_pasar.php') ?>
+                        <?php endif; ?>
+                        <a class="extra-link" href="harga_pasar.php"><span>Lihat Harga Pasar</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
+                    </article>
                 <?php endif; ?>
 
                 <?php if ($show_plant_status): ?>
-                <article class="dashboard-extra-card" data-reveal>
-                    <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('plant') ?></span><span>Status Tanaman</span></h3>
-                    <?php if (count($status_tanaman) > 0): ?>
+                    <article class="dashboard-panel" data-reveal>
+                        <div class="section-header">
+                            <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('plant') ?></span><span>Status Tanaman</span></h3>
+                            <span class="section-badge"><?= count($status_tanaman) ?> status</span>
+                        </div>
+                        <?php if (count($status_tanaman) > 0): ?>
+                            <div class="mini-chart-wrapper">
+                                <canvas id="statusChartCanvas"></canvas>
+                            </div>
+                            <ul class="mini-list mini-list--compact">
+                                <?php foreach ($status_tanaman as $status): ?>
+                                    <li>
+                                        <span><?= htmlspecialchars(ucwords(str_replace('_', ' ', (string) $status['status']))) ?></span>
+                                        <strong><?= (int) $status['total'] ?> data</strong>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <?= dashboard_empty_state('Status Belum Tercatat', 'Isi jurnal tanam untuk mulai membangun data status tanaman.', 'Tambah Data Pertama', 'jurnal/tambah.php') ?>
+                        <?php endif; ?>
+                        <a class="extra-link" href="jurnal/index.php"><span>Buka Jurnal Tanam</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
+                    </article>
+                <?php endif; ?>
+
+                <?php if ($show_complaint): ?>
+                    <article class="dashboard-panel" data-reveal>
+                        <div class="section-header">
+                            <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('complaint') ?></span><span>Pengaduan</span></h3>
+                            <span class="section-badge"><?= $pengaduan_aktif ?> aktif</span>
+                        </div>
+                        <?php if ($latest_pengaduan): ?>
+                            <div class="extra-highlight"><?= htmlspecialchars($latest_pengaduan['judul']) ?></div>
+                            <p>Status: <strong><?= htmlspecialchars(ucfirst($latest_pengaduan['status'])) ?></strong></p>
+                            <p>Dikirim: <?= dashboard_format_date((string) $latest_pengaduan['created_at'], $date_format . ' H:i') ?></p>
+                            <span class="state-chip <?= htmlspecialchars($latest_pengaduan_state) ?>"><?= htmlspecialchars(dashboard_state_label($latest_pengaduan_state)) ?></span>
+                        <?php else: ?>
+                            <?= dashboard_empty_state('Belum Ada Pengaduan', 'Jika ada kendala, kirim pengaduan agar tim dapat membantu.', 'Tambah Data Pertama', 'pengaduan.php') ?>
+                        <?php endif; ?>
+                        <a class="extra-link" href="pengaduan.php"><span>Buka Pengaduan</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
+                    </article>
+                <?php endif; ?>
+
+                <?php if ($is_normal_mode): ?>
+                    <article class="dashboard-panel" data-reveal>
+                        <div class="section-header">
+                            <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('summary') ?></span><span>Kelengkapan Data</span></h3>
+                            <span class="section-badge">Mode Normal</span>
+                        </div>
                         <ul class="mini-list">
-                            <?php foreach ($status_tanaman as $status): ?>
-                                <li>
-                                    <span><?= htmlspecialchars(ucwords(str_replace('_', ' ', (string) $status['status']))) ?></span>
-                                    <strong><?= (int) $status['total'] ?> data</strong>
-                                </li>
-                            <?php endforeach; ?>
+                            <li><span>Aktivitas Terbaru</span><strong><?= count($recent_plants) ?> / <?= $limit_recent_activities ?></strong></li>
+                            <li><span>Harga Pasar</span><strong><?= count($latest_prices) ?> / <?= $limit_market_prices ?></strong></li>
+                            <li><span>Status Tanaman</span><strong><?= count($status_tanaman) ?> / <?= $limit_plant_status ?></strong></li>
                         </ul>
-                    <?php else: ?>
-                        <?= dashboard_empty_state('Status Belum Tercatat', 'Isi jurnal tanam untuk mulai membangun data status tanaman.', 'Tambah Data Pertama', 'jurnal/tambah.php') ?>
-                    <?php endif; ?>
-                    <a class="extra-link" href="jurnal/index.php"><span>Buka Jurnal Tanam</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
-                    <?= dashboard_card_caption('Ringkasan status tanaman memperlihatkan kondisi data budidaya secara keseluruhan.') ?>
-                </article>
+                    </article>
                 <?php endif; ?>
 
                 <?php if (!$has_extra_cards): ?>
-                <article class="dashboard-extra-card" data-reveal>
-                    <h3>Kartu Tambahan Dinonaktifkan</h3>
-                    <p>Semua kartu tambahan sedang disembunyikan dari preferensi dashboard.</p>
-                    <a class="extra-link" href="pengaturan.php?tab=dashboard"><span>Atur Preferensi Dashboard</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
-                </article>
+                    <article class="dashboard-panel" data-reveal>
+                        <h3>Kartu Tambahan Dinonaktifkan</h3>
+                        <p>Semua kartu tambahan sedang disembunyikan dari preferensi dashboard.</p>
+                        <a class="extra-link" href="pengaturan.php?tab=dashboard"><span>Atur Preferensi Dashboard</span><span class="extra-link__icon" aria-hidden="true"><?= dashboard_ui_icon('arrow') ?></span></a>
+                    </article>
                 <?php endif; ?>
             </section>
         </div>
@@ -598,8 +595,8 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
         (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
         (navigator.connection && navigator.connection.saveData)
     );
-    const enableMotion = !prefersReducedMotion && !lowPowerMode && window.innerWidth > 960;
-    const chartAnimationDuration = enableMotion ? 360 : 0;
+    const enableMotion = false;
+    const chartAnimationDuration = 0;
 
     if (lowPowerMode) {
         document.documentElement.classList.add('dashboard-lowpower');

@@ -39,54 +39,99 @@ if ($error_code !== '') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buat Akun - Fresh Smart Farm</title>
-    <link rel="stylesheet" href="assets/css/login.css">
+    <title>Buat Akun - Fresh Farm</title>
+    <link rel="stylesheet" href="assets/css/register.css">
 </head>
-<body class="auth-page">
-    <main class="auth-shell">
-        <a href="index.php" class="auth-brand">Fresh Smart Farm</a>
+<body>
 
-        <section class="auth-card" aria-labelledby="registerTitle">
-            <header class="auth-head">
-                <h1 id="registerTitle">Buat Akun Baru</h1>
-                <p>Daftarkan akun untuk mulai menggunakan fitur pertanian digital.</p>
-            </header>
+    <main class="register-page">
 
-            <?php if ($error_message !== ''): ?>
-                <div class="auth-alert auth-alert-error"><?= htmlspecialchars($error_message) ?></div>
-            <?php endif; ?>
+        <!-- BAGIAN KIRI -->
+        <section class="register-left">
 
-            <form action="proses_register.php" method="POST" class="auth-form" novalidate>
-                <div class="auth-field">
-                    <label for="full_name">Nama Lengkap (opsional)</label>
-                    <input type="text" id="full_name" name="full_name" maxlength="120" value="<?= htmlspecialchars($full_name) ?>" placeholder="Contoh: Hanif Pratama">
+            <div class="register-box">
+
+                <a href="index.php" class="logo-wrap">
+                    <img src="assets/images/logo.png" alt="Fresh Farm Logo">
+                </a>
+
+                <h1>Sign up</h1>
+
+                <div class="social-login">
+                    <span>G</span>
+                    <span>f</span>
+                    <span>♥</span>
                 </div>
 
-                <div class="auth-field">
-                    <label for="email">Email (opsional)</label>
-                    <input type="email" id="email" name="email" maxlength="160" value="<?= htmlspecialchars($email) ?>" placeholder="Contoh: hanif@email.com">
-                </div>
+                <?php if ($error_message !== ''): ?>
+                    <div class="alert error"><?= htmlspecialchars($error_message) ?></div>
+                <?php endif; ?>
 
-                <div class="auth-field">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" maxlength="50" value="<?= htmlspecialchars($username) ?>" placeholder="Minimal 3 karakter" required>
-                </div>
+                <form action="proses_register.php" method="POST" class="register-form">
 
-                <div class="auth-field">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" minlength="6" placeholder="Minimal 6 karakter" required>
-                </div>
+                    <input 
+                        type="text" 
+                        name="full_name" 
+                        maxlength="120"
+                        value="<?= htmlspecialchars($full_name) ?>" 
+                        placeholder="Nama Lengkap"
+                    >
 
-                <div class="auth-field">
-                    <label for="confirm_password">Konfirmasi Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" minlength="6" placeholder="Ulangi password" required>
-                </div>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        maxlength="160"
+                        value="<?= htmlspecialchars($email) ?>" 
+                        placeholder="Email"
+                    >
 
-                <button type="submit" class="auth-btn">Buat Akun</button>
-            </form>
+                    <input 
+                        type="text" 
+                        name="username" 
+                        maxlength="50"
+                        value="<?= htmlspecialchars($username) ?>" 
+                        placeholder="Username"
+                        required
+                    >
 
-            <p class="auth-switch">Sudah punya akun? <a href="login.php">Login sekarang</a></p>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        minlength="6"
+                        placeholder="Password"
+                        required
+                    >
+
+                    <input 
+                        type="password" 
+                        name="confirm_password" 
+                        minlength="6"
+                        placeholder="Konfirmasi Password"
+                        required
+                    >
+
+                    <button type="submit">SIGN UP</button>
+                </form>
+
+                <p class="login-text">
+                    Sudah punya akun? <a href="login.php">Login sekarang</a>
+                </p>
+
+            </div>
+
         </section>
+
+        <!-- BAGIAN KANAN -->
+        <section class="register-right">
+            <div class="right-content">
+                <h2>Hello, SobatTani</h2>
+                <p>
+                    Buat akunmu sekarang dan mulai gunakan Fresh Farm untuk mengelola pertanian digital dengan lebih mudah.
+                </p>
+            </div>
+        </section>
+
     </main>
+
 </body>
 </html>

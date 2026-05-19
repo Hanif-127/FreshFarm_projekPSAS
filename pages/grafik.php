@@ -438,7 +438,7 @@ $has_data = ((int) $summary['total_entri']) > 0;
 <script>
     (function () {
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const chartDuration = prefersReducedMotion ? 0 : 420;
+        const chartDuration = 0;
 
         Chart.defaults.color = '#5b7362';
         Chart.defaults.font.family = "'Segoe UI', system-ui, -apple-system, sans-serif";

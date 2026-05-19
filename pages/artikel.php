@@ -13,13 +13,13 @@ function artikel_gambar_src($gambar) {
     }
 
     $nama_file = basename($nama_file);
-    $path_file = __DIR__ . '/../assets/images/' . $nama_file;
+    $path_file = __DIR__ . '/../assets/images_artikel/' . $nama_file;
 
     if (!is_file($path_file)) {
         return '../assets/images/artikel_default.png';
     }
 
-    return '../assets/images/' . htmlspecialchars($nama_file, ENT_QUOTES, 'UTF-8');
+    return '../assets/images_artikel/' . htmlspecialchars($nama_file, ENT_QUOTES, 'UTF-8');
 }
 
 function artikel_excerpt($isi, $batas = 155) {
@@ -43,9 +43,12 @@ function artikel_excerpt($isi, $batas = 155) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artikel - Fresh Smart Farm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/artikel.css">
 </head>
-<body>
+<body class="artikel-page-body">
 
 <?php include '../includes/header.php'; ?>
 
@@ -53,8 +56,8 @@ function artikel_excerpt($isi, $batas = 155) {
     <section class="artikel-hero">
         <div class="artikel-hero__content">
             <span class="artikel-label">Artikel Pertanian</span>
-            <h1>Kumpulan Artikel Fresh Smart Farm</h1>
-            <p>Baca wawasan, tips perawatan, dan informasi pasar yang membantu petani mengambil keputusan lebih tepat.</p>
+            <h1>Pusat Insight Pertanian</h1>
+            <p>Kumpulan artikel, tips budidaya, dan catatan pasar yang tersusun rapi untuk membantu petani mengambil keputusan lebih cepat.</p>
         </div>
         <div class="artikel-hero__stat" aria-label="Jumlah artikel tersedia">
             <strong><?= $total_artikel ?></strong>
@@ -66,10 +69,10 @@ function artikel_excerpt($isi, $batas = 155) {
         <div class="artikel-listing__header">
             <div>
                 <span class="artikel-kicker">Katalog Artikel</span>
-                <h2>Semua Artikel</h2>
-                <p>Preview dari landing hanya menampilkan beberapa artikel terbaru. Di halaman ini semua artikel dikumpulkan lengkap.</p>
+                <h2>Artikel dan Tips Terbaru</h2>
+                <p>Landing menampilkan insight pilihan. Di halaman ini semua artikel dikumpulkan lengkap dengan tampilan kartu yang lebih ringkas.</p>
             </div>
-            <a href="../index.php#artikel" class="btn btn-secondary">Kembali ke Preview</a>
+            <a href="../index.php#artikel" class="btn btn-secondary">Kembali ke Landing</a>
         </div>
 
         <?php if ($total_artikel == 0): ?>
@@ -86,14 +89,14 @@ function artikel_excerpt($isi, $batas = 155) {
                         </a>
                         <div class="artikel-card__body">
                             <div class="artikel-card__meta">
-                                <span>Artikel</span>
+                                <span>Insight</span>
                                 <time datetime="<?= htmlspecialchars($row['tanggal_publish']) ?>">
                                     <?= date('d M Y', strtotime($row['tanggal_publish'])) ?>
                                 </time>
                             </div>
                             <h3><?= htmlspecialchars($row['judul']) ?></h3>
                             <p><?= htmlspecialchars(artikel_excerpt($row['isi'])) ?></p>
-                            <a href="detail_artikel.php?id=<?= (int) $row['id'] ?>" class="btn btn-primary">Baca Selengkapnya</a>
+                            <a href="detail_artikel.php?id=<?= (int) $row['id'] ?>" class="btn btn-primary">Baca Artikel</a>
                         </div>
                     </article>
                 <?php endwhile; ?>

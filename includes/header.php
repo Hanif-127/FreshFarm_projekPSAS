@@ -37,58 +37,80 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 ?>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
+:root {
+    --header-bg: rgba(5, 20, 13, 0.9);
+    --header-bg-solid: #06140d;
+    --header-panel: rgba(255, 255, 255, 0.08);
+    --header-panel-strong: rgba(255, 255, 255, 0.14);
+    --header-line: rgba(224, 239, 211, 0.18);
+    --header-line-strong: rgba(224, 239, 211, 0.3);
+    --header-ink: #f7fbf0;
+    --header-text: #d9e8d6;
+    --header-muted: #a8bda8;
+    --header-green: #78b65d;
+    --header-mint: #c4ef9c;
+    --header-gold: #d8ae58;
+    --header-red: #ffb4a8;
+    --header-radius: 8px;
+    --header-ease: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.navbar,
+.navbar * {
     box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: "DM Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+    letter-spacing: 0;
 }
 
 .navbar {
     position: sticky;
     top: 0;
     z-index: 1000;
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(220px, auto) minmax(0, 1fr) auto auto;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    height: 64px;
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-    gap: 16px;
+    min-height: 68px;
+    padding: 0 clamp(16px, 3vw, 34px);
+    gap: 14px;
+    background:
+        linear-gradient(90deg, rgba(120, 182, 93, 0.1), rgba(216, 174, 88, 0.07)),
+        var(--header-bg);
+    border-bottom: 1px solid var(--header-line);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 }
 
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 10px;
-    text-decoration: none;
+    gap: 11px;
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
     flex-shrink: 0;
-    margin-right: auto;
+    color: var(--header-ink);
+    text-decoration: none;
 }
 
 .nav-logo img {
-    height: 40px;
-    width: 40px;
+    width: 42px;
+    height: 42px;
     object-fit: contain;
-    border-radius: 10px;
-    background: rgba(46, 125, 50, 0.08);
-    padding: 4px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
 }
 
 .nav-brand {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #2e7d32;
-    line-height: 1.2;
-    letter-spacing: -0.3px;
+    color: var(--header-ink);
+    font-size: 1.05rem;
+    font-weight: 900;
+    line-height: 1.18;
+    white-space: nowrap;
 }
 
 .nav-brand em {
-    color: #66bb6a;
+    color: var(--header-mint);
     font-style: normal;
 }
 
@@ -96,61 +118,146 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 4px;
+    justify-content: center;
+    gap: 6px;
     margin: 0;
     padding: 0;
-    flex: 1;
-    justify-content: center;
-    flex-wrap: wrap;
-    position: relative;
+    min-width: 0;
+    justify-self: center;
+    max-width: 620px;
 }
 
-.nav-menu li {
+.nav-menu .nav-link,
+.nav-dashboard-btn {
     position: relative;
-    z-index: 1;
-}
-
-.nav-menu .nav-link {
+    min-height: 38px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    text-decoration: none;
-    color: #444;
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 8px 14px;
-    border-radius: 10px;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-    white-space: nowrap;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: var(--header-radius);
     background: transparent;
-    position: relative;
-    z-index: 1;
+    color: var(--header-muted);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    transition: color 180ms ease, background 180ms ease, border-color 180ms ease, transform 180ms var(--header-ease);
 }
 
-.nav-menu .nav-link .nav-icon {
-    height: 20px;
-    width: 20px;
+.nav-dashboard-btn {
+    font-size: 0.84rem;
+    font-weight: 850;
+}
+
+.nav-menu .nav-link::after,
+.nav-dashboard-btn::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 5px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--header-green), var(--header-gold));
+    opacity: 0;
+    transform: scaleX(0.45);
+    transform-origin: center;
+    transition: opacity 180ms ease, transform 220ms var(--header-ease);
+}
+
+.nav-menu .nav-link:hover,
+.nav-dashboard-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-menu .nav-link.active,
+.nav-dashboard-btn.active {
+    color: #ffffff;
+    background: var(--header-panel);
+    border-color: var(--header-line);
+}
+
+.nav-menu .nav-link.active::after,
+.nav-dashboard-btn.active::after {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.nav-menu .nav-link .nav-icon,
+.nav-dashboard-btn .nav-icon {
+    width: 19px;
+    height: 19px;
     object-fit: contain;
     flex-shrink: 0;
+    filter: brightness(0) invert(1);
+    opacity: 0.76;
 }
 
-.nav-menu .nav-link:hover {
-    background: rgba(46, 125, 50, 0.08);
-    color: #1b5e20;
-}
-
-.nav-menu .nav-link.active {
-    background: rgba(46, 125, 50, 0.15);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-    color: #1b5e20;
-    font-weight: 600;
+.nav-menu .nav-link.active .nav-icon,
+.nav-menu .nav-link:hover .nav-icon,
+.nav-dashboard-btn.active .nav-icon,
+.nav-dashboard-btn:hover .nav-icon {
+    opacity: 0.96;
 }
 
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-self: end;
+    gap: 10px;
+    min-width: 0;
     flex-shrink: 0;
+}
+
+.nav-auth {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-login,
+.btn-register {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--header-radius);
+    padding: 8px 14px;
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 900;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms var(--header-ease);
+}
+
+.btn-login {
+    border: 1px solid var(--header-green);
+    background: var(--header-green);
+    color: #07140d;
+}
+
+.btn-register {
+    border: 1px solid var(--header-line-strong);
+    background: var(--header-panel);
+    color: var(--header-ink);
+}
+
+.btn-login:hover,
+.btn-register:hover {
+    transform: translateY(-1px);
+}
+
+.btn-login:hover {
+    background: var(--header-mint);
+    border-color: var(--header-mint);
+}
+
+.btn-register:hover {
+    background: var(--header-panel-strong);
 }
 
 .nav-user {
@@ -160,78 +267,77 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     position: relative;
 }
 
-.nav-dashboard-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 36px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 0.84rem;
-    font-weight: 600;
-    color: #2e7d32;
-    background: rgba(46, 125, 50, 0.1);
-    transition: background 0.2s, color 0.2s;
-}
-
-.nav-dashboard-btn:hover {
-    background: rgba(46, 125, 50, 0.18);
-    color: #1b5e20;
-}
-
-.nav-dashboard-btn.active {
-    background: rgba(46, 125, 50, 0.2);
-    color: #1b5e20;
-}
-
-.nav-dashboard-btn .nav-icon {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-}
-
-.avatar {
-    width: 38px;
-    height: 38px;
-    background: #a5d6a7;
-    color: #1b5e20;
-    border-radius: 50%;
+.user-info {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1rem;
-    flex-shrink: 0;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.28;
+}
+
+.salam {
+    color: var(--header-muted);
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.salam strong {
+    color: var(--header-ink);
+}
+
+.role {
+    color: var(--header-mint);
+    font-size: 0.72rem;
+    font-weight: 850;
 }
 
 .avatar-toggle {
     width: 38px;
     height: 38px;
-    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0;
+    border: 1px solid var(--header-line-strong);
     border-radius: 50%;
-    background: transparent;
+    background: var(--header-panel);
     cursor: pointer;
 }
 
-.avatar-toggle:focus-visible {
-    outline: 2px solid rgba(46, 125, 50, 0.5);
+.avatar-toggle:focus-visible,
+.hamburger:focus-visible,
+.nav-link:focus-visible,
+.nav-dashboard-btn:focus-visible,
+.btn-login:focus-visible,
+.btn-register:focus-visible {
+    outline: 3px solid rgba(196, 239, 156, 0.32);
     outline-offset: 2px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--header-mint), var(--header-green));
+    color: #07140d;
+    font-size: 0.95rem;
+    font-weight: 950;
 }
 
 .profile-menu {
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
-    width: 210px;
+    width: 218px;
     display: none;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.98);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 12px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
     padding: 8px;
+    border: 1px solid var(--header-line);
+    border-radius: var(--header-radius);
+    background: rgba(8, 27, 18, 0.98);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.3);
     z-index: 30;
 }
 
@@ -240,38 +346,37 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 }
 
 .profile-menu-link {
+    min-height: 38px;
     display: flex;
     align-items: center;
     gap: 8px;
-    min-height: 38px;
     padding: 8px 10px;
-    border-radius: 8px;
+    border-radius: var(--header-radius);
+    color: var(--header-text);
     text-decoration: none;
-    color: #34513a;
     font-size: 0.84rem;
-    font-weight: 500;
-    transition: background 0.2s, color 0.2s;
+    font-weight: 800;
+    transition: background 180ms ease, color 180ms ease;
 }
 
 .profile-menu-link:hover {
-    background: rgba(46, 125, 50, 0.08);
-    color: #1b5e20;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
 }
 
 .profile-menu-divider {
     height: 1px;
-    background: rgba(0, 0, 0, 0.08);
     margin: 6px 2px;
+    background: var(--header-line);
 }
 
 .profile-menu-link.logout-link {
-    color: #b42318;
-    font-weight: 600;
+    color: var(--header-red);
 }
 
 .profile-menu-link.logout-link:hover {
-    background: rgba(244, 67, 54, 0.08);
-    color: #8c1d18;
+    background: rgba(255, 180, 168, 0.1);
+    color: #ffd2cc;
 }
 
 .logout-icon {
@@ -280,101 +385,69 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     object-fit: contain;
 }
 
-.user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.3;
-}
-
-.salam {
-    color: #333;
-    font-size: 0.8rem;
-}
-
-.salam strong {
-    color: #1b5e20;
-}
-
-.role {
-    color: #66bb6a;
-    font-size: 0.7rem;
-}
-
-.btn-login {
-    background: #2e7d32;
-    color: white;
-    padding: 8px 20px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.85rem;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
-}
-
-.btn-login:hover {
-    background: #1b5e20;
-    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
-}
-
-.nav-auth {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.btn-register {
-    display: inline-flex;
+.hamburger {
+    width: 40px;
+    height: 40px;
+    display: none;
     align-items: center;
     justify-content: center;
-    min-height: 36px;
-    padding: 8px 14px;
-    border-radius: 18px;
-    border: 1px solid rgba(46, 125, 50, 0.26);
-    background: rgba(46, 125, 50, 0.1);
-    color: #1b5e20;
-    text-decoration: none;
-    font-size: 0.84rem;
-    font-weight: 600;
-    transition: background 0.2s, border-color 0.2s;
-}
-
-.btn-register:hover {
-    background: rgba(46, 125, 50, 0.16);
-    border-color: rgba(46, 125, 50, 0.34);
-}
-
-.hamburger {
-    display: none;
-    background: none;
-    border: none;
-    color: #2e7d32;
-    font-size: 26px;
+    padding: 0;
+    border: 1px solid var(--header-line-strong);
+    border-radius: var(--header-radius);
+    background: var(--header-panel);
+    color: var(--header-ink);
     cursor: pointer;
-    line-height: 1;
-    padding: 4px;
 }
 
-@media (max-width: 768px) {
-    .hamburger {
-        display: block;
+.hamburger-lines,
+.hamburger-lines::before,
+.hamburger-lines::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+}
+
+.hamburger-lines {
+    position: relative;
+}
+
+.hamburger-lines::before,
+.hamburger-lines::after {
+    content: "";
+    position: absolute;
+    left: 0;
+}
+
+.hamburger-lines::before {
+    top: -6px;
+}
+
+.hamburger-lines::after {
+    top: 6px;
+}
+
+@media (max-width: 1120px) {
+    .navbar {
+        grid-template-columns: minmax(190px, 1fr) auto auto;
     }
 
     .nav-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 16px;
+        right: 16px;
+        max-width: none;
         display: none;
         flex-direction: column;
-        position: absolute;
-        top: 64px;
-        left: 0;
-        right: 0;
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        padding: 12px 20px;
-        gap: 2px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-        border-radius: 0 0 16px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+        align-items: stretch;
+        gap: 6px;
+        padding: 10px;
+        border: 1px solid var(--header-line);
+        border-radius: var(--header-radius);
+        background: rgba(6, 20, 13, 0.98);
+        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
     }
 
     .nav-menu.open {
@@ -384,12 +457,18 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     .nav-menu .nav-link {
         width: 100%;
         justify-content: flex-start;
-        padding: 12px 16px;
-        border-radius: 10px;
+        padding: 11px 12px;
     }
 
-    .nav-menu .nav-link.active {
-        background: rgba(46, 125, 50, 0.15);
+    .hamburger {
+        display: inline-flex;
+    }
+}
+
+@media (max-width: 860px) {
+    .navbar {
+        min-height: 64px;
+        padding-inline: 14px;
     }
 
     .user-info {
@@ -397,7 +476,12 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     }
 
     .nav-dashboard-btn {
-        padding: 8px 10px;
+        min-width: 40px;
+        padding: 8px;
+    }
+
+    .nav-dashboard-btn span {
+        display: none;
     }
 
     .profile-menu {
@@ -405,9 +489,48 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
         width: 190px;
     }
 }
+
+@media (max-width: 520px) {
+    .navbar {
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        gap: 8px;
+    }
+
+    .nav-logo {
+        gap: 8px;
+    }
+
+    .nav-logo img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .nav-brand {
+        font-size: 0.92rem;
+    }
+
+    .nav-auth {
+        gap: 6px;
+    }
+
+    .btn-register {
+        display: none;
+    }
+}
+
+@media (max-width: 390px) {
+    .nav-brand {
+        max-width: 116px;
+        white-space: normal;
+    }
+
+    .btn-login {
+        padding-inline: 12px;
+    }
+}
 </style>
 
-<nav class="navbar">
+<nav class="navbar" aria-label="Navigasi utama">
     <a class="nav-logo" href="<?= $root ?>index.php">
         <img src="<?= $root ?>assets/images/logo.png" alt="Logo" onerror="this.style.display='none'">
         <span class="nav-brand">Fresh <em>Smart Farm</em></span>
@@ -444,7 +567,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
         <?php if (isset($_SESSION['user_id'])): ?>
             <div class="nav-user" id="navUserMenu">
                 <div class="user-info">
-                    <span class="salam">Hai, <strong><?= $_SESSION['username'] ?></strong></span>
+                    <span class="salam">Hai, <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></span>
                     <span class="role">Petani</span>
                 </div>
                 <a href="<?= $dashboard_href ?>" class="nav-dashboard-btn <?= $active_page === 'dashboard' ? 'active' : '' ?>">
@@ -452,7 +575,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
                     <span>Dashboard</span>
                 </a>
                 <button type="button" class="avatar-toggle" id="avatarToggle" aria-expanded="false" aria-haspopup="menu">
-                    <span class="avatar"><?= strtoupper(substr($_SESSION['username'], 0, 1)) ?></span>
+                    <span class="avatar"><?= htmlspecialchars(strtoupper(substr((string) $_SESSION['username'], 0, 1))) ?></span>
                 </button>
                 <div class="profile-menu" id="profileMenu" role="menu" aria-label="Menu profil">
                     <a href="<?= $pengaturan_href ?>" class="profile-menu-link" role="menuitem">Pengaturan</a>
@@ -473,7 +596,9 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
         <?php endif; ?>
     </div>
 
-    <button class="hamburger" type="button" aria-label="Buka menu" onclick="document.getElementById('navMenu').classList.toggle('open')">&#9776;</button>
+    <button class="hamburger" type="button" id="navToggle" aria-label="Buka menu" aria-expanded="false" aria-controls="navMenu">
+        <span class="hamburger-lines" aria-hidden="true"></span>
+    </button>
 </nav>
 
 <script>
@@ -481,6 +606,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     var navMenu = document.getElementById('navMenu');
     if (!navMenu) return;
 
+    var navToggle = document.getElementById('navToggle');
     var isLanding = navMenu.getAttribute('data-landing') === '1';
     var links = Array.prototype.slice.call(navMenu.querySelectorAll('a.nav-link'));
     var scrollLinks = links.filter(function (link) {
@@ -491,10 +617,19 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     var currentActiveLink = navMenu.querySelector('a.nav-link.active') || null;
     var manualTargetId = null;
     var manualLockUntil = 0;
+    var initialHashId = isLanding && window.location.hash ? window.location.hash.slice(1) : null;
+    var initialHashLockUntil = initialHashId ? Date.now() + 1200 : 0;
 
     function getNavbarHeight() {
         var navbar = document.querySelector('.navbar');
         return navbar ? navbar.offsetHeight : 64;
+    }
+
+    function setMenuOpen(isOpen) {
+        navMenu.classList.toggle('open', isOpen);
+        if (navToggle) {
+            navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        }
     }
 
     function setActive(activeLink, forceUpdate) {
@@ -526,24 +661,32 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
         }).filter(Boolean);
     }
 
+    function findLinkForSection(id) {
+        if (!id) return null;
+        for (var i = 0; i < scrollLinks.length; i++) {
+            if (scrollLinks[i].getAttribute('data-scroll-section') === id) {
+                return scrollLinks[i];
+            }
+        }
+        return null;
+    }
+
     function pickLandingActive(entries) {
         if (!entries.length) return null;
 
-        var headerOffset = getNavbarHeight() + 18;
-        var probe = window.scrollY + headerOffset;
+        var probe = getNavbarHeight() + 28;
+        var active = null;
 
-        if (probe < entries[0].section.offsetTop) {
-            return null;
-        }
-
-        var active = entries[0].link;
-        for (var i = 0; i < entries.length; i++) {
-            if (probe >= entries[i].section.offsetTop) {
-                active = entries[i].link;
-            } else {
-                break;
+        entries.forEach(function (entry) {
+            if (entry.section.getBoundingClientRect().top <= probe) {
+                active = entry.link;
             }
+        });
+
+        if (!active && initialHashId && Date.now() < initialHashLockUntil) {
+            active = findLinkForSection(initialHashId);
         }
+
         return active;
     }
 
@@ -554,37 +697,45 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
             var lockedTarget = document.getElementById(manualTargetId);
             if (lockedTarget) {
                 var delta = Math.abs(lockedTarget.getBoundingClientRect().top - getNavbarHeight() - 8);
-                if (delta > 20) {
+                if (delta > 24) {
                     return;
                 }
             }
             clearManualLock();
         }
 
-        var entries = getSectionEntries();
-        setActive(pickLandingActive(entries));
+        setActive(pickLandingActive(getSectionEntries()));
     }
 
     if (isLanding) {
+        if (initialHashId) {
+            setActive(findLinkForSection(initialHashId), true);
+        }
+
         window.requestAnimationFrame(syncLandingActive);
+        window.addEventListener('load', syncLandingActive);
 
         window.addEventListener('scroll', function () {
-            if (stopped) return;
-            if (rafId) return;
+            if (stopped || rafId) return;
             rafId = window.requestAnimationFrame(function () {
                 rafId = null;
                 syncLandingActive();
             });
         }, { passive: true });
-    } else {
-        if (currentActiveLink) {
-            setActive(currentActiveLink, true);
-        }
+
+        window.addEventListener('hashchange', function () {
+            initialHashId = window.location.hash ? window.location.hash.slice(1) : null;
+            initialHashLockUntil = initialHashId ? Date.now() + 900 : 0;
+            syncLandingActive();
+        });
+    } else if (currentActiveLink) {
+        setActive(currentActiveLink, true);
     }
 
     scrollLinks.forEach(function (link) {
         link.addEventListener('click', function (event) {
             if (!isLanding) return;
+
             var id = link.getAttribute('data-scroll-section');
             var target = id ? document.getElementById(id) : null;
             if (!target) return;
@@ -594,19 +745,40 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
             manualLockUntil = Date.now() + 900;
             setActive(link, true);
 
-            var navHeight = getNavbarHeight();
-            var targetTop = target.getBoundingClientRect().top + window.scrollY - navHeight - 8;
-
             window.scrollTo({
-                top: Math.max(0, targetTop),
+                top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - getNavbarHeight() - 8),
                 behavior: 'smooth'
             });
 
-            navMenu.classList.remove('open');
+            setMenuOpen(false);
         });
     });
 
+    links.forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (window.innerWidth <= 1120) {
+                setMenuOpen(false);
+            }
+        });
+    });
+
+    if (navToggle) {
+        navToggle.addEventListener('click', function () {
+            setMenuOpen(!navMenu.classList.contains('open'));
+        });
+    }
+
+    document.addEventListener('click', function (event) {
+        if (!navToggle || !navMenu.classList.contains('open')) return;
+        if (navMenu.contains(event.target) || navToggle.contains(event.target)) return;
+        setMenuOpen(false);
+    });
+
     window.addEventListener('resize', function () {
+        if (window.innerWidth > 1120) {
+            setMenuOpen(false);
+        }
+
         if (isLanding) {
             syncLandingActive();
         }

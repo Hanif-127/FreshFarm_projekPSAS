@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 
 if (isset($_SESSION['user_id'])) {
@@ -9,6 +9,7 @@ if (isset($_SESSION['user_id'])) {
 $error_code = (string) ($_GET['error'] ?? '');
 $registered = isset($_GET['registered']) && $_GET['registered'] === '1';
 $username_prefill = trim((string) ($_GET['u'] ?? ''));
+
 if (mb_strlen($username_prefill) > 50) {
     $username_prefill = mb_substr($username_prefill, 0, 50);
 }
@@ -27,43 +28,79 @@ if ($error_code !== '') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Fresh Smart Farm</title>
+    <title>Login - Fresh Farm</title>
     <link rel="stylesheet" href="assets/css/login.css">
 </head>
-<body class="auth-page">
-    <main class="auth-shell">
-        <a href="index.php" class="auth-brand">Fresh Smart Farm</a>
+<body>
 
-        <section class="auth-card" aria-labelledby="authTitle">
-            <header class="auth-head">
-                <h1 id="authTitle">Masuk ke Akun</h1>
-                <p>Gunakan akun Anda untuk mengakses dashboard pertanian.</p>
-            </header>
+    <main class="login-page">
 
-            <?php if ($registered): ?>
-                <div class="auth-alert auth-alert-success">Akun berhasil dibuat. Silakan login.</div>
-            <?php endif; ?>
+        <!-- BAGIAN KIRI -->
+        <section class="login-left">
 
-            <?php if ($error_message !== ''): ?>
-                <div class="auth-alert auth-alert-error"><?= htmlspecialchars($error_message) ?></div>
-            <?php endif; ?>
+            <div class="login-box">
 
-            <form action="proses_login.php" method="POST" class="auth-form" novalidate>
-                <div class="auth-field">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" maxlength="50" value="<?= htmlspecialchars($username_prefill) ?>" placeholder="Masukkan username" required>
+                <a href="index.php" class="logo-wrap">
+                    <img src="assets/images/logo.png" alt="Fresh Farm Logo">
+                </a>
+
+                <h1>Sign in</h1>
+
+                <div class="social-login">
+                    <span>G</span>
+                    <span>f</span>
+                    <span>♥</span>
                 </div>
 
-                <div class="auth-field">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Masukkan password" required>
-                </div>
+                <?php if ($registered): ?>
+                    <div class="alert success">Akun berhasil dibuat. Silakan login.</div>
+                <?php endif; ?>
 
-                <button type="submit" class="auth-btn">Login</button>
-            </form>
+                <?php if ($error_message !== ''): ?>
+                    <div class="alert error"><?= htmlspecialchars($error_message) ?></div>
+                <?php endif; ?>
 
-            <p class="auth-switch">Belum punya akun? <a href="register.php">Buat akun</a></p>
+                <form action="proses_login.php" method="POST" class="login-form">
+                    <input
+                        type="text"
+                        name="username"
+                        maxlength="50"
+                        value="<?= htmlspecialchars($username_prefill) ?>"
+                        placeholder="Username"
+                        required
+                    >
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                    >
+
+                    <a href="lupa_sandi.php" class="forgot">Lupa kata sandi anda?</a>
+
+                    <button type="submit">SIGN IN</button>
+                </form>
+
+                <p class="register-text">
+                    Belum punya akun? <a href="register.php">Buat akun</a>
+                </p>
+
+            </div>
+
         </section>
+
+        <!-- BAGIAN KANAN -->
+        <section class="login-right">
+            <div class="right-content">
+                <h2>Welcome, SobatTani</h2>
+                <p>
+                    Ayo masukkan akunmu yang sudah dibuat, dan mulai untuk ke halaman landing page
+                </p>
+            </div>
+        </section>
+
     </main>
+
 </body>
 </html>

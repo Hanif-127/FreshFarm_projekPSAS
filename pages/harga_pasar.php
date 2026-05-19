@@ -33,9 +33,12 @@ function format_rupiah($nilai) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harga Pasar - Fresh Smart Farm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/harga_pasar.css">
 </head>
-<body>
+<body class="harga-pasar-page-body">
 
 <?php include '../includes/header.php'; ?>
 
@@ -43,8 +46,8 @@ function format_rupiah($nilai) {
     <section class="harga-pasar-hero">
         <div class="harga-pasar-hero__content">
             <span class="harga-pasar-label">Harga Pasar</span>
-            <h1>Daftar Harga Komoditas</h1>
-            <p>Landing page hanya menampilkan beberapa harga terbaru. Di halaman ini semua data harga pasar dikumpulkan agar lebih mudah dibandingkan.</p>
+            <h1>Pantau Harga Komoditas</h1>
+            <p>Semua data harga pasar dikumpulkan dalam tabel yang lebih bersih agar komoditas, satuan, dan tanggal update mudah dibandingkan.</p>
         </div>
         <div class="harga-pasar-hero__stats" aria-label="Ringkasan harga pasar">
             <div class="harga-pasar-stat">
@@ -63,9 +66,9 @@ function format_rupiah($nilai) {
             <div>
                 <span class="harga-pasar-kicker">Katalog Harga</span>
                 <h2>Semua Harga Pasar</h2>
-                <p>Gunakan daftar ini untuk melihat komoditas, harga, satuan, dan tanggal update terbaru.</p>
+                <p>Preview landing dibuat ringkas. Halaman ini menyimpan daftar lengkap untuk pengecekan sebelum jual, panen, atau belanja stok.</p>
             </div>
-            <a href="../index.php#harga" class="btn btn-secondary">Kembali ke Preview</a>
+            <a href="../index.php#harga" class="btn btn-secondary">Kembali ke Landing</a>
         </div>
 
         <?php if ($total_harga == 0): ?>
@@ -93,7 +96,7 @@ function format_rupiah($nilai) {
                                 <td><?= htmlspecialchars($row['satuan']) ?></td>
                                 <td><?= format_tanggal_harga($row['tanggal']) ?></td>
                                 <td>
-                                    <a href="detail_harga.php?id=<?= (int) $row['id'] ?>" class="table-link">Lihat Detail</a>
+                                    <a href="detail_harga.php?id=<?= (int) $row['id'] ?>" class="table-link">Detail</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
