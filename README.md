@@ -17,8 +17,8 @@ Dokumen ini dibuat sebagai pedoman cepat untuk developer atau AI yang melanjutka
 1. Simpan project di:
    `C:\xampp\htdocs\FreshFarm_projekPSAS-hanif`
 2. Jalankan Apache dan MySQL dari XAMPP.
-3. Import database dari salah satu file di folder `database/`, terutama:
-   `database/clone_db_xampp_teman.sql`
+3. Import database dari file tunggal siap demo:
+   `database/freshfarm_demo_lengkap.sql`
 4. Buka:
    `http://localhost/FreshFarm_projekPSAS-hanif/`
 5. Login demo dari seed lama biasanya:

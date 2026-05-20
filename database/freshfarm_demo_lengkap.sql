@@ -1,11 +1,16 @@
-﻿-- Clone DB Fresh Farm untuk import di XAMPP (phpMyAdmin)
--- Dibuat otomatis dari struktur project pada 2026-05-12
+-- Fresh Smart Farm - Database lengkap siap demo
+-- Import file ini saja lewat phpMyAdmin / MySQL.
+-- Demo login: username = hanif, password = 123456
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+07:00";
+SET NAMES utf8mb4;
+
 DROP DATABASE IF EXISTS db_fresh_farm;
 CREATE DATABASE db_fresh_farm CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE db_fresh_farm;
-CREATE TABLE IF NOT EXISTS users (
+
+CREATE TABLE users (
     id INT(11) NOT NULL AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -14,7 +19,8 @@ CREATE TABLE IF NOT EXISTS users (
     PRIMARY KEY (id),
     UNIQUE KEY uniq_users_username (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-CREATE TABLE IF NOT EXISTS jurnal_tanam (
+
+CREATE TABLE jurnal_tanam (
     id INT(11) NOT NULL AUTO_INCREMENT,
     user_id INT(11) NOT NULL,
     nama_tanaman VARCHAR(120) NOT NULL,
@@ -28,7 +34,8 @@ CREATE TABLE IF NOT EXISTS jurnal_tanam (
     KEY idx_jurnal_user_tanggal (user_id, tanggal_tanam),
     CONSTRAINT fk_jurnal_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-CREATE TABLE IF NOT EXISTS harga_pasar (
+
+CREATE TABLE harga_pasar (
     id INT(11) NOT NULL AUTO_INCREMENT,
     nama_komoditas VARCHAR(120) NOT NULL,
     harga DECIMAL(14,2) NOT NULL DEFAULT 0.00,
@@ -40,7 +47,8 @@ CREATE TABLE IF NOT EXISTS harga_pasar (
     KEY idx_harga_tanggal (tanggal),
     KEY idx_harga_komoditas (nama_komoditas)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-CREATE TABLE IF NOT EXISTS artikel (
+
+CREATE TABLE artikel (
     id INT(11) NOT NULL AUTO_INCREMENT,
     judul VARCHAR(255) NOT NULL,
     isi TEXT NOT NULL,
@@ -51,17 +59,8 @@ CREATE TABLE IF NOT EXISTS artikel (
     PRIMARY KEY (id),
     KEY idx_artikel_publish (tanggal_publish)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-INSERT INTO users (id, username, password) VALUES
-(2, 'hanif', 'e10adc3949ba59abbe56e057f20f883e')
-ON DUPLICATE KEY UPDATE
-    username = VALUES(username),
-    password = VALUES(password);
 
--- Tabel modul dashboard
-
-USE db_fresh_farm;
-
-CREATE TABLE IF NOT EXISTS kalender_tanam (
+CREATE TABLE kalender_tanam (
     id INT(11) NOT NULL AUTO_INCREMENT,
     user_id INT(11) NOT NULL,
     nama_kegiatan VARCHAR(120) NOT NULL,
@@ -79,7 +78,7 @@ CREATE TABLE IF NOT EXISTS kalender_tanam (
     CONSTRAINT fk_kalender_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS inventaris (
+CREATE TABLE inventaris (
     id INT(11) NOT NULL AUTO_INCREMENT,
     user_id INT(11) NOT NULL,
     nama_item VARCHAR(120) NOT NULL,
@@ -96,7 +95,7 @@ CREATE TABLE IF NOT EXISTS inventaris (
     CONSTRAINT fk_inventaris_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS pengaduan (
+CREATE TABLE pengaduan (
     id INT(11) NOT NULL AUTO_INCREMENT,
     user_id INT(11) NOT NULL,
     judul VARCHAR(180) NOT NULL,
@@ -112,7 +111,7 @@ CREATE TABLE IF NOT EXISTS pengaduan (
     CONSTRAINT fk_pengaduan_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS user_preferences (
+CREATE TABLE user_preferences (
     user_id INT(11) NOT NULL,
     notifikasi_email TINYINT(1) NOT NULL DEFAULT 1,
     notifikasi_reminder TINYINT(1) NOT NULL DEFAULT 1,
@@ -125,7 +124,7 @@ CREATE TABLE IF NOT EXISTS user_preferences (
     CONSTRAINT fk_preferences_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS user_security_settings (
+CREATE TABLE user_security_settings (
     user_id INT(11) NOT NULL,
     two_factor_enabled TINYINT(1) NOT NULL DEFAULT 0,
     last_password_changed DATETIME DEFAULT NULL,
@@ -134,7 +133,7 @@ CREATE TABLE IF NOT EXISTS user_security_settings (
     CONSTRAINT fk_security_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS user_settings (
+CREATE TABLE user_settings (
     user_id INT(11) NOT NULL,
     kebun_nama VARCHAR(120) NOT NULL DEFAULT 'Kebun Saya',
     kebun_lokasi VARCHAR(180) DEFAULT NULL,
@@ -167,134 +166,32 @@ CREATE TABLE IF NOT EXISTS user_settings (
     CONSTRAINT fk_user_settings_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
--- Data demo
-
-USE db_fresh_farm;
-
 START TRANSACTION;
 
 SET @demo_user_id := 2;
 
+INSERT INTO users (id, username, password) VALUES
+(2, 'hanif', 'e10adc3949ba59abbe56e057f20f883e');
+
 INSERT INTO user_settings (
-    user_id,
-    kebun_nama,
-    kebun_lokasi,
-    satuan_utama,
-    format_tanggal,
-    timezone,
-    bahasa,
-    notif_jadwal,
-    notif_stok,
-    notif_pengaduan,
-    notif_ringkasan,
-    notif_email,
-    dashboard_mode,
-    show_focus,
-    show_quick_actions,
-    show_schedule,
-    show_market,
-    show_complaint,
-    show_critical_stock,
-    show_plant_status,
-    limit_recent_activities,
-    limit_market_prices,
-    limit_plant_status,
-    account_full_name,
-    account_email,
-    account_phone
+    user_id, kebun_nama, kebun_lokasi, satuan_utama, format_tanggal, timezone, bahasa,
+    notif_jadwal, notif_stok, notif_pengaduan, notif_ringkasan, notif_email,
+    dashboard_mode, show_focus, show_quick_actions, show_schedule, show_market,
+    show_complaint, show_critical_stock, show_plant_status,
+    limit_recent_activities, limit_market_prices, limit_plant_status,
+    account_full_name, account_email, account_phone
 ) VALUES (
-    @demo_user_id,
-    'Fresh Smart Farm - Lahan Utama',
-    'Sleman, DI Yogyakarta',
-    'kg',
-    'd M Y',
-    'Asia/Jakarta',
-    'id',
-    1,
-    1,
-    1,
-    1,
-    1,
-    'normal',
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    8,
-    8,
-    8,
-    'Hanif Pratama',
-    'hanif@freshfarm.demo',
-    '0812-3456-7788'
-)
-ON DUPLICATE KEY UPDATE
-    kebun_nama = VALUES(kebun_nama),
-    kebun_lokasi = VALUES(kebun_lokasi),
-    satuan_utama = VALUES(satuan_utama),
-    format_tanggal = VALUES(format_tanggal),
-    timezone = VALUES(timezone),
-    bahasa = VALUES(bahasa),
-    notif_jadwal = VALUES(notif_jadwal),
-    notif_stok = VALUES(notif_stok),
-    notif_pengaduan = VALUES(notif_pengaduan),
-    notif_ringkasan = VALUES(notif_ringkasan),
-    notif_email = VALUES(notif_email),
-    dashboard_mode = VALUES(dashboard_mode),
-    show_focus = VALUES(show_focus),
-    show_quick_actions = VALUES(show_quick_actions),
-    show_schedule = VALUES(show_schedule),
-    show_market = VALUES(show_market),
-    show_complaint = VALUES(show_complaint),
-    show_critical_stock = VALUES(show_critical_stock),
-    show_plant_status = VALUES(show_plant_status),
-    limit_recent_activities = VALUES(limit_recent_activities),
-    limit_market_prices = VALUES(limit_market_prices),
-    limit_plant_status = VALUES(limit_plant_status),
-    account_full_name = VALUES(account_full_name),
-    account_email = VALUES(account_email),
-    account_phone = VALUES(account_phone);
+    @demo_user_id, 'Fresh Smart Farm - Lahan Utama', 'Sleman, DI Yogyakarta', 'kg',
+    'd M Y', 'Asia/Jakarta', 'id', 1, 1, 1, 1, 1, 'normal',
+    1, 1, 1, 1, 1, 1, 1, 8, 8, 8,
+    'Hanif Pratama', 'hanif@freshfarm.demo', '0812-3456-7788'
+);
 
-INSERT INTO user_preferences (
-    user_id,
-    notifikasi_email,
-    notifikasi_reminder,
-    notifikasi_harga,
-    bahasa,
-    zona_waktu,
-    tema
-) VALUES (
-    @demo_user_id,
-    1,
-    1,
-    1,
-    'id',
-    'Asia/Jakarta',
-    'light'
-)
-ON DUPLICATE KEY UPDATE
-    notifikasi_email = VALUES(notifikasi_email),
-    notifikasi_reminder = VALUES(notifikasi_reminder),
-    notifikasi_harga = VALUES(notifikasi_harga),
-    bahasa = VALUES(bahasa),
-    zona_waktu = VALUES(zona_waktu),
-    tema = VALUES(tema);
+INSERT INTO user_preferences (user_id, notifikasi_email, notifikasi_reminder, notifikasi_harga, bahasa, zona_waktu, tema) VALUES
+(@demo_user_id, 1, 1, 1, 'id', 'Asia/Jakarta', 'light');
 
-INSERT INTO user_security_settings (
-    user_id,
-    two_factor_enabled,
-    last_password_changed
-) VALUES (
-    @demo_user_id,
-    0,
-    '2026-04-20 09:00:00'
-)
-ON DUPLICATE KEY UPDATE
-    two_factor_enabled = VALUES(two_factor_enabled),
-    last_password_changed = VALUES(last_password_changed);
+INSERT INTO user_security_settings (user_id, two_factor_enabled, last_password_changed) VALUES
+(@demo_user_id, 0, '2026-04-20 09:00:00');
 
 INSERT INTO jurnal_tanam (user_id, nama_tanaman, tanggal_tanam, jumlah, status, hasil_panen) VALUES
 (@demo_user_id, 'Bayam Hijau', '2026-05-10', 450, 'Sedang Tanam', 0),
@@ -313,15 +210,8 @@ INSERT INTO jurnal_tanam (user_id, nama_tanaman, tanggal_tanam, jumlah, status, 
 (@demo_user_id, 'Melon Hijau', '2026-02-28', 140, 'Gagal', 20);
 
 INSERT INTO kalender_tanam (
-    user_id,
-    nama_kegiatan,
-    tipe_kegiatan,
-    komoditas,
-    tanggal_jadwal,
-    jam_jadwal,
-    pengingat_hari,
-    catatan,
-    status
+    user_id, nama_kegiatan, tipe_kegiatan, komoditas, tanggal_jadwal, jam_jadwal,
+    pengingat_hari, catatan, status
 ) VALUES
 (@demo_user_id, 'Penyiraman Blok Timur', 'siram', 'Cabai Rawit', '2026-05-11', '06:30:00', 1, 'Pastikan debit air stabil pada bedeng cabai.', 'terjadwal'),
 (@demo_user_id, 'Pemupukan NPK Tahap 2', 'pupuk', 'Tomat Cherry', '2026-05-12', '07:15:00', 1, 'Gunakan dosis 2.5 kg per 1000 m2.', 'terjadwal'),
@@ -336,14 +226,7 @@ INSERT INTO kalender_tanam (
 (@demo_user_id, 'Tanam Ulang Cabai', 'tanam', 'Cabai Merah Besar', '2026-05-04', '08:30:00', 2, 'Dibatalkan karena menunggu benih baru.', 'dibatalkan');
 
 INSERT INTO inventaris (
-    user_id,
-    nama_item,
-    kategori,
-    jumlah_stok,
-    satuan,
-    stok_minimum,
-    lokasi_simpan,
-    catatan
+    user_id, nama_item, kategori, jumlah_stok, satuan, stok_minimum, lokasi_simpan, catatan
 ) VALUES
 (@demo_user_id, 'Benih Cabai Rawit', 'benih', 2.50, 'kg', 1.00, 'Gudang A1', 'Batch baru untuk tanam Mei.'),
 (@demo_user_id, 'Benih Tomat Cherry', 'benih', 1.20, 'kg', 0.80, 'Gudang A1', 'Sisa benih masih layak tanam.'),
@@ -358,15 +241,7 @@ INSERT INTO inventaris (
 (@demo_user_id, 'Alat Semprot Manual', 'alat', 2.00, 'unit', 1.00, 'Gudang E2', 'Kondisi baik dan siap pakai.');
 
 INSERT INTO pengaduan (
-    user_id,
-    judul,
-    pesan,
-    prioritas,
-    status,
-    respon_admin,
-    lampiran,
-    created_at,
-    updated_at
+    user_id, judul, pesan, prioritas, status, respon_admin, lampiran, created_at, updated_at
 ) VALUES
 (@demo_user_id, 'Permintaan Kalibrasi Sensor Kelembapan', 'Sensor kelembapan blok timur menunjukkan selisih data cukup besar dibanding alat manual. Mohon dijadwalkan kalibrasi.', 'tinggi', 'diproses', 'Tim teknis sudah dijadwalkan datang pada 12 Mei 2026.', NULL, '2026-05-09 09:10:00', '2026-05-10 08:45:00'),
 (@demo_user_id, 'Akses Dashboard Lambat saat Jam Sibuk', 'Saat akses pukul 08.00-09.00 WIB, dashboard terasa lambat saat membuka grafik.', 'sedang', 'dikirim', NULL, NULL, '2026-05-10 07:42:00', '2026-05-10 07:42:00'),
@@ -381,11 +256,26 @@ INSERT INTO harga_pasar (nama_komoditas, harga, satuan, tanggal) VALUES
 ('Padi Gabah Kering', 7100, 'kg', '2026-05-10'),
 ('Kentang Dieng', 18500, 'kg', '2026-05-10'),
 ('Bayam Hijau', 9000, 'ikat', '2026-05-10'),
-('Selada Hijau', 14000, 'kg', '2026-05-10');
+('Selada Hijau', 14000, 'kg', '2026-05-10'),
+('Cabai Rawit Merah', 77750, 'kg', '2026-05-15'),
+('Cabai Merah Besar', 61400, 'kg', '2026-05-15'),
+('Cabai Merah Keriting', 56950, 'kg', '2026-05-15'),
+('Cabai Rawit Hijau', 47400, 'kg', '2026-05-15'),
+('Bawang Merah', 52500, 'kg', '2026-05-15'),
+('Bawang Putih', 42950, 'kg', '2026-05-15'),
+('Beras Medium I', 16000, 'kg', '2026-05-15'),
+('Beras Medium II', 15800, 'kg', '2026-05-15'),
+('Beras Super I', 17250, 'kg', '2026-05-15'),
+('Beras Super II', 17000, 'kg', '2026-05-15'),
+('Gula Pasir Lokal', 19500, 'kg', '2026-05-15'),
+('Minyak Goreng Curah', 20000, 'liter', '2026-05-15');
 
-INSERT INTO artikel (judul, isi, gambar, tanggal_publish) VALUES
-('Strategi Rotasi Tanam untuk Menjaga Kesuburan Tanah', 'Rotasi tanam membantu menjaga struktur tanah, menekan penyakit, dan meningkatkan hasil panen secara berkelanjutan. Terapkan pola rotasi sederhana berdasarkan keluarga tanaman agar nutrisi tidak cepat menurun.', 'artikel_default.png', '2026-05-10'),
-('Checklist Persiapan Panen Mingguan di Kebun Sayur', 'Sebelum panen mingguan, pastikan kesiapan tenaga kerja, kebersihan alat panen, serta area sortasi. Checklist sederhana ini membantu menjaga kualitas hasil dan mengurangi kehilangan pascapanen.', 'artikel_default.png', '2026-05-09');
+INSERT INTO artikel (id, judul, isi, gambar, tanggal_publish) VALUES
+(1, 'Strategi Rotasi Tanam untuk Menjaga Kesuburan Tanah', 'Rotasi tanam adalah cara sederhana untuk menjaga tanah tetap produktif dari musim ke musim. Jangan menanam keluarga tanaman yang sama terus-menerus di bedengan yang sama, karena unsur hara tertentu akan cepat terkuras dan risiko penyakit tanah meningkat.\n\nMulailah dengan membagi lahan menjadi beberapa petak. Setelah menanam cabai atau tomat, pindahkan ke tanaman daun seperti sawi, bayam, atau kangkung. Musim berikutnya bisa diselingi kacang panjang atau legum untuk membantu memperbaiki nitrogen tanah.\n\nCatat tanggal tanam, jenis tanaman, pupuk yang digunakan, dan hasil panen. Dari catatan itu, petani bisa melihat pola petak mana yang paling subur, tanaman mana yang cocok setelah panen sebelumnya, dan kapan tanah perlu diberi kompos tambahan.', 'rotasi_tanam.jpg', '2026-05-16'),
+(2, 'Teknik Irigasi Tetes untuk Lahan Cabai', 'Irigasi tetes membantu air langsung masuk ke area perakaran sehingga pemakaian air lebih hemat dan kelembapan tanah lebih stabil. Pada tanaman cabai, sistem ini juga mengurangi percikan air ke daun yang sering memicu penyakit jamur.\n\nPemasangan dasar bisa dimulai dari tangki air, filter sederhana, pipa utama, lalu selang drip di setiap bedengan. Pastikan lubang tetes berada dekat pangkal tanaman, tetapi tidak menempel langsung pada batang. Jalankan penyiraman lebih singkat namun rutin, terutama saat fase pembungaan dan pembesaran buah.\n\nPeriksa filter, sambungan, dan lubang tetes setiap minggu. Jika ada aliran tersumbat, bersihkan sebelum tanaman mengalami stres air. Catatan jadwal penyiraman akan membantu menentukan pola terbaik sesuai cuaca dan jenis tanah.', 'irigasi_tetes.jpg', '2026-05-15'),
+(3, 'Membuat Kompos Organik yang Siap Pakai di Kebun', 'Kompos organik memperbaiki struktur tanah, meningkatkan aktivitas mikroba, dan membantu tanaman menyerap nutrisi dengan lebih stabil. Bahan yang bisa digunakan antara lain daun kering, sisa sayuran, rumput, sekam, kotoran ternak matang, dan sedikit tanah kebun.\n\nSusun bahan cokelat seperti daun kering dan sekam bergantian dengan bahan hijau seperti sisa sayuran. Jaga kelembapan seperti spons yang diperas, tidak terlalu basah dan tidak terlalu kering. Balik tumpukan setiap satu sampai dua minggu agar proses penguraian merata.\n\nKompos siap dipakai ketika warnanya gelap, remah, tidak panas, dan berbau tanah segar. Gunakan sebagai pupuk dasar sebelum tanam atau taburan tipis di sekitar tanaman yang sedang tumbuh.', 'kompos_organik.jpg', '2026-05-14'),
+(4, 'Pengendalian Hama Terpadu pada Sayuran', 'Pengendalian hama terpadu tidak langsung mengandalkan pestisida. Prinsip utamanya adalah memantau tanaman secara rutin, mengenali gejala sejak awal, lalu memilih tindakan paling ringan yang tetap efektif.\n\nPeriksa bagian bawah daun, pucuk muda, dan area sekitar bunga. Gunakan perangkap kuning untuk memantau serangga kecil, bersihkan gulma, dan jaga jarak tanam agar sirkulasi udara baik. Tanaman yang sehat biasanya lebih tahan terhadap serangan ringan.\n\nJika populasi hama meningkat, gunakan pengendalian mekanis atau bahan hayati terlebih dahulu. Pestisida kimia sebaiknya menjadi pilihan terakhir, dipakai sesuai dosis, waktu aplikasi, dan masa tunggu panen.', 'pengendalian_hama.jpg', '2026-05-13'),
+(5, 'Checklist Panen dan Pascapanen Sayuran Segar', 'Panen yang baik dimulai sebelum pisau menyentuh tanaman. Siapkan keranjang bersih, area sortasi teduh, air bersih bila diperlukan, dan catatan jumlah panen. Panen pada pagi hari membantu sayuran tetap segar karena suhu belum terlalu tinggi.\n\nPisahkan hasil panen berdasarkan ukuran, kondisi fisik, dan tingkat kematangan. Buang daun rusak atau bagian yang terlalu tua. Hindari menumpuk sayuran terlalu tinggi karena tekanan dapat membuat hasil panen cepat layu dan memar.\n\nSetelah sortasi, simpan di tempat teduh dan segera kirim ke pasar atau pembeli. Catat volume panen, harga jual, dan pembeli utama agar keputusan tanam berikutnya lebih berbasis data.', 'panen_pascapanen.jpg', '2026-05-12'),
+(6, 'Membaca Harga Pasar Sebelum Menjual Hasil Panen', 'Harga pasar dapat berubah cepat, terutama untuk komoditas seperti cabai, bawang, dan sayuran segar. Petani perlu memantau harga beberapa hari sebelum panen agar bisa menentukan waktu jual, tujuan pasar, dan strategi sortasi.\n\nBandingkan harga dari pasar lokal, pengepul, dan sumber informasi nasional. Jangan hanya melihat harga tertinggi, tetapi perhatikan juga biaya transportasi, risiko susut, volume yang diminta, dan kecepatan pembayaran.\n\nData harga yang dicatat secara rutin akan membantu membaca pola musiman. Saat harga mulai naik dan kualitas panen baik, petani bisa memprioritaskan komoditas yang paling cepat memberi margin. Saat harga turun, sortasi dan pengemasan yang rapi bisa membantu menjaga nilai jual.', 'harga_pasar_petani.jpg', '2026-05-11');
 
 COMMIT;
-
