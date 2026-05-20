@@ -172,23 +172,17 @@ $total_user = landing_count($koneksi, 'users');
 
                     <div class="stats-grid" aria-label="Statistik platform">
                         <div class="stat-card scroll-reveal">
-                            <div class="icon-box" aria-hidden="true">
-                                <img class="stat-icon-petani" src="assets/icons/petani.png" alt="">
-                            </div>
+                            <div class="icon-box" aria-hidden="true"><?= landing_ui_icon('petani') ?></div>
                             <strong><?= $total_user ?>+</strong>
                             <span>Petani aktif</span>
                         </div>
                         <div class="stat-card scroll-reveal">
-                            <div class="icon-box" aria-hidden="true">
-                                <img src="assets/icons/insight.png" alt="">
-                            </div>
+                            <div class="icon-box" aria-hidden="true"><?= landing_ui_icon('artikel') ?></div>
                             <strong><?= $total_artikel ?>+</strong>
                             <span>Insight tersedia</span>
                         </div>
                         <div class="stat-card scroll-reveal">
-                            <div class="icon-box" aria-hidden="true">
-                                <img src="assets/icons/update_harga.png" alt="">
-                            </div>
+                            <div class="icon-box" aria-hidden="true"><?= landing_ui_icon('harga') ?></div>
                             <strong><?= $total_harga ?>+</strong>
                             <span>Update harga</span>
                         </div>
