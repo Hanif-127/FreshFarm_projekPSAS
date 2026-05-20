@@ -298,7 +298,7 @@ $end_row = min($offset + $per_page, $total_rows);
                     <span>Total Panen (kg)</span>
                     <strong><?= rtrim(rtrim(number_format((float) $summary['total_panen'], 2, '.', ''), '0'), '.') ?></strong>
                 </article>
-                <article class="module-card jurnal-kpi-card">
+                <article class="module-card jurnal-kpi-card state-warning">
                     <span>Sedang Tanam</span>
                     <strong><?= $status_count['Sedang Tanam'] ?></strong>
                 </article>
@@ -363,7 +363,7 @@ $end_row = min($offset + $per_page, $total_rows);
                                 <?php foreach ($items as $row): ?>
                                     <?php
                                     $status_class = match ($row['status']) {
-                                        'Sedang Tanam' => 'module-status module-status-neutral',
+                                        'Sedang Tanam' => 'module-status module-status-warning',
                                         'Sudah Panen' => 'module-status module-status-success',
                                         'Gagal' => 'module-status module-status-danger',
                                         default => 'module-status module-status-info',

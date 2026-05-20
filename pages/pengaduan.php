@@ -78,6 +78,14 @@ function status_badge_class(string $status): string {
         default => 'module-status module-status-neutral',
     };
 }
+
+function prioritas_badge_class(string $prioritas): string {
+    return match ($prioritas) {
+        'tinggi' => 'module-status module-status-danger',
+        'sedang' => 'module-status module-status-warning',
+        default => 'module-status module-status-success',
+    };
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -140,7 +148,7 @@ function status_badge_class(string $status): string {
                             <span class="<?= htmlspecialchars(status_badge_class($status)) ?>"><?= htmlspecialchars(ucfirst($status)) ?></span>
                         </div>
                         <div class="module-meta">
-                            Prioritas: <?= htmlspecialchars(ucfirst($row['prioritas'])) ?> |
+                            Prioritas: <span class="complaint-priority <?= htmlspecialchars(prioritas_badge_class((string) $row['prioritas'])) ?>"><?= htmlspecialchars(ucfirst($row['prioritas'])) ?></span> |
                             Dikirim: <?= date('d M Y H:i', strtotime($row['created_at'])) ?>
                         </div>
                         <p><?= nl2br(htmlspecialchars($row['pesan'])) ?></p>

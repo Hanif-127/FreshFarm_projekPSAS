@@ -57,7 +57,7 @@
     align-content: center;
     gap: 8px;
     border: 1px solid rgba(48, 108, 67, 0.16);
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(244, 250, 245, 0.9));
+    background: #ffffff;
 }
 
 .grafik-kpi-card span {
@@ -75,7 +75,7 @@
 
 .grafik-chart-card {
     border: 1px solid rgba(45, 102, 63, 0.16);
-    background: linear-gradient(150deg, rgba(255, 255, 255, 0.96), rgba(243, 250, 245, 0.9));
+    background: #ffffff;
 }
 
 .grafik-chart-card--trend .grafik-chart-head {
@@ -97,7 +97,7 @@
     position: relative;
     border: 1px solid rgba(47, 108, 68, 0.13);
     border-radius: 8px;
-    background: linear-gradient(180deg, rgba(251, 254, 251, 0.95), rgba(244, 250, 245, 0.86));
+    background: #ffffff;
 }
 
 .grafik-trend-wrap {
@@ -151,9 +151,9 @@
 }
 
 .status-sedang {
-    background: #eaf6ea;
-    color: #2f6d3f;
-    border-color: rgba(46, 124, 68, 0.25);
+    background: #fff4d6;
+    color: #83520b;
+    border-color: rgba(187, 126, 25, 0.3);
 }
 
 .status-panen {

@@ -1,26 +1,28 @@
 /* Fresh Smart Farm landing page */
 
 :root {
-    --land-bg: #06140d;
-    --land-bg-soft: #0b2116;
-    --land-panel: rgba(9, 28, 19, 0.82);
-    --land-panel-strong: rgba(5, 20, 13, 0.92);
-    --land-card: rgba(248, 252, 244, 0.08);
-    --land-card-hover: rgba(248, 252, 244, 0.12);
-    --land-card-solid: #f6fbef;
+    --land-bg: #07140d;
+    --land-bg-soft: #102619;
+    --land-panel: rgba(8, 30, 18, 0.84);
+    --land-panel-strong: rgba(7, 22, 14, 0.93);
+    --land-card: rgba(255, 255, 255, 0.075);
+    --land-card-hover: rgba(255, 255, 255, 0.12);
+    --land-card-solid: #f8fbf8;
     --land-ink: #f7fbf0;
-    --land-text: #d9e8d6;
-    --land-muted: #a8bda8;
-    --land-dark-text: #112319;
-    --land-green: #78b65d;
-    --land-green-strong: #2c6f45;
-    --land-mint: #c4ef9c;
-    --land-gold: #d8ae58;
-    --land-line: rgba(224, 239, 211, 0.16);
-    --land-line-strong: rgba(224, 239, 211, 0.28);
+    --land-text: #dbe7df;
+    --land-muted: #a9bdb0;
+    --land-dark-text: #16281e;
+    --land-green: #2f6f42;
+    --land-green-strong: #205b36;
+    --land-green-soft: rgba(47, 125, 69, 0.14);
+    --land-mint: #c4dfc9;
+    --land-gold: #d9a441;
+    --land-line: rgba(217, 229, 220, 0.18);
+    --land-line-strong: rgba(217, 229, 220, 0.32);
     --land-radius: 8px;
-    --land-shadow: 0 18px 46px rgba(0, 0, 0, 0.22);
-    --land-ease: cubic-bezier(0.19, 1, 0.22, 1);
+    --land-shadow: 0 18px 42px rgba(9, 22, 13, 0.22);
+    --land-shadow-hover: 0 22px 46px rgba(9, 22, 13, 0.28);
+    --land-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 *,
@@ -44,7 +46,7 @@ body.landing-page {
 }
 
 body.landing-page::selection {
-    background: rgba(196, 239, 156, 0.28);
+    background: rgba(47, 125, 69, 0.42);
     color: #ffffff;
 }
 
@@ -124,8 +126,8 @@ svg {
     inset: 0;
     pointer-events: none;
     background:
-        linear-gradient(180deg, rgba(6, 20, 13, 0.74), rgba(6, 20, 13, 0.78)),
-        linear-gradient(90deg, rgba(6, 20, 13, 0.76), rgba(6, 20, 13, 0.24), rgba(6, 20, 13, 0.76));
+        linear-gradient(180deg, rgba(7, 20, 13, 0.78), rgba(32, 91, 54, 0.48), rgba(7, 20, 13, 0.82)),
+        linear-gradient(90deg, rgba(7, 20, 13, 0.8), rgba(7, 20, 13, 0.22), rgba(7, 20, 13, 0.8));
 }
 
 .landing-bg-group--farm {
@@ -204,6 +206,8 @@ svg {
 }
 
 .btn {
+    position: relative;
+    overflow: hidden;
     min-height: 44px;
     display: inline-flex;
     align-items: center;
@@ -215,23 +219,31 @@ svg {
     font-size: 0.92rem;
     font-weight: 850;
     line-height: 1.1;
-    transition: transform 220ms var(--land-ease), background 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease;
+    transition: transform 240ms var(--land-ease), background 240ms ease, border-color 240ms ease, color 240ms ease, box-shadow 240ms ease;
 }
 
 .btn:hover {
     transform: translateY(-2px);
 }
 
+.btn:focus-visible,
+.text-link:focus-visible,
+.harga-table a:focus-visible {
+    outline: 3px solid rgba(217, 164, 65, 0.36);
+    outline-offset: 3px;
+}
+
 .btn-primary {
     background: var(--land-green);
     border-color: var(--land-green);
-    color: #07140d;
-    box-shadow: 0 16px 34px rgba(120, 182, 93, 0.22);
+    color: #ffffff;
+    box-shadow: 0 16px 34px rgba(9, 22, 13, 0.22);
 }
 
 .btn-primary:hover {
-    background: var(--land-mint);
-    border-color: var(--land-mint);
+    background: var(--land-green-strong);
+    border-color: var(--land-green-strong);
+    box-shadow: 0 18px 36px rgba(32, 91, 54, 0.34);
 }
 
 .btn-secondary,
@@ -244,7 +256,8 @@ svg {
 .btn-secondary:hover,
 .btn-compact:hover {
     background: rgba(255, 255, 255, 0.14);
-    border-color: rgba(196, 239, 156, 0.42);
+    border-color: rgba(196, 223, 201, 0.42);
+    box-shadow: 0 14px 28px rgba(9, 22, 13, 0.18);
 }
 
 .btn-compact {
@@ -258,9 +271,10 @@ svg {
     align-items: center;
     justify-content: center;
     border-radius: var(--land-radius);
-    border: 1px solid rgba(196, 239, 156, 0.2);
-    background: rgba(196, 239, 156, 0.09);
+    border: 1px solid rgba(196, 223, 201, 0.22);
+    background: rgba(47, 125, 69, 0.16);
     color: var(--land-mint);
+    transition: transform 240ms var(--land-ease), background 240ms ease, border-color 240ms ease, color 240ms ease;
 }
 
 .icon-box svg {
@@ -335,7 +349,7 @@ svg {
     margin-bottom: 18px;
     padding: 6px 11px;
     border-radius: var(--land-radius);
-    border: 1px solid rgba(196, 239, 156, 0.22);
+    border: 1px solid rgba(196, 223, 201, 0.22);
     background: rgba(255, 255, 255, 0.08);
     color: var(--land-mint);
     font-size: 0.78rem;
@@ -456,10 +470,21 @@ svg {
     border-radius: var(--land-radius);
     background: var(--land-panel);
     box-shadow: var(--land-shadow);
+    transition: transform 260ms var(--land-ease), border-color 260ms ease, box-shadow 260ms ease, background 260ms ease;
 }
 
 .section-copy {
     padding: 34px;
+}
+
+@media (hover: hover) {
+    .section-copy:hover,
+    .workflow-panel:hover,
+    .market-copy:hover,
+    .market-panel:hover {
+        border-color: rgba(196, 223, 201, 0.34);
+        box-shadow: var(--land-shadow-hover);
+    }
 }
 
 .section-copy p {
@@ -475,6 +500,8 @@ svg {
 }
 
 .stat-card {
+    position: relative;
+    overflow: hidden;
     min-height: 152px;
     display: grid;
     align-content: start;
@@ -483,15 +510,43 @@ svg {
     border: 1px solid var(--land-line);
     border-radius: var(--land-radius);
     background: var(--land-card);
-    transition: transform 220ms var(--land-ease), background 220ms ease, border-color 220ms ease;
+    transition: transform 260ms var(--land-ease), background 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+}
+
+.stat-card::after,
+.feature-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: linear-gradient(90deg, var(--land-green), var(--land-gold));
+    opacity: 0.38;
+    transform: scaleX(0.28);
+    transform-origin: left;
+    transition: transform 300ms var(--land-ease), opacity 300ms ease;
 }
 
 .stat-card:hover,
 .feature-card:hover,
 .insight-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(196, 239, 156, 0.34);
+    border-color: rgba(196, 223, 201, 0.36);
     background: var(--land-card-hover);
+    box-shadow: var(--land-shadow-hover);
+}
+
+.stat-card:hover::after,
+.feature-card:hover::after {
+    opacity: 0.86;
+    transform: scaleX(1);
+}
+
+.stat-card:hover .icon-box,
+.feature-card:hover .icon-box {
+    transform: translateY(-2px) scale(1.04);
+    border-color: rgba(196, 223, 201, 0.36);
+    background: rgba(47, 125, 69, 0.24);
+    color: #ffffff;
 }
 
 .stat-card strong {
@@ -536,6 +591,12 @@ svg {
     min-height: 74px;
     padding: 16px;
     background: rgba(255, 255, 255, 0.06);
+    transition: transform 240ms var(--land-ease), background 240ms ease;
+}
+
+.workflow-list div:hover {
+    transform: translateX(2px);
+    background: rgba(47, 125, 69, 0.16);
 }
 
 .workflow-list strong {
@@ -561,6 +622,8 @@ svg {
 }
 
 .feature-card {
+    position: relative;
+    overflow: hidden;
     min-height: 220px;
     display: grid;
     align-content: start;
@@ -569,7 +632,7 @@ svg {
     border: 1px solid var(--land-line);
     border-radius: var(--land-radius);
     background: var(--land-card);
-    transition: transform 220ms var(--land-ease), background 220ms ease, border-color 220ms ease;
+    transition: transform 260ms var(--land-ease), background 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
 }
 
 .feature-card h3 {
@@ -598,6 +661,7 @@ svg {
 }
 
 .insight-card {
+    position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -607,11 +671,12 @@ svg {
     background: rgba(247, 251, 240, 0.94);
     color: var(--land-dark-text);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
-    transition: transform 220ms var(--land-ease), border-color 220ms ease, background 220ms ease;
+    transition: transform 260ms var(--land-ease), border-color 260ms ease, background 260ms ease, box-shadow 260ms ease;
 }
 
 .insight-card:hover {
     background: #ffffff;
+    box-shadow: 0 18px 38px rgba(9, 22, 13, 0.22);
 }
 
 .insight-image {
@@ -627,11 +692,12 @@ svg {
     height: 100%;
     display: block;
     object-fit: cover;
-    transition: transform 320ms var(--land-ease);
+    transition: transform 420ms var(--land-ease), filter 420ms ease;
 }
 
 .insight-card:hover .insight-image img {
-    transform: scale(1.04);
+    transform: scale(1.045);
+    filter: saturate(1.06) contrast(1.02);
 }
 
 .insight-body {
@@ -684,16 +750,24 @@ svg {
 .text-link,
 .harga-table a {
     width: fit-content;
-    color: #24683f;
+    display: inline-flex;
+    align-items: center;
+    color: var(--land-green);
     font-size: 0.88rem;
     font-weight: 900;
     text-decoration: none;
+    transition: transform 220ms var(--land-ease), color 220ms ease;
 }
 
 .text-link:hover,
 .harga-table a:hover {
-    color: #143c27;
+    color: var(--land-green-strong);
     text-decoration: underline;
+}
+
+.insight-card:hover .text-link,
+.harga-table a:hover {
+    transform: translateX(3px);
 }
 
 /* Market */
@@ -747,7 +821,7 @@ svg {
 }
 
 .harga-table th {
-    background: #10291a;
+    background: var(--land-green-strong);
     color: #e9f7df;
     font-size: 0.75rem;
     font-weight: 900;
@@ -763,8 +837,12 @@ svg {
     border-bottom: 0;
 }
 
+.harga-table tbody tr {
+    transition: background 220ms ease;
+}
+
 .harga-table tbody tr:hover {
-    background: #f0f7eb;
+    background: #edf6ee;
 }
 
 .td-name {
@@ -773,7 +851,7 @@ svg {
 }
 
 .td-price {
-    color: #24683f !important;
+    color: var(--land-green) !important;
     font-weight: 900;
 }
 

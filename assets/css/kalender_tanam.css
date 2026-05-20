@@ -11,9 +11,7 @@
 }
 
 .module-card:first-child {
-    background:
-        radial-gradient(120% 160% at 100% 0%, rgba(217, 164, 65, 0.16), transparent 42%),
-        rgba(255, 255, 255, 0.92);
+    background: #ffffff;
 }
 
 .module-card:first-child .module-grid {
