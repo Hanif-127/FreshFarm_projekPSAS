@@ -99,10 +99,8 @@ function prioritas_badge_class(string $prioritas): string {
 <body class="module-page">
 <?php include '../includes/header.php'; ?>
 
-<div class="dashboard-shell-layout">
-    <?php include '../includes/sidebar.php'; ?>
-    <main class="dashboard-main-content">
-        <div class="module-wrap">
+<main class="standalone-main">
+    <div class="module-wrap">
     <section class="module-card">
         <h2 class="module-title-with-icon"><span class="module-title-icon" aria-hidden="true"><?= module_ui_icon('complaint') ?></span><span>Kirim Pengaduan</span></h2>
         <?php if (isset($_GET['pesan'])): ?><div class="module-msg"><?= htmlspecialchars($_GET['pesan']) ?></div><?php endif; ?>
@@ -163,8 +161,7 @@ function prioritas_badge_class(string $prioritas): string {
             </div>
         <?php endif; ?>
     </section>
-        </div>
-    </main>
-</div>
+    </div>
+</main>
 </body>
 </html>

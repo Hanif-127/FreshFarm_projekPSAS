@@ -43,18 +43,6 @@ $sidebar_items = [
         'href' => $root . 'pages/grafik.php',
         'match' => ['/pages/grafik.php'],
     ],
-    [
-        'label' => 'Pengaduan',
-        'icon' => 'pengaduan',
-        'href' => $root . 'pages/pengaduan.php',
-        'match' => ['/pages/pengaduan.php'],
-    ],
-    [
-        'label' => 'Pengaturan',
-        'icon' => 'pengaturan',
-        'href' => $root . 'pages/pengaturan.php',
-        'match' => ['/pages/pengaturan.php', '/pages/akun_anda.php'],
-    ],
 ];
 
 function sidebar_item_active(string $script, array $matches): bool {

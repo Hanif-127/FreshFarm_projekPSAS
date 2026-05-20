@@ -1610,6 +1610,19 @@ body.module-page::before {
     padding: 22px 24px 34px;
 }
 
+.standalone-main {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 24px 0 36px;
+}
+
+.standalone-main .module-wrap,
+.standalone-main .settings-wrap {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
 body.module-page .module-card,
 body.module-page .module-card:first-child,
 body.module-page .grafik-kpi-card,
@@ -2123,6 +2136,11 @@ body.module-page .settings-hero-card {
 
     .dashboard-main-content {
         padding: 18px;
+    }
+
+    .standalone-main {
+        width: calc(100% - 32px);
+        padding: 18px 0 30px;
     }
 
     .dashboard-command-center {
