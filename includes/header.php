@@ -38,16 +38,16 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 
 <style>
 :root {
-    --header-bg: rgba(7, 20, 13, 0.9);
-    --header-bg-solid: #07140d;
-    --header-panel: rgba(255, 255, 255, 0.08);
-    --header-panel-strong: rgba(255, 255, 255, 0.14);
-    --header-line: rgba(217, 229, 220, 0.18);
-    --header-line-strong: rgba(217, 229, 220, 0.3);
+    --header-bg: #1f6c40;
+    --header-bg-solid: #15522f;
+    --header-panel: rgba(255, 255, 255, 0.13);
+    --header-panel-strong: rgba(255, 255, 255, 0.2);
+    --header-line: rgba(233, 246, 235, 0.22);
+    --header-line-strong: rgba(233, 246, 235, 0.38);
     --header-ink: #f7fbf0;
     --header-text: #dbe7df;
     --header-muted: #a9bdb0;
-    --header-green: #2f6f42;
+    --header-green: #247243;
     --header-mint: #c4dfc9;
     --header-gold: #d9a441;
     --header-red: #ffb4a8;
@@ -73,10 +73,9 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     padding: 0 clamp(16px, 3vw, 34px);
     gap: 14px;
     background:
-        linear-gradient(90deg, rgba(47, 125, 69, 0.11), rgba(217, 164, 65, 0.07)),
-        var(--header-bg);
+        linear-gradient(135deg, var(--header-bg-solid) 0%, var(--header-bg) 62%, #2f7c50 100%);
     border-bottom: 1px solid var(--header-line);
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 14px 32px rgba(9, 22, 13, 0.22);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
 }
@@ -94,11 +93,23 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 }
 
 .nav-logo img {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.76);
+    border-radius: var(--header-radius);
+    background: rgba(255, 255, 255, 0.94);
     object-fit: contain;
     flex-shrink: 0;
-    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
+    box-shadow: 0 8px 18px rgba(9, 22, 13, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    filter: saturate(1.06) contrast(1.04);
+    transition: transform 180ms var(--header-ease), background 180ms ease, box-shadow 180ms ease;
+}
+
+.nav-logo:hover img {
+    transform: translateY(-1px);
+    background: #ffffff;
+    box-shadow: 0 10px 22px rgba(9, 22, 13, 0.24), inset 0 1px 0 #ffffff;
 }
 
 .nav-brand {
@@ -162,7 +173,8 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     bottom: 5px;
     height: 2px;
     border-radius: 999px;
-    background: linear-gradient(90deg, var(--header-green), var(--header-gold));
+    background: var(--header-gold);
+    box-shadow: 0 0 12px rgba(217, 164, 65, 0.38);
     opacity: 0;
     transform: scaleX(0.45);
     transform-origin: center;
@@ -172,7 +184,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 .nav-menu .nav-link:hover,
 .nav-dashboard-btn:hover {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .nav-menu .nav-link.active,
@@ -235,9 +247,9 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 }
 
 .btn-login {
-    border: 1px solid var(--header-green);
-    background: var(--header-green);
-    color: #07140d;
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    background: #f8fff8;
+    color: var(--header-bg-solid);
 }
 
 .btn-register {
@@ -253,7 +265,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 
 .btn-login:hover {
     background: var(--header-mint);
-    border-color: var(--header-mint);
+    border-color: rgba(255, 255, 255, 0.94);
 }
 
 .btn-register:hover {
@@ -336,7 +348,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     padding: 8px;
     border: 1px solid var(--header-line);
     border-radius: var(--header-radius);
-    background: rgba(8, 27, 18, 0.98);
+    background: linear-gradient(135deg, #15522f, #1f6c40);
     box-shadow: 0 18px 36px rgba(0, 0, 0, 0.3);
     z-index: 30;
 }
@@ -446,7 +458,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
         padding: 10px;
         border: 1px solid var(--header-line);
         border-radius: var(--header-radius);
-        background: rgba(6, 20, 13, 0.98);
+        background: linear-gradient(135deg, #15522f, #1f6c40);
         box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
     }
 
@@ -501,8 +513,9 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     }
 
     .nav-logo img {
-        width: 36px;
-        height: 36px;
+        width: 38px;
+        height: 38px;
+        padding: 4px;
     }
 
     .nav-brand {
@@ -653,6 +666,17 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
         return manualTargetId && Date.now() < manualLockUntil;
     }
 
+    function lockActiveSection(id, duration) {
+        var link = findLinkForSection(id);
+        if (!link) return false;
+
+        manualTargetId = id;
+        manualLockUntil = Date.now() + (duration || 1100);
+        setActive(link, true);
+
+        return true;
+    }
+
     function getSectionEntries() {
         return scrollLinks.map(function (link) {
             var id = link.getAttribute('data-scroll-section');
@@ -685,6 +709,9 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 
     function syncInitialHashScroll() {
         if (!initialHashId) return;
+
+        lockActiveSection(initialHashId, 1600);
+
         if (scrollToSection(initialHashId, 'auto')) {
             setActive(findLinkForSection(initialHashId), true);
         }
@@ -710,6 +737,11 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 
         if (isManualLocked()) {
             var lockedTarget = document.getElementById(manualTargetId);
+            var lockedLink = findLinkForSection(manualTargetId);
+            if (lockedLink) {
+                setActive(lockedLink, true);
+            }
+
             if (lockedTarget) {
                 var delta = Math.abs(lockedTarget.getBoundingClientRect().top - getNavbarHeight() - 8);
                 if (delta > 24) {
@@ -724,9 +756,10 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 
     if (isLanding) {
         if (initialHashId) {
-            setActive(findLinkForSection(initialHashId), true);
+            lockActiveSection(initialHashId, 1600);
             window.requestAnimationFrame(syncInitialHashScroll);
             window.setTimeout(syncInitialHashScroll, 120);
+            window.setTimeout(syncLandingActive, 260);
         }
 
         window.requestAnimationFrame(syncLandingActive);
@@ -746,6 +779,9 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 
         window.addEventListener('hashchange', function () {
             initialHashId = window.location.hash ? window.location.hash.slice(1) : null;
+            if (initialHashId) {
+                lockActiveSection(initialHashId, 1600);
+            }
             syncInitialHashScroll();
             syncLandingActive();
         });
@@ -762,9 +798,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
             if (!target) return;
 
             event.preventDefault();
-            manualTargetId = id;
-            manualLockUntil = Date.now() + 900;
-            setActive(link, true);
+            lockActiveSection(id, 1200);
 
             scrollToSection(id, 'smooth');
 
