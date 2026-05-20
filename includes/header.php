@@ -11,12 +11,14 @@ if (strpos($current_script, '/artikel.php') !== false || strpos($current_script,
     $active_page = 'artikel';
 } elseif (strpos($current_script, '/harga_pasar.php') !== false || strpos($current_script, '/detail_harga.php') !== false) {
     $active_page = 'harga_pasar';
+} elseif (strpos($current_script, '/pengaturan.php') !== false ||
+          strpos($current_script, '/akun_anda.php') !== false) {
+    $active_page = 'pengaturan';
+} elseif (strpos($current_script, '/pengaduan.php') !== false) {
+    $active_page = 'pengaduan';
 } elseif (strpos($current_script, '/dashboard.php') !== false) {
     $active_page = 'dashboard';
-} elseif (strpos($current_script, '/pengaturan.php') !== false ||
-          strpos($current_script, '/akun_anda.php') !== false ||
-          strpos($current_script, '/pengaduan.php') !== false ||
-          strpos($current_script, '/ringkasan.php') !== false ||
+} elseif (strpos($current_script, '/ringkasan.php') !== false ||
           strpos($current_script, '/kalender.php') !== false ||
           strpos($current_script, '/inventaris.php') !== false) {
     $active_page = 'dashboard';
@@ -34,6 +36,11 @@ $dashboard_href = isset($_SESSION['user_id']) ? $root . 'pages/dashboard.php' : 
 $pengaturan_href = $root . 'pages/pengaturan.php';
 $akun_href = $root . 'pages/pengaturan.php?tab=account';
 $pengaduan_href = $root . 'pages/pengaduan.php';
+$is_account_menu = $active_page === 'pengaturan' && (
+    strpos($current_script, '/akun_anda.php') !== false ||
+    ($_GET['tab'] ?? '') === 'account'
+);
+$is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
 ?>
 
 <style>
@@ -376,6 +383,11 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     color: #ffffff;
 }
 
+.profile-menu-link.active {
+    background: rgba(196, 223, 201, 0.16);
+    color: #ffffff;
+}
+
 .profile-menu-divider {
     height: 1px;
     margin: 6px 2px;
@@ -591,9 +603,9 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
                     <span class="avatar"><?= htmlspecialchars(strtoupper(substr((string) $_SESSION['username'], 0, 1))) ?></span>
                 </button>
                 <div class="profile-menu" id="profileMenu" role="menu" aria-label="Menu profil">
-                    <a href="<?= $pengaturan_href ?>" class="profile-menu-link" role="menuitem">Pengaturan</a>
-                    <a href="<?= $akun_href ?>" class="profile-menu-link" role="menuitem">Akun Anda</a>
-                    <a href="<?= $pengaduan_href ?>" class="profile-menu-link" role="menuitem">Pengaduan</a>
+                    <a href="<?= $pengaturan_href ?>" class="profile-menu-link <?= $is_pengaturan_menu ? 'active' : '' ?>" role="menuitem">Pengaturan</a>
+                    <a href="<?= $akun_href ?>" class="profile-menu-link <?= $is_account_menu ? 'active' : '' ?>" role="menuitem">Akun Anda</a>
+                    <a href="<?= $pengaduan_href ?>" class="profile-menu-link <?= $active_page === 'pengaduan' ? 'active' : '' ?>" role="menuitem">Pengaduan</a>
                     <div class="profile-menu-divider" aria-hidden="true"></div>
                     <a href="<?= $root ?>logout.php" class="profile-menu-link logout-link" role="menuitem">
                         <img src="<?= $root ?>assets/icons/logout.svg" alt="" class="logout-icon">

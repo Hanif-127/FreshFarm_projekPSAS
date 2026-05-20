@@ -253,10 +253,8 @@ function settings_section_active(string $tab, string $active_tab): string
 <body class="module-page">
 <?php include '../includes/header.php'; ?>
 
-<div class="dashboard-shell-layout">
-    <?php include '../includes/sidebar.php'; ?>
-    <main class="dashboard-main-content">
-        <div class="module-wrap settings-wrap">
+<main class="standalone-main">
+    <div class="module-wrap settings-wrap">
             <section class="module-card settings-hero-card">
                 <h1>Pengaturan & Pusat Akun</h1>
                 <p>Kelola preferensi umum, akun, notifikasi, dan tata letak dashboard Anda.</p>
@@ -437,8 +435,7 @@ function settings_section_active(string $tab, string $active_tab): string
                     </section>
                 </div>
             </section>
-        </div>
-    </main>
-</div>
+    </div>
+</main>
 </body>
 </html>
