@@ -283,6 +283,18 @@ svg {
     height: 21px;
 }
 
+.icon-box img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    object-fit: contain;
+}
+
+.icon-box img.stat-icon-petani {
+    width: 28px;
+    height: 28px;
+}
+
 /* Hero */
 .hero {
     min-height: calc(100vh - 68px);
