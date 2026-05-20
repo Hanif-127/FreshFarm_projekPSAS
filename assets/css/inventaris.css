@@ -11,9 +11,7 @@
 }
 
 .module-card:first-child {
-    background:
-        radial-gradient(120% 160% at 100% 0%, rgba(47, 125, 69, 0.12), transparent 44%),
-        rgba(255, 255, 255, 0.92);
+    background: #ffffff;
 }
 
 .module-card:first-child .module-grid {
@@ -59,11 +57,27 @@
 .module-stock-low {
     display: inline-flex;
     align-items: center;
+    gap: 7px;
     min-height: 24px;
     padding: 3px 9px;
+    border: 1px solid rgba(177, 58, 50, 0.26);
     border-radius: 999px;
     background: var(--dash-danger-soft);
     color: var(--dash-danger);
+    font-weight: 850;
+}
+
+.stock-state-label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 18px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: rgba(167, 53, 46, 0.12);
+    color: var(--dash-danger);
+    font-size: 0.68rem;
+    font-weight: 900;
+    text-transform: uppercase;
 }
 
 .module-item-actions {

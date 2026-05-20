@@ -346,6 +346,7 @@ $end_row = min($offset + $per_page, $total_rows);
                             <td><?= htmlspecialchars($row['kategori']) ?></td>
                             <td class="<?= $is_low ? 'module-stock-low' : '' ?>">
                                 <?= rtrim(rtrim(number_format((float) $row['jumlah_stok'], 2, '.', ''), '0'), '.') ?> <?= htmlspecialchars($row['satuan']) ?>
+                                <?php if ($is_low): ?><span class="stock-state-label">Kritis</span><?php endif; ?>
                             </td>
                             <td><?= rtrim(rtrim(number_format((float) $row['stok_minimum'], 2, '.', ''), '0'), '.') ?></td>
                             <td><?= htmlspecialchars((string) $row['lokasi_simpan']) ?></td>

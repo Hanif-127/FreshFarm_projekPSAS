@@ -408,7 +408,7 @@ $has_data = ((int) $summary['total_entri']) > 0;
                             <?php foreach ($recent_items as $item): ?>
                                 <?php
                                 $status_class = match ($item['status']) {
-                                    'Sedang Tanam' => 'module-status module-status-neutral',
+                                    'Sedang Tanam' => 'module-status module-status-warning',
                                     'Sudah Panen' => 'module-status module-status-success',
                                     'Gagal' => 'module-status module-status-danger',
                                     default => 'module-status module-status-info',
@@ -616,7 +616,7 @@ $has_data = ((int) $summary['total_entri']) > 0;
                         $status_counts['Gagal']
                     ]) ?>,
                     backgroundColor: [
-                        'rgba(60, 167, 95, 0.92)',
+                        'rgba(236, 177, 74, 0.92)',
                         'rgba(72, 140, 219, 0.9)',
                         'rgba(224, 95, 89, 0.9)'
                     ],

@@ -38,21 +38,21 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 
 <style>
 :root {
-    --header-bg: rgba(5, 20, 13, 0.9);
-    --header-bg-solid: #06140d;
+    --header-bg: rgba(7, 20, 13, 0.9);
+    --header-bg-solid: #07140d;
     --header-panel: rgba(255, 255, 255, 0.08);
     --header-panel-strong: rgba(255, 255, 255, 0.14);
-    --header-line: rgba(224, 239, 211, 0.18);
-    --header-line-strong: rgba(224, 239, 211, 0.3);
+    --header-line: rgba(217, 229, 220, 0.18);
+    --header-line-strong: rgba(217, 229, 220, 0.3);
     --header-ink: #f7fbf0;
-    --header-text: #d9e8d6;
-    --header-muted: #a8bda8;
-    --header-green: #78b65d;
-    --header-mint: #c4ef9c;
-    --header-gold: #d8ae58;
+    --header-text: #dbe7df;
+    --header-muted: #a9bdb0;
+    --header-green: #2f6f42;
+    --header-mint: #c4dfc9;
+    --header-gold: #d9a441;
     --header-red: #ffb4a8;
     --header-radius: 8px;
-    --header-ease: cubic-bezier(0.19, 1, 0.22, 1);
+    --header-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .navbar,
@@ -73,7 +73,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     padding: 0 clamp(16px, 3vw, 34px);
     gap: 14px;
     background:
-        linear-gradient(90deg, rgba(120, 182, 93, 0.1), rgba(216, 174, 88, 0.07)),
+        linear-gradient(90deg, rgba(47, 125, 69, 0.11), rgba(217, 164, 65, 0.07)),
         var(--header-bg);
     border-bottom: 1px solid var(--header-line);
     box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
@@ -309,7 +309,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 .nav-dashboard-btn:focus-visible,
 .btn-login:focus-visible,
 .btn-register:focus-visible {
-    outline: 3px solid rgba(196, 239, 156, 0.32);
+    outline: 3px solid rgba(217, 164, 65, 0.34);
     outline-offset: 2px;
 }
 
@@ -603,6 +603,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 
 <script>
 (function () {
+    function initFreshFarmHeaderNav() {
     var navMenu = document.getElementById('navMenu');
     if (!navMenu) return;
 
@@ -618,7 +619,6 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     var manualTargetId = null;
     var manualLockUntil = 0;
     var initialHashId = isLanding && window.location.hash ? window.location.hash.slice(1) : null;
-    var initialHashLockUntil = initialHashId ? Date.now() + 1200 : 0;
 
     function getNavbarHeight() {
         var navbar = document.querySelector('.navbar');
@@ -671,6 +671,25 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
         return null;
     }
 
+    function scrollToSection(id, behavior) {
+        var target = id ? document.getElementById(id) : null;
+        if (!target) return false;
+
+        window.scrollTo({
+            top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - getNavbarHeight() - 8),
+            behavior: behavior || 'smooth'
+        });
+
+        return true;
+    }
+
+    function syncInitialHashScroll() {
+        if (!initialHashId) return;
+        if (scrollToSection(initialHashId, 'auto')) {
+            setActive(findLinkForSection(initialHashId), true);
+        }
+    }
+
     function pickLandingActive(entries) {
         if (!entries.length) return null;
 
@@ -682,10 +701,6 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
                 active = entry.link;
             }
         });
-
-        if (!active && initialHashId && Date.now() < initialHashLockUntil) {
-            active = findLinkForSection(initialHashId);
-        }
 
         return active;
     }
@@ -710,10 +725,16 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
     if (isLanding) {
         if (initialHashId) {
             setActive(findLinkForSection(initialHashId), true);
+            window.requestAnimationFrame(syncInitialHashScroll);
+            window.setTimeout(syncInitialHashScroll, 120);
         }
 
         window.requestAnimationFrame(syncLandingActive);
-        window.addEventListener('load', syncLandingActive);
+        window.addEventListener('load', function () {
+            syncInitialHashScroll();
+            window.setTimeout(syncInitialHashScroll, 120);
+            syncLandingActive();
+        });
 
         window.addEventListener('scroll', function () {
             if (stopped || rafId) return;
@@ -725,7 +746,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
 
         window.addEventListener('hashchange', function () {
             initialHashId = window.location.hash ? window.location.hash.slice(1) : null;
-            initialHashLockUntil = initialHashId ? Date.now() + 900 : 0;
+            syncInitialHashScroll();
             syncLandingActive();
         });
     } else if (currentActiveLink) {
@@ -745,10 +766,7 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
             manualLockUntil = Date.now() + 900;
             setActive(link, true);
 
-            window.scrollTo({
-                top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - getNavbarHeight() - 8),
-                behavior: 'smooth'
-            });
+            scrollToSection(id, 'smooth');
 
             setMenuOpen(false);
         });
@@ -788,6 +806,13 @@ $pengaduan_href = $root . 'pages/pengaduan.php';
         stopped = true;
         clearManualLock();
     });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFreshFarmHeaderNav, { once: true });
+    } else {
+        initFreshFarmHeaderNav();
+    }
 })();
 
 (function () {

@@ -8,16 +8,14 @@
 
 .settings-hero-card {
     border-color: rgba(35, 70, 42, 0.3);
-    background:
-        radial-gradient(110% 150% at 100% 0%, rgba(217, 164, 65, 0.2), transparent 42%),
-        linear-gradient(145deg, #1f5c34, #123b24);
-    color: #f4fff5;
+    background: #ffffff;
+    color: var(--dash-ink);
     box-shadow: 0 14px 30px rgba(18, 42, 24, 0.2);
 }
 
 .settings-hero-card h1 {
     margin: 0 0 8px;
-    color: #ffffff;
+    color: #1f5635;
     font-size: 1.8rem;
     line-height: 1.2;
     letter-spacing: 0;
@@ -26,7 +24,7 @@
 .settings-hero-card p {
     max-width: 760px;
     margin: 0;
-    color: rgba(244, 255, 246, 0.9);
+    color: var(--dash-ink-soft);
     font-size: 0.94rem;
     line-height: 1.6;
 }
@@ -43,6 +41,11 @@
     top: 84px;
     display: grid;
     gap: 8px;
+}
+
+.settings-nav-card,
+.settings-section {
+    background: #ffffff;
 }
 
 .settings-nav-link {

@@ -64,6 +64,25 @@ if ($aktivitas_stmt) {
     $aktivitas = mysqli_fetch_all($result, MYSQLI_ASSOC);
     mysqli_stmt_close($aktivitas_stmt);
 }
+
+function ringkasan_count_state(int $count, int $warn_at = 1, int $critical_at = 3): string {
+    if ($count >= $critical_at) {
+        return 'state-critical';
+    }
+    if ($count >= $warn_at) {
+        return 'state-warning';
+    }
+    return 'state-safe';
+}
+
+function ringkasan_status_badge_class(string $status): string {
+    return match ($status) {
+        'Gagal' => 'module-status module-status-danger',
+        'Sudah Panen' => 'module-status module-status-success',
+        'Sedang Tanam' => 'module-status module-status-warning',
+        default => 'module-status module-status-info',
+    };
+}
 ?>
 
 <!DOCTYPE html>
@@ -87,15 +106,15 @@ if ($aktivitas_stmt) {
             <span>Total Jurnal</span>
             <strong><?= $total_jurnal ?></strong>
         </article>
-        <article class="module-card ringkasan-kpi-card">
+        <article class="module-card ringkasan-kpi-card <?= htmlspecialchars(ringkasan_count_state($jadwal_hari_ini, 2, 5)) ?>">
             <span>Jadwal Hari Ini</span>
             <strong><?= $jadwal_hari_ini ?></strong>
         </article>
-        <article class="module-card ringkasan-kpi-card">
+        <article class="module-card ringkasan-kpi-card <?= htmlspecialchars(ringkasan_count_state($stok_tipis, 1, 3)) ?>">
             <span>Stok Menipis</span>
             <strong><?= $stok_tipis ?></strong>
         </article>
-        <article class="module-card ringkasan-kpi-card">
+        <article class="module-card ringkasan-kpi-card <?= htmlspecialchars(ringkasan_count_state($pengaduan_aktif, 1, 2)) ?>">
             <span>Pengaduan Aktif</span>
             <strong><?= $pengaduan_aktif ?></strong>
         </article>
@@ -104,9 +123,9 @@ if ($aktivitas_stmt) {
     <section class="module-card">
         <h2 class="module-title-with-icon"><span class="module-title-icon" aria-hidden="true"><?= module_ui_icon('alert') ?></span><span>Alert Penting</span></h2>
         <ul class="ringkasan-list">
-            <li><?= $jadwal_hari_ini > 0 ? "Ada $jadwal_hari_ini jadwal yang perlu dikerjakan hari ini." : "Tidak ada jadwal mendesak hari ini." ?></li>
-            <li><?= $stok_tipis > 0 ? "Ada $stok_tipis item inventaris dengan stok menipis." : "Stok inventaris dalam kondisi aman." ?></li>
-            <li><?= $pengaduan_aktif > 0 ? "Ada $pengaduan_aktif pengaduan yang belum selesai." : "Tidak ada pengaduan aktif." ?></li>
+            <li class="<?= htmlspecialchars(ringkasan_count_state($jadwal_hari_ini, 2, 5)) ?>"><?= $jadwal_hari_ini > 0 ? "Ada $jadwal_hari_ini jadwal yang perlu dikerjakan hari ini." : "Tidak ada jadwal mendesak hari ini." ?></li>
+            <li class="<?= htmlspecialchars(ringkasan_count_state($stok_tipis, 1, 3)) ?>"><?= $stok_tipis > 0 ? "Ada $stok_tipis item inventaris dengan stok menipis." : "Stok inventaris dalam kondisi aman." ?></li>
+            <li class="<?= htmlspecialchars(ringkasan_count_state($pengaduan_aktif, 1, 2)) ?>"><?= $pengaduan_aktif > 0 ? "Ada $pengaduan_aktif pengaduan yang belum selesai." : "Tidak ada pengaduan aktif." ?></li>
         </ul>
     </section>
 
@@ -147,7 +166,11 @@ if ($aktivitas_stmt) {
         <?php else: ?>
             <ul class="ringkasan-list">
                 <?php foreach ($aktivitas as $item): ?>
-                    <li><?= htmlspecialchars($item['nama_tanaman']) ?> - <?= htmlspecialchars($item['status']) ?> (<?= date('d M Y', strtotime($item['tanggal_tanam'])) ?>)</li>
+                    <li>
+                        <?= htmlspecialchars($item['nama_tanaman']) ?>
+                        <span class="<?= htmlspecialchars(ringkasan_status_badge_class((string) $item['status'])) ?>"><?= htmlspecialchars($item['status']) ?></span>
+                        <span class="ringkasan-date">(<?= date('d M Y', strtotime($item['tanggal_tanam'])) ?>)</span>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>

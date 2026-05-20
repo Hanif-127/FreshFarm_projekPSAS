@@ -56,6 +56,15 @@ function kalender_link(array $params, string $q, int $page): string {
     return 'kalender.php?' . http_build_query($params);
 }
 
+function kalender_status_badge_class(string $status): string {
+    return match ($status) {
+        'selesai' => 'module-status module-status-success',
+        'terlewat', 'dibatalkan' => 'module-status module-status-danger',
+        'terjadwal' => 'module-status module-status-info',
+        default => 'module-status module-status-neutral',
+    };
+}
+
 if (isset($_GET['hapus'])) {
     $hapus_id = (int) $_GET['hapus'];
     if ($hapus_id > 0) {
@@ -358,7 +367,7 @@ $end_row = min($offset + $per_page, $total_rows);
                     <article class="module-item">
                         <div class="module-item-title">
                             <?= htmlspecialchars($row['nama_kegiatan']) ?>
-                            <span class="module-status module-status-neutral"><?= htmlspecialchars($row['status']) ?></span>
+                            <span class="<?= htmlspecialchars(kalender_status_badge_class((string) $row['status'])) ?>"><?= htmlspecialchars($row['status']) ?></span>
                         </div>
                         <div class="module-meta">
                             Tipe: <?= htmlspecialchars($row['tipe_kegiatan']) ?> |

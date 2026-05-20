@@ -11,9 +11,7 @@
 }
 
 .module-card:first-child {
-    background:
-        radial-gradient(120% 160% at 100% 0%, rgba(45, 110, 179, 0.12), transparent 44%),
-        rgba(255, 255, 255, 0.92);
+    background: #ffffff;
 }
 
 .module-card:first-child .module-grid {
@@ -46,6 +44,11 @@
 .module-item p {
     margin: 0;
     color: var(--dash-ink-soft);
+}
+
+.complaint-priority {
+    margin: 0 4px;
+    vertical-align: middle;
 }
 
 .module-danger-link {

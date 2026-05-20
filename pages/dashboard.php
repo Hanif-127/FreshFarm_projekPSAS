@@ -165,6 +165,16 @@ function dashboard_state_label(string $state_class): string {
     };
 }
 
+function dashboard_status_state_class(?string $status): string {
+    $normalized = strtolower(trim((string) $status));
+
+    return match ($normalized) {
+        'gagal', 'ditolak', 'terlewat', 'dibatalkan', 'batal', 'habis', 'kritis' => 'state-critical',
+        'sedang tanam', 'dikirim', 'diproses', 'menipis', 'rendah', 'tanpa status', '' => 'state-warning',
+        default => 'state-safe',
+    };
+}
+
 function dashboard_format_date(?string $date_value, string $format): string {
     if (!$date_value) {
         return '-';
@@ -420,7 +430,7 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
                     <article class="dashboard-panel" data-reveal>
                         <div class="section-header">
                             <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('clock') ?></span><span>Jadwal Terdekat</span></h3>
-                            <span class="section-badge"><?= $jadwal_minggu_ini ?> agenda</span>
+                            <span class="section-badge <?= htmlspecialchars($jadwal_minggu_state) ?>"><?= $jadwal_minggu_ini ?> agenda</span>
                         </div>
                         <?php if ($next_jadwal): ?>
                             <div class="extra-highlight"><?= htmlspecialchars($next_jadwal['nama_kegiatan']) ?></div>
@@ -437,12 +447,12 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
                     <article class="dashboard-panel" data-reveal>
                         <div class="section-header">
                             <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('stock') ?></span><span>Stok Kritis</span></h3>
-                            <span class="section-badge"><?= count($stok_kritis_items) ?> item</span>
+                            <span class="section-badge <?= count($stok_kritis_items) > 0 ? 'state-critical' : 'state-safe' ?>"><?= count($stok_kritis_items) ?> item</span>
                         </div>
                         <?php if (count($stok_kritis_items) > 0): ?>
                             <ul class="mini-list">
                                 <?php foreach ($stok_kritis_items as $stok): ?>
-                                    <li>
+                                    <li class="state-critical">
                                         <span><?= htmlspecialchars($stok['nama_item']) ?></span>
                                         <strong><?= rtrim(rtrim(number_format((float) $stok['jumlah_stok'], 2, '.', ''), '0'), '.') ?> / <?= rtrim(rtrim(number_format((float) $stok['stok_minimum'], 2, '.', ''), '0'), '.') ?> <?= htmlspecialchars($stok['satuan']) ?></strong>
                                     </li>
@@ -479,10 +489,11 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
                     <?php if (count($recent_plants) > 0): ?>
                         <ul class="dashboard-timeline">
                             <?php foreach ($recent_plants as $plant): ?>
-                                <li>
+                                <?php $plant_state = dashboard_status_state_class($plant['status'] ?? ''); ?>
+                                <li class="<?= htmlspecialchars($plant_state) ?>">
                                     <div class="plant-name"><?= htmlspecialchars($plant['nama_tanaman']) ?></div>
                                     <div class="plant-meta"><?= dashboard_format_date((string) $plant['tanggal_tanam'], $date_format) ?> | <?= rtrim(rtrim(number_format((float) $plant['jumlah'], 2, '.', ''), '0'), '.') ?> tanaman</div>
-                                    <div class="plant-status"><?= htmlspecialchars($plant['status']) ?></div>
+                                    <div class="plant-status <?= htmlspecialchars($plant_state) ?>"><?= htmlspecialchars($plant['status']) ?></div>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -527,7 +538,8 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
                             </div>
                             <ul class="mini-list mini-list--compact">
                                 <?php foreach ($status_tanaman as $status): ?>
-                                    <li>
+                                    <?php $status_state = dashboard_status_state_class($status['status'] ?? ''); ?>
+                                    <li class="<?= htmlspecialchars($status_state) ?>">
                                         <span><?= htmlspecialchars(ucwords(str_replace('_', ' ', (string) $status['status']))) ?></span>
                                         <strong><?= (int) $status['total'] ?> data</strong>
                                     </li>
@@ -544,7 +556,7 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
                     <article class="dashboard-panel" data-reveal>
                         <div class="section-header">
                             <h3 class="dashboard-title-with-icon"><span class="dashboard-title-icon" aria-hidden="true"><?= dashboard_ui_icon('complaint') ?></span><span>Pengaduan</span></h3>
-                            <span class="section-badge"><?= $pengaduan_aktif ?> aktif</span>
+                            <span class="section-badge <?= htmlspecialchars($pengaduan_aktif > 0 ? $pengaduan_state : 'state-safe') ?>"><?= $pengaduan_aktif ?> aktif</span>
                         </div>
                         <?php if ($latest_pengaduan): ?>
                             <div class="extra-highlight"><?= htmlspecialchars($latest_pengaduan['judul']) ?></div>
