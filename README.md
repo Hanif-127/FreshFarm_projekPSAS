@@ -19,6 +19,7 @@ Dokumen ini dibuat sebagai pedoman cepat untuk developer atau AI yang melanjutka
 2. Jalankan Apache dan MySQL dari XAMPP.
 3. Import database dari file tunggal siap demo:
    `database/freshfarm_demo_lengkap.sql`
+   Pastikan folder `assets/images_artikel/` ikut tersalin, karena artikel demo memakai gambar dari folder ini.
 4. Buka:
    `http://localhost/FreshFarm_projekPSAS-hanif/`
 5. Login demo dari seed lama biasanya:
