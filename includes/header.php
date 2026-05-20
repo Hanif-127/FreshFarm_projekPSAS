@@ -49,11 +49,11 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
     --header-bg-solid: #15522f;
     --header-panel: rgba(255, 255, 255, 0.13);
     --header-panel-strong: rgba(255, 255, 255, 0.2);
-    --header-line: rgba(233, 246, 235, 0.22);
-    --header-line-strong: rgba(233, 246, 235, 0.38);
+    --header-line: rgba(233, 246, 235, 0.24);
+    --header-line-strong: rgba(233, 246, 235, 0.42);
     --header-ink: #f7fbf0;
-    --header-text: #dbe7df;
-    --header-muted: #a9bdb0;
+    --header-text: #e7f1e8;
+    --header-muted: #c4dfc9;
     --header-green: #247243;
     --header-mint: #c4dfc9;
     --header-gold: #d9a441;
@@ -79,12 +79,9 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
     min-height: 68px;
     padding: 0 clamp(16px, 3vw, 34px);
     gap: 14px;
-    background:
-        linear-gradient(135deg, var(--header-bg-solid) 0%, var(--header-bg) 62%, #2f7c50 100%);
+    background: linear-gradient(135deg, var(--header-bg-solid) 0%, var(--header-bg) 58%, #247243 100%);
     border-bottom: 1px solid var(--header-line);
-    box-shadow: 0 14px 32px rgba(9, 22, 13, 0.22);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 12px 28px rgba(9, 22, 13, 0.22);
 }
 
 .nav-logo {
@@ -103,12 +100,12 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
     width: 44px;
     height: 44px;
     padding: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.76);
+    border: 1px solid rgba(255, 255, 255, 0.74);
     border-radius: var(--header-radius);
-    background: rgba(255, 255, 255, 0.94);
+    background: #ffffff;
     object-fit: contain;
     flex-shrink: 0;
-    box-shadow: 0 8px 18px rgba(9, 22, 13, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    box-shadow: 0 8px 18px rgba(9, 22, 13, 0.2);
     filter: saturate(1.06) contrast(1.04);
     transition: transform 180ms var(--header-ease), background 180ms ease, box-shadow 180ms ease;
 }
@@ -116,7 +113,7 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
 .nav-logo:hover img {
     transform: translateY(-1px);
     background: #ffffff;
-    box-shadow: 0 10px 22px rgba(9, 22, 13, 0.24), inset 0 1px 0 #ffffff;
+    box-shadow: 0 10px 22px rgba(9, 22, 13, 0.26);
 }
 
 .nav-brand {
@@ -160,7 +157,7 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
     color: var(--header-muted);
     text-decoration: none;
     font-size: 0.88rem;
-    font-weight: 800;
+    font-weight: 650;
     line-height: 1;
     white-space: nowrap;
     transition: color 180ms ease, background 180ms ease, border-color 180ms ease, transform 180ms var(--header-ease);
@@ -168,7 +165,7 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
 
 .nav-dashboard-btn {
     font-size: 0.84rem;
-    font-weight: 850;
+    font-weight: 700;
 }
 
 .nav-menu .nav-link::after,
@@ -191,14 +188,20 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
 .nav-menu .nav-link:hover,
 .nav-dashboard-btn:hover {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--header-panel);
 }
 
 .nav-menu .nav-link.active,
 .nav-dashboard-btn.active {
     color: #ffffff;
     background: var(--header-panel);
-    border-color: var(--header-line);
+    border-color: var(--header-line-strong);
+    font-weight: 650;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.nav-dashboard-btn.active {
+    font-weight: 700;
 }
 
 .nav-menu .nav-link.active::after,
@@ -214,14 +217,19 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
     object-fit: contain;
     flex-shrink: 0;
     filter: brightness(0) invert(1);
-    opacity: 0.76;
+    opacity: 0.82;
 }
 
 .nav-menu .nav-link.active .nav-icon,
+.nav-dashboard-btn.active .nav-icon {
+    filter: brightness(0) invert(1);
+    opacity: 1;
+}
+
 .nav-menu .nav-link:hover .nav-icon,
-.nav-dashboard-btn.active .nav-icon,
 .nav-dashboard-btn:hover .nav-icon {
-    opacity: 0.96;
+    filter: brightness(0) invert(1);
+    opacity: 1;
 }
 
 .nav-right {
@@ -255,14 +263,14 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
 
 .btn-login {
     border: 1px solid rgba(255, 255, 255, 0.82);
-    background: #f8fff8;
-    color: var(--header-bg-solid);
+    background: #ffffff;
+    color: #15522f;
 }
 
 .btn-register {
     border: 1px solid var(--header-line-strong);
     background: var(--header-panel);
-    color: var(--header-ink);
+    color: #ffffff;
 }
 
 .btn-login:hover,
@@ -353,10 +361,10 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
     display: none;
     flex-direction: column;
     padding: 8px;
-    border: 1px solid var(--header-line);
+    border: 1px solid #d9e5dc;
     border-radius: var(--header-radius);
-    background: linear-gradient(135deg, #15522f, #1f6c40);
-    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.3);
+    background: #ffffff;
+    box-shadow: 0 18px 36px rgba(9, 22, 13, 0.24);
     z-index: 30;
 }
 
@@ -371,7 +379,7 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
     gap: 8px;
     padding: 8px 10px;
     border-radius: var(--header-radius);
-    color: var(--header-text);
+    color: #2b4d38;
     text-decoration: none;
     font-size: 0.84rem;
     font-weight: 800;
@@ -379,34 +387,45 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
 }
 
 .profile-menu-link:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
+    background: #eef7ef;
+    color: #15522f;
 }
 
 .profile-menu-link.active {
-    background: rgba(196, 223, 201, 0.16);
-    color: #ffffff;
+    background: #eef7ef;
+    color: #15522f;
+    box-shadow: inset 0 0 0 1px rgba(36, 114, 67, 0.08);
 }
 
 .profile-menu-divider {
     height: 1px;
     margin: 6px 2px;
-    background: var(--header-line);
+    background: #d9e5dc;
 }
 
 .profile-menu-link.logout-link {
-    color: var(--header-red);
+    color: #a7352e;
 }
 
 .profile-menu-link.logout-link:hover {
-    background: rgba(255, 180, 168, 0.1);
-    color: #ffd2cc;
+    background: #fdebea;
+    color: #a7352e;
 }
 
+.profile-menu-icon,
 .logout-icon {
     width: 16px;
     height: 16px;
     object-fit: contain;
+    flex: 0 0 16px;
+}
+
+.profile-menu-icon {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(34%) saturate(1045%) hue-rotate(91deg) brightness(93%) contrast(89%);
+}
+
+.logout-icon {
+    filter: brightness(0) saturate(100%) invert(26%) sepia(75%) saturate(1161%) hue-rotate(332deg) brightness(89%) contrast(91%);
 }
 
 .hamburger {
@@ -470,8 +489,8 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
         padding: 10px;
         border: 1px solid var(--header-line);
         border-radius: var(--header-radius);
-        background: linear-gradient(135deg, #15522f, #1f6c40);
-        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
+        background: linear-gradient(135deg, var(--header-bg-solid), var(--header-bg));
+        box-shadow: 0 18px 34px rgba(9, 22, 13, 0.28);
     }
 
     .nav-menu.open {
@@ -570,7 +589,7 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
         </li>
         <li>
             <a class="nav-link" href="<?= $fitur_href ?>" data-scroll-section="<?= $is_landing_page ? 'fitur' : '' ?>">
-                <img src="<?= $root ?>assets/icons/nav-fitur.svg" alt="Fitur" class="nav-icon">
+                <img src="<?= $root ?>assets/icons/nav_fitur.svg" alt="Fitur" class="nav-icon">
                 <span>Fitur</span>
             </a>
         </li>
@@ -603,9 +622,18 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
                     <span class="avatar"><?= htmlspecialchars(strtoupper(substr((string) $_SESSION['username'], 0, 1))) ?></span>
                 </button>
                 <div class="profile-menu" id="profileMenu" role="menu" aria-label="Menu profil">
-                    <a href="<?= $pengaturan_href ?>" class="profile-menu-link <?= $is_pengaturan_menu ? 'active' : '' ?>" role="menuitem">Pengaturan</a>
-                    <a href="<?= $akun_href ?>" class="profile-menu-link <?= $is_account_menu ? 'active' : '' ?>" role="menuitem">Akun Anda</a>
-                    <a href="<?= $pengaduan_href ?>" class="profile-menu-link <?= $active_page === 'pengaduan' ? 'active' : '' ?>" role="menuitem">Pengaduan</a>
+                    <a href="<?= $pengaturan_href ?>" class="profile-menu-link <?= $is_pengaturan_menu ? 'active' : '' ?>" role="menuitem">
+                        <img src="<?= $root ?>assets/icons/pengaturan.svg" alt="" class="profile-menu-icon">
+                        <span>Pengaturan</span>
+                    </a>
+                    <a href="<?= $akun_href ?>" class="profile-menu-link <?= $is_account_menu ? 'active' : '' ?>" role="menuitem">
+                        <img src="<?= $root ?>assets/icons/akun.svg" alt="" class="profile-menu-icon">
+                        <span>Akun Anda</span>
+                    </a>
+                    <a href="<?= $pengaduan_href ?>" class="profile-menu-link <?= $active_page === 'pengaduan' ? 'active' : '' ?>" role="menuitem">
+                        <img src="<?= $root ?>assets/icons/pengaduan.svg" alt="" class="profile-menu-icon">
+                        <span>Pengaduan</span>
+                    </a>
                     <div class="profile-menu-divider" aria-hidden="true"></div>
                     <a href="<?= $root ?>logout.php" class="profile-menu-link logout-link" role="menuitem">
                         <img src="<?= $root ?>assets/icons/logout.svg" alt="" class="logout-icon">
