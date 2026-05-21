@@ -599,8 +599,8 @@ $has_extra_cards = $show_schedule || $show_market || $show_complaint || $show_cr
         (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
         (navigator.connection && navigator.connection.saveData)
     );
-    const enableMotion = false;
-    const chartAnimationDuration = 0;
+    const enableMotion = !prefersReducedMotion && !lowPowerMode;
+    const chartAnimationDuration = enableMotion ? 650 : 0;
 
     if (lowPowerMode) {
         document.documentElement.classList.add('dashboard-lowpower');
