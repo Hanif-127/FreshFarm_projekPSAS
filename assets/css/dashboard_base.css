@@ -2380,3 +2380,188 @@ body.dashboard-home .command-actions {
     background: #ffffff !important;
     color: var(--dash-ink-soft) !important;
 }
+
+/* Smooth dashboard motion */
+body.dashboard-home .dashboard-main-content,
+body.module-page .dashboard-main-content,
+body.module-page .standalone-main,
+body.dashboard-home .dashboard-sidebar-global,
+body.module-page .dashboard-sidebar-global {
+    transition: opacity 420ms var(--dash-ease), transform 420ms var(--dash-ease), filter 420ms ease;
+}
+
+body.dashboard-home.ff-page-entering .dashboard-main-content,
+body.module-page.ff-page-entering .dashboard-main-content,
+body.module-page.ff-page-entering .standalone-main {
+    opacity: 0;
+    transform: translateY(12px) scale(0.996);
+}
+
+body.dashboard-home.ff-page-entering .dashboard-sidebar-global,
+body.module-page.ff-page-entering .dashboard-sidebar-global {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+body.dashboard-home.ff-route-leaving .dashboard-main-content,
+body.module-page.ff-route-leaving .dashboard-main-content,
+body.module-page.ff-route-leaving .standalone-main {
+    opacity: 0.58;
+    transform: translateY(-5px) scale(0.992);
+}
+
+body.dashboard-home.ff-route-leaving .dashboard-sidebar-global,
+body.module-page.ff-route-leaving .dashboard-sidebar-global {
+    opacity: 0.62;
+    transform: translateX(-5px);
+}
+
+body.dashboard-home .dashboard-command-center,
+body.dashboard-home .metric-card,
+body.dashboard-home .dashboard-panel,
+body.dashboard-home .dashboard-health-card,
+body.dashboard-home .dashboard-empty-state,
+body.module-page .module-card,
+body.module-page .grafik-kpi-card,
+body.module-page .grafik-chart-card,
+body.module-page .grafik-pane,
+body.module-page .module-item,
+body.module-page .settings-check-item,
+body.module-page .settings-radio-item,
+.section-badge,
+.state-chip,
+.metric-state-pill,
+.focus-state-badge,
+.plant-status {
+    transition:
+        transform 220ms var(--dash-ease),
+        opacity 220ms ease,
+        box-shadow 220ms ease,
+        border-color 180ms ease,
+        background 180ms ease,
+        color 180ms ease;
+}
+
+body.dashboard-home .metric-card:hover,
+body.dashboard-home .dashboard-panel:hover,
+body.module-page .grafik-kpi-card:hover,
+body.module-page .grafik-chart-card:hover,
+body.module-page .module-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--dash-shadow-strong);
+}
+
+.module-btn:active,
+.module-page-link:active,
+.settings-nav-link:active,
+.quick-link-pill:active,
+.extra-link:active,
+.command-action:active,
+.sidebar-global-link:active {
+    transform: translateY(0) scale(0.99);
+}
+
+.sidebar-global-link.is-pending,
+.settings-nav-link.is-pending,
+.module-page-link.is-pending,
+.quick-link-pill.is-pending,
+.extra-link.is-pending,
+.command-action.is-pending,
+.nav-dashboard-btn.is-pending,
+.profile-menu-link.is-pending {
+    border-color: rgba(36, 114, 67, 0.42);
+    background: #edf7ef;
+    color: var(--dash-primary-dark);
+    transform: translateY(-1px);
+}
+
+.health-meter span {
+    transition: width 520ms var(--dash-ease), background 220ms ease;
+}
+
+body.module-page .module-wrap > *,
+body.module-page .settings-wrap > *,
+body.module-page .jurnal-page-v2 > *,
+body.module-page .jurnal-create-wrap > *,
+body.module-page .grafik-page-v2 > * {
+    animation: ff-dashboard-content-in 420ms var(--dash-ease) both;
+}
+
+body.module-page .module-wrap > *:nth-child(2),
+body.module-page .settings-wrap > *:nth-child(2),
+body.module-page .jurnal-page-v2 > *:nth-child(2),
+body.module-page .jurnal-create-wrap > *:nth-child(2),
+body.module-page .grafik-page-v2 > *:nth-child(2) {
+    animation-delay: 45ms;
+}
+
+body.module-page .module-wrap > *:nth-child(3),
+body.module-page .settings-wrap > *:nth-child(3),
+body.module-page .jurnal-page-v2 > *:nth-child(3),
+body.module-page .jurnal-create-wrap > *:nth-child(3),
+body.module-page .grafik-page-v2 > *:nth-child(3) {
+    animation-delay: 90ms;
+}
+
+body.module-page .module-wrap > *:nth-child(n + 4),
+body.module-page .settings-wrap > *:nth-child(n + 4),
+body.module-page .jurnal-page-v2 > *:nth-child(n + 4),
+body.module-page .jurnal-create-wrap > *:nth-child(n + 4),
+body.module-page .grafik-page-v2 > *:nth-child(n + 4) {
+    animation-delay: 120ms;
+}
+
+@keyframes ff-dashboard-content-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.dashboard-home .dashboard-main-content,
+    body.module-page .dashboard-main-content,
+    body.module-page .standalone-main,
+    body.dashboard-home .dashboard-sidebar-global,
+    body.module-page .dashboard-sidebar-global,
+    body.dashboard-home .dashboard-v2 [data-reveal],
+    body.module-page .module-wrap > *,
+    body.module-page .settings-wrap > *,
+    body.module-page .jurnal-page-v2 > *,
+    body.module-page .jurnal-create-wrap > *,
+    body.module-page .grafik-page-v2 > *,
+    body.dashboard-home .dashboard-command-center,
+    body.dashboard-home .metric-card,
+    body.dashboard-home .dashboard-panel,
+    body.module-page .module-card,
+    body.module-page .grafik-kpi-card,
+    body.module-page .grafik-chart-card,
+    body.module-page .grafik-pane,
+    body.module-page .module-item,
+    body.module-page .settings-check-item,
+    body.module-page .settings-radio-item {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        filter: none !important;
+    }
+
+    body.dashboard-home.ff-page-entering .dashboard-main-content,
+    body.module-page.ff-page-entering .dashboard-main-content,
+    body.module-page.ff-page-entering .standalone-main,
+    body.dashboard-home.ff-route-leaving .dashboard-main-content,
+    body.module-page.ff-route-leaving .dashboard-main-content,
+    body.module-page.ff-route-leaving .standalone-main,
+    body.dashboard-home.ff-page-entering .dashboard-sidebar-global,
+    body.module-page.ff-page-entering .dashboard-sidebar-global,
+    body.dashboard-home.ff-route-leaving .dashboard-sidebar-global,
+    body.module-page.ff-route-leaving .dashboard-sidebar-global,
+    body.dashboard-home .dashboard-v2 [data-reveal] {
+        opacity: 1 !important;
+    }
+}

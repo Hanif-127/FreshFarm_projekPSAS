@@ -159,6 +159,7 @@
     color: #3f5d49;
     font-size: 0.87rem;
     font-weight: 700;
+    transition: transform 180ms var(--dash-ease), border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, color 180ms ease;
 }
 
 .settings-check-item input,
@@ -167,6 +168,27 @@
     height: 16px;
     margin: 0;
     accent-color: var(--dash-primary);
+    transition: transform 160ms var(--dash-ease);
+}
+
+.settings-check-item:hover,
+.settings-radio-item:hover {
+    transform: translateY(-1px);
+    border-color: rgba(47, 125, 69, 0.26);
+    background: #f3faf4;
+}
+
+.settings-check-item:has(input:checked),
+.settings-radio-item:has(input:checked) {
+    border-color: rgba(36, 114, 67, 0.34);
+    background: #eef7ef;
+    color: #1d6539;
+    box-shadow: inset 0 0 0 1px rgba(36, 114, 67, 0.08);
+}
+
+.settings-check-item input:checked,
+.settings-radio-item input:checked {
+    transform: scale(1.08);
 }
 
 @media (max-width: 1080px) {

@@ -62,6 +62,192 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
     --header-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+.ff-page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.94) 0%, rgba(245, 250, 246, 0.86) 48%, rgba(238, 246, 240, 0.8) 100%);
+    backdrop-filter: blur(12px) saturate(1.04);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 260ms var(--header-ease), visibility 260ms var(--header-ease);
+}
+
+.ff-page-transition__loader {
+    position: relative;
+    width: 128px;
+    min-height: 152px;
+    display: grid;
+    grid-template-rows: 120px auto;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    gap: 10px;
+    color: var(--header-bg-solid);
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+    transition: opacity 260ms ease, transform 340ms var(--header-ease);
+}
+
+.ff-page-transition__loader::before,
+.ff-page-transition__loader::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-radius: 999px;
+    pointer-events: none;
+}
+
+.ff-page-transition__loader::before {
+    width: 112px;
+    height: 112px;
+    transform: translateX(-50%) translateY(4px);
+    background: rgba(36, 114, 67, 0.08);
+    box-shadow: 0 24px 54px rgba(21, 82, 47, 0.18);
+    animation: ff-logo-halo 1400ms var(--header-ease) infinite;
+}
+
+.ff-page-transition__loader::after {
+    width: 88px;
+    height: 88px;
+    transform: translateX(-50%) translateY(16px);
+    background: rgba(255, 255, 255, 0.74);
+    backdrop-filter: blur(8px);
+    box-shadow: inset 0 0 0 1px rgba(47, 114, 67, 0.12);
+}
+
+.ff-page-transition__ring {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 2;
+    width: 120px;
+    height: 120px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background:
+        conic-gradient(from 0deg, rgba(36, 114, 67, 0), rgba(36, 114, 67, 0.14), #247243, #d9a441, rgba(36, 114, 67, 0));
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+    animation: ff-loader-spin 1150ms linear infinite;
+}
+
+.ff-page-transition__logo {
+    position: relative;
+    z-index: 3;
+    width: 74px;
+    height: 74px;
+    object-fit: contain;
+    padding: 9px;
+    border: 1px solid rgba(47, 114, 67, 0.14);
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 14px 34px rgba(21, 82, 47, 0.18);
+    animation: ff-logo-float 1350ms var(--header-ease) infinite;
+}
+
+.ff-page-transition__text {
+    position: relative;
+    z-index: 3;
+    color: #1f5635;
+    font-size: 0.8rem;
+    font-weight: 900;
+    line-height: 1;
+    opacity: 0.84;
+    animation: ff-loading-text 1350ms ease-in-out infinite;
+}
+
+.ff-page-transition__loader::before,
+.ff-page-transition__ring,
+.ff-page-transition__logo,
+.ff-page-transition__text {
+    animation-play-state: paused;
+}
+
+body.ff-dashboard-loading .ff-page-transition {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+body.ff-dashboard-loading .ff-page-transition__loader {
+    opacity: 1;
+    transform: none;
+}
+
+body.ff-dashboard-loading .ff-page-transition__loader::before,
+body.ff-dashboard-loading .ff-page-transition__ring,
+body.ff-dashboard-loading .ff-page-transition__logo,
+body.ff-dashboard-loading .ff-page-transition__text {
+    animation-play-state: running;
+}
+
+@keyframes ff-loader-spin {
+    from {
+        transform: translateX(-50%) rotate(0deg);
+    }
+
+    to {
+        transform: translateX(-50%) rotate(360deg);
+    }
+}
+
+@keyframes ff-logo-float {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-4px) scale(1.035);
+    }
+}
+
+@keyframes ff-logo-halo {
+    0%,
+    100% {
+        opacity: 0.58;
+        transform: translateX(-50%) translateY(4px) scale(0.94);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(4px) scale(1.06);
+    }
+}
+
+@keyframes ff-loading-text {
+    0%,
+    100% {
+        opacity: 0.62;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 0.94;
+        transform: translateY(1px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ff-page-transition,
+    .ff-page-transition__loader,
+    .ff-page-transition__loader::before,
+    .ff-page-transition__ring,
+    .ff-page-transition__logo,
+    .ff-page-transition__text {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
 .navbar,
 .navbar * {
     box-sizing: border-box;
@@ -653,6 +839,168 @@ $is_pengaturan_menu = $active_page === 'pengaturan' && !$is_account_menu;
         <span class="hamburger-lines" aria-hidden="true"></span>
     </button>
 </nav>
+
+<div class="ff-page-transition" id="freshFarmPageTransition" aria-hidden="true">
+    <div class="ff-page-transition__loader" role="status" aria-live="polite">
+        <span class="ff-page-transition__ring" aria-hidden="true"></span>
+        <img src="<?= $root ?>assets/images/logo.png" alt="" class="ff-page-transition__logo" onerror="this.style.display='none'">
+        <span class="ff-page-transition__text">Memuat</span>
+    </div>
+</div>
+
+<script>
+(function () {
+    var body = document.body;
+    if (!body) {
+        return;
+    }
+
+    var isDashboardShell = body.classList.contains('dashboard-home') || body.classList.contains('module-page');
+    var isLandingPage = body.classList.contains('landing-page');
+
+    if (!isDashboardShell && !isLandingPage) {
+        return;
+    }
+
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var overlay = document.getElementById('freshFarmPageTransition');
+    var isLeaving = false;
+
+    if (isDashboardShell) {
+        body.classList.add('ff-page-entering');
+    }
+
+    function finishEntering() {
+        if (!isDashboardShell) return;
+
+        window.requestAnimationFrame(function () {
+            window.setTimeout(function () {
+                body.classList.remove('ff-page-entering');
+            }, reducedMotion ? 0 : 70);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', finishEntering, { once: true });
+    } else {
+        finishEntering();
+    }
+
+    function showDashboardLoading() {
+        if (isLeaving) return;
+        isLeaving = true;
+        body.classList.add('ff-dashboard-loading');
+        if (overlay) {
+            overlay.setAttribute('aria-hidden', 'false');
+        }
+    }
+
+    function showRouteLeaving() {
+        if (isLeaving) return;
+        isLeaving = true;
+        if (isDashboardShell) {
+            body.classList.add('ff-route-leaving');
+        }
+    }
+
+    function hideTransitions() {
+        isLeaving = false;
+        body.classList.remove('ff-dashboard-loading');
+        body.classList.remove('ff-route-leaving');
+        if (overlay) {
+            overlay.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    function shouldSkipLink(link, event) {
+        if (!link || event.defaultPrevented || event.button !== 0) return true;
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return true;
+        if (link.hasAttribute('download') || link.closest('[data-no-transition]')) return true;
+
+        var target = (link.getAttribute('target') || '').toLowerCase();
+        if (target && target !== '_self') return true;
+
+        var href = link.getAttribute('href') || '';
+        if (!href || href.charAt(0) === '#' || href.indexOf('javascript:') === 0 || href.indexOf('mailto:') === 0 || href.indexOf('tel:') === 0) {
+            return true;
+        }
+
+        var url;
+        try {
+            url = new URL(href, window.location.href);
+        } catch (error) {
+            return true;
+        }
+
+        if (url.origin !== window.location.origin) return true;
+        if (url.pathname === window.location.pathname && url.search === window.location.search && url.hash) return true;
+        if (url.href === window.location.href) return true;
+
+        return false;
+    }
+
+    function isDashboardUrl(url) {
+        return url.origin === window.location.origin && /\/pages\/dashboard\.php$/.test(url.pathname);
+    }
+
+    document.addEventListener('click', function (event) {
+        var link = event.target.closest ? event.target.closest('a[href]') : null;
+        if (shouldSkipLink(link, event)) return;
+
+        var url;
+        try {
+            url = new URL(link.href, window.location.href);
+        } catch (error) {
+            return;
+        }
+
+        if (isLandingPage && isDashboardUrl(url)) {
+            event.preventDefault();
+            link.classList.add('is-pending');
+            body.classList.add('is-leaving');
+            window.dispatchEvent(new CustomEvent('landing:leave'));
+            showDashboardLoading();
+
+            window.setTimeout(function () {
+                window.location.href = link.href;
+            }, reducedMotion ? 0 : 3000);
+            return;
+        }
+
+        if (!isDashboardShell) {
+            return;
+        }
+
+        event.preventDefault();
+        link.classList.add('is-pending');
+        showRouteLeaving();
+
+        window.setTimeout(function () {
+            window.location.href = link.href;
+        }, reducedMotion ? 0 : 110);
+    });
+
+    document.addEventListener('submit', function (event) {
+        if (!isDashboardShell) return;
+        if (event.defaultPrevented) return;
+
+        var form = event.target;
+        if (!form || form.tagName !== 'FORM') return;
+
+        var target = (form.getAttribute('target') || '').toLowerCase();
+        if (target && target !== '_self') return;
+
+        showRouteLeaving();
+    });
+
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+            hideTransitions();
+            body.classList.remove('ff-page-entering');
+        }
+    });
+})();
+</script>
 
 <script>
 (function () {
