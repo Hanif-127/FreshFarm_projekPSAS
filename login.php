@@ -36,7 +36,7 @@ if ($error_code !== '') {
 
         <section class="auth-card" aria-labelledby="authTitle">
             <header class="auth-head">
-                <h1 id="authTitle">Masuk ke Akun</h1>
+                <h1 id="authTitle">LOGIN</h1>
                 <p>Gunakan akun Anda untuk mengakses dashboard pertanian.</p>
             </header>
 

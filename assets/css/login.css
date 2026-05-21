@@ -1,178 +1,219 @@
-﻿:root {
-    --auth-green-900: #17462a;
-    --auth-green-800: #1f5d37;
-    --auth-green-700: #2f7d45;
-    --auth-green-200: #d8ecd9;
-    --auth-green-100: #edf6ee;
-    --auth-ink: #203128;
-    --auth-muted: #5f7465;
-    --auth-danger-bg: #fdebec;
-    --auth-danger: #9d2e2a;
-    --auth-success-bg: #e8f5e9;
-    --auth-success: #1f6a38;
-}
+﻿/* Mengimpor font bersih (sans-serif) agar mirip dengan desain */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
+/* --- RESET & BASE --- */
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body.auth-page {
-    min-height: 100vh;
-    margin: 0;
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    color: var(--auth-ink);
-    background:
-        radial-gradient(circle at 12% 15%, rgba(63, 153, 93, 0.16), transparent 36%),
-        radial-gradient(circle at 85% 8%, rgba(213, 167, 85, 0.16), transparent 30%),
-        linear-gradient(180deg, #f2f7f2, #e8f0e9);
-    display: grid;
-    place-items: center;
-    padding: 22px;
-}
-
-.auth-shell {
-    width: min(460px, 100%);
-    display: grid;
-    gap: 14px;
-}
-
-.auth-brand {
-    justify-self: center;
-    display: inline-flex;
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7f6; /* Warna background luar */
+    display: flex;
+    justify-content: center;
     align-items: center;
-    min-height: 34px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    border: 1px solid rgba(40, 109, 64, 0.24);
-    background: rgba(255, 255, 255, 0.72);
-    color: var(--auth-green-800);
-    font-size: 0.9rem;
-    font-weight: 800;
-    text-decoration: none;
+    min-height: 100vh;
 }
 
+/* --- MAIN CONTAINER (SPLIT LAYOUT) --- */
+.auth-shell {
+    background-color: #ffffff;
+    width: 900px;
+    max-width: 95%;
+    min-height: 550px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Membuat panel hijau di sebelah kanan menggunakan CSS pseudo-element */
+.auth-shell::after {
+    /* Teks disisipkan via CSS untuk mencocokkan gambar tanpa mengubah PHP Anda */
+    content: "Welcome, SobatTani \A\A Ayo masukkan akunmu yang sudah dibuat, dan \A mulai untuk ke halaman landing page";
+    white-space: pre-wrap;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background: linear-gradient(135deg, #3db551, #1a7a2e); /* Gradien hijau */
+    color: white;
+    padding: 60px 50px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    font-weight: 400;
+    pointer-events: none;
+}
+
+/* Membatasi area form dan logo hanya di sisi kiri (50%) */
+.auth-brand, .auth-card {
+    width: 50%;
+    position: relative;
+    z-index: 1;
+}
+
+/* --- LOGO / BRAND --- */
+.auth-brand {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    text-align: center;
+    text-decoration: none;
+    color: #2c853c;
+    font-weight: 800;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- FORM AREA --- */
 .auth-card {
-    border: 1px solid rgba(39, 94, 58, 0.14);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 18px 40px rgba(20, 53, 31, 0.12);
-    padding: 24px;
+    padding: 120px 50px 50px 50px; /* Jarak atas ekstra untuk logo */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+.auth-head {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .auth-head h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #000;
     margin: 0;
-    color: var(--auth-green-900);
-    font-size: clamp(1.5rem, 3.8vw, 1.9rem);
-    line-height: 1.22;
 }
 
+/* Menyembunyikan deskripsi default agar lebih rapi seperti di gambar */
 .auth-head p {
-    margin: 8px 0 0;
-    color: var(--auth-muted);
-    font-size: 0.92rem;
-    line-height: 1.6;
-}
-
-.auth-alert {
-    margin-top: 14px;
-    padding: 11px 12px;
-    border-radius: 11px;
-    font-size: 0.86rem;
-    font-weight: 650;
-    line-height: 1.45;
-}
-
-.auth-alert-error {
-    border: 1px solid rgba(175, 57, 52, 0.28);
-    background: var(--auth-danger-bg);
-    color: var(--auth-danger);
-}
-
-.auth-alert-success {
-    border: 1px solid rgba(45, 124, 67, 0.25);
-    background: var(--auth-success-bg);
-    color: var(--auth-success);
+    display: none; 
 }
 
 .auth-form {
-    margin-top: 14px;
-    display: grid;
-    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
+/* Menyembunyikan label text karena desain gambar hanya memakai placeholder */
 .auth-field label {
-    display: inline-block;
-    margin-bottom: 6px;
-    color: #335742;
-    font-size: 0.82rem;
-    font-weight: 760;
+    display: none; 
 }
 
 .auth-field input {
     width: 100%;
-    min-height: 44px;
-    padding: 10px 12px;
-    border: 1px solid rgba(40, 96, 60, 0.2);
-    border-radius: 11px;
-    background: #ffffff;
-    color: var(--auth-ink);
-    font-size: 0.93rem;
-    transition: border-color 160ms ease, box-shadow 160ms ease;
-}
-
-.auth-field input::placeholder {
-    color: #8ea194;
+    padding: 14px 20px;
+    background-color: #f2f2f2; /* Warna abu-abu terang */
+    border: none;
+    border-radius: 4px; /* Sudut sedikit membulat */
+    font-size: 0.95rem;
+    color: #333;
+    transition: background-color 0.3s;
 }
 
 .auth-field input:focus {
     outline: none;
-    border-color: rgba(44, 118, 70, 0.62);
-    box-shadow: 0 0 0 4px rgba(45, 122, 70, 0.1);
+    background-color: #e6e6e6;
 }
 
+.auth-field input::placeholder {
+    color: #aaa;
+}
+
+/* --- BUTTON --- */
 .auth-btn {
-    margin-top: 4px;
-    min-height: 44px;
-    border: 0;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--auth-green-700), var(--auth-green-800));
-    color: #f7fff8;
-    font-size: 0.92rem;
-    font-weight: 780;
+    background-color: #e2f7f3; /* Hijau toska sangat muda */
+    color: #5da898;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 25px; /* Bentuk pill (lonjong) */
+    padding: 12px 35px;
     cursor: pointer;
-    box-shadow: 0 10px 24px rgba(29, 84, 50, 0.24);
-    transition: transform 170ms ease, filter 170ms ease;
+    margin: 15px auto 0;
+    width: fit-content;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
 }
 
 .auth-btn:hover {
-    transform: translateY(-1px);
-    filter: saturate(1.06);
+    background-color: #c9efe7;
+    color: #488a7b;
 }
 
+/* --- LINK BAWAH (Lupa password / Buat akun) --- */
 .auth-switch {
-    margin: 14px 0 0;
-    color: var(--auth-muted);
-    font-size: 0.86rem;
+    margin-top: 35px;
+    font-size: 0.85rem;
+    color: #aaa;
     text-align: center;
 }
 
 .auth-switch a {
-    color: var(--auth-green-800);
-    font-weight: 760;
+    color: #3db551;
     text-decoration: none;
+    font-weight: 600;
 }
 
 .auth-switch a:hover {
     text-decoration: underline;
 }
 
-@media (max-width: 520px) {
-    body.auth-page {
-        padding: 14px;
-    }
+/* --- ALERT (Notifikasi Error/Success) --- */
+.auth-alert {
+    width: 100%;
+    max-width: 320px;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+.auth-alert-error {
+    background-color: #ffeaea;
+    color: #d93025;
+}
+.auth-alert-success {
+    background-color: #e6f4ea;
+    color: #1e8e3e;
+}
 
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 768px) {
+    .auth-shell {
+        width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+    }
+    
+    /* Menyembunyikan panel hijau di HP agar form tetap terlihat penuh */
+    .auth-shell::after {
+        display: none;
+    }
+    
+    .auth-brand, .auth-card {
+        width: 100%;
+    }
+    
     .auth-card {
-        padding: 18px;
-        border-radius: 14px;
+        padding: 100px 30px 30px 30px;
+        justify-content: center;
     }
 }
