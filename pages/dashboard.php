@@ -31,14 +31,6 @@ $limit_market_prices = max(2, min(10, (int) ($settings['limit_market_prices'] ??
 $limit_plant_status = max(2, min(10, (int) ($settings['limit_plant_status'] ?? 5)));
 
 if ($is_normal_mode) {
-    $show_focus = true;
-    $show_quick_actions = true;
-    $show_schedule = true;
-    $show_market = true;
-    $show_complaint = true;
-    $show_critical_stock = true;
-    $show_plant_status = true;
-
     $limit_recent_activities = max(6, $limit_recent_activities);
     $limit_market_prices = max(6, $limit_market_prices);
     $limit_plant_status = max(6, $limit_plant_status);

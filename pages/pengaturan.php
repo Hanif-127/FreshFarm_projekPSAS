@@ -192,29 +192,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Mode dashboard tidak valid.';
         } else {
             $settings['dashboard_mode'] = $dashboard_mode;
-            if ($dashboard_mode === 'normal') {
-                // Mode normal dirancang lebih penuh, jadi semua widget utama aktif.
-                $settings['show_focus'] = 1;
-                $settings['show_quick_actions'] = 1;
-                $settings['show_schedule'] = 1;
-                $settings['show_market'] = 1;
-                $settings['show_complaint'] = 1;
-                $settings['show_critical_stock'] = 1;
-                $settings['show_plant_status'] = 1;
+            $settings['show_focus'] = isset($_POST['show_focus']) ? 1 : 0;
+            $settings['show_quick_actions'] = isset($_POST['show_quick_actions']) ? 1 : 0;
+            $settings['show_schedule'] = isset($_POST['show_schedule']) ? 1 : 0;
+            $settings['show_market'] = isset($_POST['show_market']) ? 1 : 0;
+            $settings['show_complaint'] = isset($_POST['show_complaint']) ? 1 : 0;
+            $settings['show_critical_stock'] = isset($_POST['show_critical_stock']) ? 1 : 0;
+            $settings['show_plant_status'] = isset($_POST['show_plant_status']) ? 1 : 0;
 
+            if ($dashboard_mode === 'normal') {
                 // Mode normal menampilkan data lebih banyak dari compact.
                 $settings['limit_recent_activities'] = max(6, min(10, $limit_recent));
                 $settings['limit_market_prices'] = max(6, min(10, $limit_prices));
                 $settings['limit_plant_status'] = max(6, min(10, $limit_status));
             } else {
-                $settings['show_focus'] = isset($_POST['show_focus']) ? 1 : 0;
-                $settings['show_quick_actions'] = isset($_POST['show_quick_actions']) ? 1 : 0;
-                $settings['show_schedule'] = isset($_POST['show_schedule']) ? 1 : 0;
-                $settings['show_market'] = isset($_POST['show_market']) ? 1 : 0;
-                $settings['show_complaint'] = isset($_POST['show_complaint']) ? 1 : 0;
-                $settings['show_critical_stock'] = isset($_POST['show_critical_stock']) ? 1 : 0;
-                $settings['show_plant_status'] = isset($_POST['show_plant_status']) ? 1 : 0;
-
                 $settings['limit_recent_activities'] = max(2, min(10, $limit_recent));
                 $settings['limit_market_prices'] = max(2, min(10, $limit_prices));
                 $settings['limit_plant_status'] = max(2, min(10, $limit_status));
