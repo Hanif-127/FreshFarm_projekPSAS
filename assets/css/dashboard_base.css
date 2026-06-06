@@ -2381,6 +2381,33 @@ body.dashboard-home .command-actions {
     color: var(--dash-ink-soft) !important;
 }
 
+/* Delete actions */
+body.module-page .module-item-actions a.module-danger-link,
+body.module-page a.module-danger-link,
+body.module-page .jurnal-action-link.danger,
+body.module-page a[href*="hapus"],
+body.module-page a[href*="hapus.php"] {
+    color: var(--dash-danger) !important;
+}
+
+body.module-page .module-item-actions a.module-danger-link:hover,
+body.module-page a.module-danger-link:hover,
+body.module-page .jurnal-action-link.danger:hover,
+body.module-page a[href*="hapus"]:hover,
+body.module-page a[href*="hapus.php"]:hover {
+    color: #842a25 !important;
+    text-decoration: underline;
+}
+
+body.module-page .module-item-actions a.module-danger-link svg,
+body.module-page a.module-danger-link svg,
+body.module-page .jurnal-action-link.danger svg,
+body.module-page a[href*="hapus"] svg,
+body.module-page a[href*="hapus.php"] svg {
+    color: currentColor;
+    stroke: currentColor;
+}
+
 /* Smooth dashboard motion */
 body.dashboard-home .dashboard-main-content,
 body.module-page .dashboard-main-content,
