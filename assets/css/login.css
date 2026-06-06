@@ -1,4 +1,4 @@
-﻿* {
+﻿﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -161,7 +161,7 @@ body {
     border: 1px solid #ffb5b5;
 }
 
-/* ================= KANAN ================= */
+/* ================= KANAN (SUDAH DIPERBAIKI KE TENGAH) ================= */
 
 .login-right {
     width: 51%;
@@ -178,16 +178,19 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    align-items: center;       /* Membuat konten di tengah secara Vertikal */
+    justify-content: center;   /* Membuat konten di tengah secara Horizontal */
+    padding: 40px;             /* Jarak aman tepi layar */
 }
 
 .right-content {
+    width: 100%;
     max-width: 460px;
-    margin-left: 34px;
-    margin-top: 48px;
     color: #ffffff;
+    margin: 0;                 /* Reset margin agar center otomatis dari flexbox bekerja sempurna */
+    text-align: left;          /* Teks di dalam box tetap rata kiri sesuai mockup */
 }
 
 .right-content h2 {
@@ -231,6 +234,7 @@ body {
     .right-content {
         margin: 0;
         padding: 30px;
+        text-align: center; /* Di layar HP teks ikut rata tengah agar rapi */
     }
 
     .right-content h2 {
@@ -239,5 +243,6 @@ body {
 
     .right-content p {
         font-size: 15px;
+        margin: 0 auto; /* Supaya paragrafnya pas di tengah di layar HP */
     }
 }

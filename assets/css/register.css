@@ -148,7 +148,7 @@ body {
     border: 1px solid #ffb5b5;
 }
 
-/* ================= KANAN ================= */
+/* ================= KANAN (SUDAH DISAMAKAN & DITENGAHKAN) ================= */
 
 .register-right {
     width: 50%;
@@ -157,24 +157,27 @@ body {
     background:
         linear-gradient(
             180deg,
-            rgba(38, 166, 74, 0.8) 0%,
-            rgba(38, 166, 74, 0.8) 55%,
-            rgba(11, 92, 39, 0.8) 100%
+            rgba(38, 166, 74, 0.96) 0%,   /* Kepekatan warna disamakan dengan login (0.96) */
+            rgba(38, 166, 74, 0.96) 55%,
+            rgba(11, 92, 39, 0.98) 100%    /* Kepekatan warna disamakan dengan login (0.98) */
         ),
         url("../images/background_login.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    align-items: center;       /* Konten di tengah secara Vertikal */
+    justify-content: center;   /* Konten di tengah secara Horizontal */
+    padding: 40px;             /* Jarak aman tepi layar */
 }
 
 .right-content {
+    width: 100%;
     max-width: 470px;
-    margin-left: 34px;
-    margin-top: 48px;
     color: #ffffff;
+    margin: 0;                 /* Reset margin agar pembagian flexbox presisi di tengah */
+    text-align: left;          /* Teks di dalam box tetap rata kiri sesuai mockup asli */
 }
 
 .right-content h2 {
@@ -218,6 +221,7 @@ body {
     .right-content {
         margin: 0;
         padding: 30px;
+        text-align: center;    /* Teks otomatis rata tengah saat dibuka di HP */
     }
 
     .right-content h2 {
@@ -226,5 +230,6 @@ body {
 
     .right-content p {
         font-size: 15px;
+        margin: 0 auto;        /* Paragraf pas di tengah pada layar HP */
     }
 }

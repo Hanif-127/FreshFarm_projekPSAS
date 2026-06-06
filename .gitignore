@@ -1,0 +1,4 @@
+# ESP32 firmware build output and local secrets
+firmware/esp32-monitoring/.pio/
+firmware/esp32-monitoring/include/config.h
+
