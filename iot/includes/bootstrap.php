@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once __DIR__ . '/../../includes/koneksi.php';
+require_once __DIR__ . '/firebase_config.php';
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -95,6 +96,44 @@ function iot_nullable_float(mixed $value): ?float
     return $value === null ? null : (float) $value;
 }
 
+$iot_user_devices = [];
+$devices_stmt = mysqli_prepare(
+    $koneksi,
+    "SELECT id, device_uid, nama_perangkat, lokasi, firmware_version,
+            sampling_interval_seconds, status, last_seen_at, updated_at
+     FROM iot_devices
+     WHERE user_id = ?
+     ORDER BY (status = 'active') DESC, updated_at DESC"
+);
+
+if ($devices_stmt) {
+    mysqli_stmt_bind_param($devices_stmt, 'i', $iot_user_id);
+    mysqli_stmt_execute($devices_stmt);
+    $devices_result = mysqli_stmt_get_result($devices_stmt);
+
+    while ($device = mysqli_fetch_assoc($devices_result)) {
+        $iot_user_devices[] = $device;
+    }
+
+    mysqli_stmt_close($devices_stmt);
+}
+
+$requested_device_id = (int) ($_SESSION['iot_active_device_id'] ?? 0);
+$owned_device_ids = array_map(
+    static fn(array $device): int => (int) $device['id'],
+    $iot_user_devices
+);
+
+if ($requested_device_id <= 0 || !in_array($requested_device_id, $owned_device_ids, true)) {
+    $requested_device_id = isset($iot_user_devices[0]) ? (int) $iot_user_devices[0]['id'] : 0;
+}
+
+if ($requested_device_id > 0) {
+    $_SESSION['iot_active_device_id'] = $requested_device_id;
+} else {
+    unset($_SESSION['iot_active_device_id']);
+}
+
 $iot_device_row = null;
 $device_stmt = mysqli_prepare(
     $koneksi,
@@ -105,13 +144,12 @@ $device_stmt = mysqli_prepare(
             t.soil_temperature_min, t.soil_temperature_max
      FROM iot_devices d
      LEFT JOIN iot_thresholds t ON t.device_id = d.id
-     WHERE d.user_id = ?
-     ORDER BY (d.status = 'active') DESC, d.updated_at DESC
+     WHERE d.id = ? AND d.user_id = ?
      LIMIT 1"
 );
 
-if ($device_stmt) {
-    mysqli_stmt_bind_param($device_stmt, 'i', $iot_user_id);
+if ($device_stmt && $requested_device_id > 0) {
+    mysqli_stmt_bind_param($device_stmt, 'ii', $requested_device_id, $iot_user_id);
     mysqli_stmt_execute($device_stmt);
     $device_result = mysqli_stmt_get_result($device_stmt);
     $iot_device_row = mysqli_fetch_assoc($device_result) ?: null;

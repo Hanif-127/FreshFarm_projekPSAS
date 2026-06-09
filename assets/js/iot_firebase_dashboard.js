@@ -3,7 +3,7 @@
 
     var config = window.FRESHFARM_IOT_FIREBASE || {};
     var databaseURL = (config.databaseURL || '').replace(/\/$/, '');
-    var deviceUid = config.deviceUid || 'farm-esp32-01';
+    var deviceUid = config.deviceUid || '';
     var maxDataAgeMs = Number(config.maxDataAgeMs || 900000);
     var historyLimit = Number(config.historyLimit || 12);
     var chartRefreshMs = Number(config.chartRefreshMs || 300000);
@@ -251,7 +251,7 @@
     }
 
     function fetchHistory() {
-        if (!databaseURL) {
+        if (!databaseURL || !deviceUid) {
             return;
         }
 
@@ -349,7 +349,7 @@
     }
 
     function fetchLatest() {
-        if (!databaseURL) {
+        if (!databaseURL || !deviceUid) {
             return;
         }
 
@@ -396,7 +396,11 @@
     }
 
     function startRealtimeStream() {
-        if (!databaseURL || typeof EventSource === 'undefined') {
+        if (!databaseURL || !deviceUid) {
+            return;
+        }
+
+        if (typeof EventSource === 'undefined') {
             startPolling();
             return;
         }

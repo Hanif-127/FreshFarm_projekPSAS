@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/includes/icons.php';
 
 $iot_history_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_history.js');
 $iot_status_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_status.js');
@@ -21,14 +22,20 @@ $iot_status_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_status.
         <?php include __DIR__ . '/includes/navigation.php'; ?>
 
         <section class="iot-hero iot-hero--compact">
-            <div>
-                <span class="iot-eyebrow">Data Sensor</span>
-                <h1>Riwayat Pembacaan</h1>
-                <p>Lihat perubahan kondisi lahan dari pembacaan berkala perangkat.</p>
+            <div class="iot-hero-copy">
+                <span class="iot-hero-icon iot-hero-icon--history" aria-hidden="true"><?= iot_icon_svg('history') ?></span>
+                <div>
+                    <span class="iot-eyebrow">Data Sensor</span>
+                    <h1>Riwayat Pembacaan</h1>
+                    <p>Lihat perubahan kondisi lahan dari pembacaan berkala perangkat.</p>
+                </div>
             </div>
             <div class="iot-history-actions">
                 <div class="iot-filter-group">
-                    <label for="history-period">Periode</label>
+                    <label for="history-period">
+                        <span class="iot-inline-icon" aria-hidden="true"><?= iot_icon_svg('filter') ?></span>
+                        Periode
+                    </label>
                     <select id="history-period" data-history-period>
                         <option value="86400">24 jam terakhir</option>
                         <option value="604800">7 hari terakhir</option>
@@ -36,7 +43,10 @@ $iot_status_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_status.
                         <option value="all">Semua data</option>
                     </select>
                 </div>
-                <button class="iot-button iot-button--danger" type="button" data-clear-history>Bersihkan Riwayat</button>
+                <button class="iot-button iot-button--danger" type="button" data-clear-history>
+                    <span class="iot-button__icon" aria-hidden="true"><?= iot_icon_svg('trash') ?></span>
+                    <span data-clear-history-label>Bersihkan Riwayat</span>
+                </button>
             </div>
         </section>
 
@@ -44,9 +54,12 @@ $iot_status_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_status.
 
         <section class="iot-card">
             <div class="iot-section-head">
-                <div>
-                    <span class="iot-eyebrow">Data Sensor</span>
-                    <h2>Data Terbaru</h2>
+                <div class="iot-section-title">
+                    <span class="iot-section-title__icon is-history" aria-hidden="true"><?= iot_icon_svg('database') ?></span>
+                    <div>
+                        <span class="iot-eyebrow">Data Sensor</span>
+                        <h2>Data Terbaru</h2>
+                    </div>
                 </div>
                 <span class="iot-refresh-label" data-history-count>Memuat riwayat...</span>
             </div>
@@ -54,13 +67,13 @@ $iot_status_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_status.
                 <table class="iot-table">
                     <thead>
                     <tr>
-                        <th>Waktu</th>
-                        <th>Suhu Udara</th>
-                        <th>Kelembapan Udara</th>
-                        <th>Cahaya</th>
-                        <th>Kelembapan Tanah</th>
-                        <th>Suhu Tanah</th>
-                        <th>Wi-Fi</th>
+                        <th><span class="iot-table-label"><span aria-hidden="true"><?= iot_icon_svg('clock') ?></span>Waktu</span></th>
+                        <th><span class="iot-table-label"><span aria-hidden="true"><?= iot_icon_svg('temperature') ?></span>Suhu Udara</span></th>
+                        <th><span class="iot-table-label"><span aria-hidden="true"><?= iot_icon_svg('humidity') ?></span>Kelembapan Udara</span></th>
+                        <th><span class="iot-table-label"><span aria-hidden="true"><?= iot_icon_svg('light') ?></span>Cahaya</span></th>
+                        <th><span class="iot-table-label"><span aria-hidden="true"><?= iot_icon_svg('humidity') ?></span>Kelembapan Tanah</span></th>
+                        <th><span class="iot-table-label"><span aria-hidden="true"><?= iot_icon_svg('temperature') ?></span>Suhu Tanah</span></th>
+                        <th><span class="iot-table-label"><span aria-hidden="true"><?= iot_icon_svg('wifi') ?></span>Wi-Fi</span></th>
                     </tr>
                     </thead>
                     <tbody data-history-body>
@@ -75,8 +88,8 @@ $iot_status_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_status.
 </main>
 <script>
     window.FRESHFARM_IOT_FIREBASE = {
-        databaseURL: 'https://freshfarm-iot-default-rtdb.asia-southeast1.firebasedatabase.app',
-        deviceUid: <?= json_encode($iot_device['uid'], JSON_UNESCAPED_SLASHES) ?>,
+        databaseURL: <?= json_encode($iot_firebase_database_url, JSON_UNESCAPED_SLASHES) ?>,
+        deviceUid: <?= json_encode($iot_device_row ? $iot_device['uid'] : null, JSON_UNESCAPED_SLASHES) ?>,
         historyLimit: 500,
         historyRefreshMs: 300000
     };

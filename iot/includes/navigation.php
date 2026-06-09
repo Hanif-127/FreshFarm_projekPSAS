@@ -1,14 +1,16 @@
 <?php
+require_once __DIR__ . '/icons.php';
+
 $iot_navigation_items = [
-    'dashboard' => ['label' => 'Ringkasan', 'href' => 'dashboard.php'],
-    'riwayat' => ['label' => 'Riwayat Data', 'href' => 'riwayat.php'],
-    'perangkat' => ['label' => 'Perangkat', 'href' => 'perangkat.php'],
-    'pengaturan' => ['label' => 'Pengaturan', 'href' => 'pengaturan.php'],
+    'dashboard' => ['label' => 'Ringkasan', 'href' => 'dashboard.php', 'icon' => 'summary'],
+    'riwayat' => ['label' => 'Riwayat Data', 'href' => 'riwayat.php', 'icon' => 'history'],
+    'perangkat' => ['label' => 'Perangkat', 'href' => 'perangkat.php', 'icon' => 'device'],
+    'pengaturan' => ['label' => 'Pengaturan', 'href' => 'pengaturan.php', 'icon' => 'settings'],
 ];
 ?>
 <section class="iot-workspace-bar" aria-label="Navigasi Monitoring IoT">
     <div class="iot-workspace-context">
-        <span class="iot-workspace-mark" aria-hidden="true">IoT</span>
+        <span class="iot-workspace-mark" aria-hidden="true"><?= iot_icon_svg('activity') ?></span>
         <div>
             <strong><?= htmlspecialchars($iot_device['location']) ?></strong>
             <span><?= htmlspecialchars($iot_device['name']) ?></span>
@@ -22,6 +24,7 @@ $iot_navigation_items = [
                 href="<?= htmlspecialchars($item['href']) ?>"
                 <?= $iot_active_page === $key ? 'aria-current="page"' : '' ?>
             >
+                <span class="iot-workspace-link__icon" aria-hidden="true"><?= iot_icon_svg($item['icon']) ?></span>
                 <?= htmlspecialchars($item['label']) ?>
             </a>
         <?php endforeach; ?>

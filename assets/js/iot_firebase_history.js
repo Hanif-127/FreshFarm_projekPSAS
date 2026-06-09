@@ -3,7 +3,7 @@
 
     var config = window.FRESHFARM_IOT_FIREBASE || {};
     var databaseURL = (config.databaseURL || '').replace(/\/$/, '');
-    var deviceUid = config.deviceUid || 'farm-esp32-01';
+    var deviceUid = config.deviceUid || '';
     var historyLimit = Number(config.historyLimit || 500);
     var historyRefreshMs = Number(config.historyRefreshMs || 300000);
 
@@ -11,6 +11,7 @@
     var countOutput = document.querySelector('[data-history-count]');
     var periodInput = document.querySelector('[data-history-period]');
     var clearButton = document.querySelector('[data-clear-history]');
+    var clearButtonLabel = document.querySelector('[data-clear-history-label]');
     var statusBox = document.querySelector('[data-history-status]');
 
     function readingsBaseUrl() {
@@ -170,7 +171,7 @@
     }
 
     function fetchHistory() {
-        if (!databaseURL) {
+        if (!databaseURL || !deviceUid) {
             renderEmpty('Konfigurasi data perangkat belum tersedia.');
             return;
         }
@@ -198,7 +199,7 @@
     }
 
     function clearHistory() {
-        if (!databaseURL) {
+        if (!databaseURL || !deviceUid) {
             setStatus('Konfigurasi data perangkat belum tersedia.', 'danger');
             return;
         }
@@ -213,7 +214,9 @@
 
         if (clearButton) {
             clearButton.disabled = true;
-            clearButton.textContent = 'Membersihkan...';
+            if (clearButtonLabel) {
+                clearButtonLabel.textContent = 'Membersihkan...';
+            }
         }
 
         fetch(readingsBaseUrl(), {
@@ -234,7 +237,9 @@
             .finally(function () {
                 if (clearButton) {
                     clearButton.disabled = false;
-                    clearButton.textContent = 'Bersihkan Riwayat';
+                    if (clearButtonLabel) {
+                        clearButtonLabel.textContent = 'Bersihkan Riwayat';
+                    }
                 }
             });
     }
