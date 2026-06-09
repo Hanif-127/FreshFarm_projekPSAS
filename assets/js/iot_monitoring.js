@@ -98,7 +98,7 @@
     if (demoForm) {
         demoForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            showDemoMessage('Pengaturan simulasi berhasil disimpan di tampilan. Database belum dihubungkan.');
+            showDemoMessage('Catatan pengaturan tersimpan di tampilan. Untuk mengubah firmware, salin nilainya ke config.h lalu upload ulang ESP32.');
         });
     }
 

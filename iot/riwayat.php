@@ -1,5 +1,8 @@
 <?php
 require __DIR__ . '/includes/bootstrap.php';
+
+$iot_history_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_history.js');
+$iot_status_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_status.js');
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -21,25 +24,31 @@ require __DIR__ . '/includes/bootstrap.php';
             <div>
                 <span class="iot-eyebrow">Data Sensor</span>
                 <h1>Riwayat Pembacaan</h1>
-                <p>Lihat perubahan kondisi lahan dari waktu ke waktu.</p>
+                <p>Lihat perubahan kondisi lahan dari pembacaan berkala perangkat.</p>
             </div>
-            <div class="iot-filter-group">
-                <label for="history-period">Periode</label>
-                <select id="history-period">
-                    <option>24 jam terakhir</option>
-                    <option>7 hari terakhir</option>
-                    <option>30 hari terakhir</option>
-                </select>
+            <div class="iot-history-actions">
+                <div class="iot-filter-group">
+                    <label for="history-period">Periode</label>
+                    <select id="history-period" data-history-period>
+                        <option value="86400">24 jam terakhir</option>
+                        <option value="604800">7 hari terakhir</option>
+                        <option value="2592000">30 hari terakhir</option>
+                        <option value="all">Semua data</option>
+                    </select>
+                </div>
+                <button class="iot-button iot-button--danger" type="button" data-clear-history>Bersihkan Riwayat</button>
             </div>
         </section>
+
+        <div class="iot-message" data-history-status hidden></div>
 
         <section class="iot-card">
             <div class="iot-section-head">
                 <div>
-                    <span class="iot-eyebrow">Database Sensor</span>
+                    <span class="iot-eyebrow">Data Sensor</span>
                     <h2>Data Terbaru</h2>
                 </div>
-                <span class="iot-refresh-label"><?= count($iot_history) ?> pembacaan ditampilkan</span>
+                <span class="iot-refresh-label" data-history-count>Memuat riwayat...</span>
             </div>
             <div class="iot-table-wrap">
                 <table class="iot-table">
@@ -51,24 +60,28 @@ require __DIR__ . '/includes/bootstrap.php';
                         <th>Cahaya</th>
                         <th>Kelembapan Tanah</th>
                         <th>Suhu Tanah</th>
+                        <th>Wi-Fi</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <?php foreach ($iot_history as $reading): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($reading['time']) ?></td>
-                            <td><?= iot_format_value($reading['air_temp']) ?> &deg;C</td>
-                            <td><?= iot_format_value($reading['air_humidity']) ?>%</td>
-                            <td><?= iot_format_value($reading['light']) ?> lux</td>
-                            <td><?= iot_format_value($reading['soil_moisture']) ?>%</td>
-                            <td><?= iot_format_value($reading['soil_temp']) ?> &deg;C</td>
+                    <tbody data-history-body>
+                        <tr data-history-empty>
+                            <td colspan="7" class="iot-empty-row">Memuat data riwayat perangkat...</td>
                         </tr>
-                    <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         </section>
     </div>
 </main>
+<script>
+    window.FRESHFARM_IOT_FIREBASE = {
+        databaseURL: 'https://freshfarm-iot-default-rtdb.asia-southeast1.firebasedatabase.app',
+        deviceUid: <?= json_encode($iot_device['uid'], JSON_UNESCAPED_SLASHES) ?>,
+        historyLimit: 500,
+        historyRefreshMs: 300000
+    };
+</script>
+<script src="../assets/js/iot_firebase_history.js?v=<?= (int) $iot_history_js_version ?>"></script>
+<script src="../assets/js/iot_firebase_status.js?v=<?= (int) $iot_status_js_version ?>"></script>
 </body>
 </html>

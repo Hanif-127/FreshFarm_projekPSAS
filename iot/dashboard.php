@@ -1,11 +1,7 @@
 <?php
 require __DIR__ . '/includes/bootstrap.php';
 
-$chart_labels = array_column($iot_chart_readings, 'chart_label');
-$chart_air_temperature = array_column($iot_chart_readings, 'air_temp');
-$chart_soil_temperature = array_column($iot_chart_readings, 'soil_temp');
-$chart_air_humidity = array_column($iot_chart_readings, 'air_humidity');
-$chart_soil_moisture = array_column($iot_chart_readings, 'soil_moisture');
+$iot_firebase_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_dashboard.js');
 $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool => $sensor['key'] === 'soil_moisture'))[0] ?? null;
 ?>
 <!DOCTYPE html>
@@ -29,20 +25,43 @@ $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool =
             <div>
                 <span class="iot-eyebrow">Monitoring Lingkungan Kebun</span>
                 <h1>Dashboard Monitoring IoT</h1>
-                <p>Ringkasan kondisi lahan berdasarkan pembacaan sensor yang tersimpan di database.</p>
+                <p>Ringkasan kondisi lahan berdasarkan pembacaan sensor yang diperbarui otomatis.</p>
             </div>
             <div class="iot-device-status">
-                <span class="iot-status-dot <?= $iot_device['status'] === 'online' ? '' : 'is-offline' ?>" aria-hidden="true"></span>
+                <span class="iot-status-dot <?= $iot_device['status'] === 'online' ? '' : 'is-offline' ?>" data-iot-status-dot aria-hidden="true"></span>
                 <div>
                     <strong><?= htmlspecialchars($iot_device['name']) ?></strong>
-                    <span><?= ucfirst(htmlspecialchars($iot_device['status'])) ?>, data terakhir <?= htmlspecialchars($iot_device['last_seen']) ?></span>
+                    <span data-iot-device-status-text><?= ucfirst(htmlspecialchars($iot_device['status'])) ?>, data terakhir <?= htmlspecialchars($iot_device['last_seen']) ?></span>
                 </div>
             </div>
         </section>
 
         <section class="iot-demo-banner">
-            <strong>Database Terhubung</strong>
-            <span><?= count($iot_history) ?> pembacaan terbaru berhasil dimuat dari perangkat <?= htmlspecialchars($iot_device['uid']) ?>.</span>
+            <strong>Realtime Aktif</strong>
+            <span data-iot-firebase-summary>Menunggu data realtime dari perangkat <?= htmlspecialchars($iot_device['uid']) ?>.</span>
+        </section>
+
+        <section class="iot-summary-strip" aria-label="Ringkasan alur data IoT">
+            <div>
+                <span>Pembaruan Sensor</span>
+                <strong>15 detik</strong>
+                <small>data terbaru dari perangkat</small>
+            </div>
+            <div>
+                <span>Tren Grafik</span>
+                <strong>5 menit</strong>
+                <small>ringkasan kondisi berkala</small>
+            </div>
+            <div>
+                <span>Riwayat</span>
+                <strong>Otomatis</strong>
+                <small>tersimpan saat perangkat aktif</small>
+            </div>
+            <div>
+                <span>Perangkat</span>
+                <strong><?= htmlspecialchars($iot_device['uid']) ?></strong>
+                <small>terhubung ke lahan utama</small>
+            </div>
         </section>
 
         <div class="iot-section-intro">
@@ -58,13 +77,13 @@ $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool =
                 <article class="iot-card iot-sensor-card state-<?= htmlspecialchars($sensor['state']) ?>" data-sensor="<?= htmlspecialchars($sensor['key']) ?>">
                     <div class="iot-card-head">
                         <span><?= htmlspecialchars($sensor['label']) ?></span>
-                        <span class="iot-state"><?= htmlspecialchars(iot_state_label($sensor['state'])) ?></span>
+                        <span class="iot-state" data-sensor-state><?= htmlspecialchars(iot_state_label($sensor['state'])) ?></span>
                     </div>
                     <div class="iot-reading">
                         <strong data-sensor-value><?= iot_format_value($sensor['value']) ?></strong>
                         <span><?= htmlspecialchars($sensor['unit']) ?></span>
                     </div>
-                    <p><?= htmlspecialchars($sensor['note']) ?></p>
+                    <p data-sensor-note><?= htmlspecialchars($sensor['note']) ?></p>
                 </article>
             <?php endforeach; ?>
         </section>
@@ -81,8 +100,8 @@ $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool =
                 <div class="iot-chart-wrap">
                     <canvas
                         id="iotTemperatureChart"
-                        data-labels='<?= htmlspecialchars(json_encode($chart_labels), ENT_QUOTES, 'UTF-8') ?>'
-                        data-temperature='<?= htmlspecialchars(json_encode($chart_air_temperature), ENT_QUOTES, 'UTF-8') ?>'
+                        data-labels="[]"
+                        data-temperature="[]"
                     ></canvas>
                 </div>
             </article>
@@ -98,8 +117,8 @@ $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool =
                 <div class="iot-chart-wrap">
                     <canvas
                         id="iotSoilTemperatureChart"
-                        data-labels='<?= htmlspecialchars(json_encode($chart_labels), ENT_QUOTES, 'UTF-8') ?>'
-                        data-soil-temperature='<?= htmlspecialchars(json_encode($chart_soil_temperature), ENT_QUOTES, 'UTF-8') ?>'
+                        data-labels="[]"
+                        data-soil-temperature="[]"
                     ></canvas>
                 </div>
             </article>
@@ -115,8 +134,8 @@ $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool =
                 <div class="iot-chart-wrap">
                     <canvas
                         id="iotAirHumidityChart"
-                        data-labels='<?= htmlspecialchars(json_encode($chart_labels), ENT_QUOTES, 'UTF-8') ?>'
-                        data-air-humidity='<?= htmlspecialchars(json_encode($chart_air_humidity), ENT_QUOTES, 'UTF-8') ?>'
+                        data-labels="[]"
+                        data-air-humidity="[]"
                     ></canvas>
                 </div>
             </article>
@@ -132,8 +151,8 @@ $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool =
                 <div class="iot-chart-wrap">
                     <canvas
                         id="iotMoistureChart"
-                        data-labels='<?= htmlspecialchars(json_encode($chart_labels), ENT_QUOTES, 'UTF-8') ?>'
-                        data-moisture='<?= htmlspecialchars(json_encode($chart_soil_moisture), ENT_QUOTES, 'UTF-8') ?>'
+                        data-labels="[]"
+                        data-moisture="[]"
                     ></canvas>
                 </div>
             </article>
@@ -149,12 +168,12 @@ $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool =
             </div>
             <div class="iot-alert-grid">
                 <div class="iot-alert state-<?= htmlspecialchars($soil_sensor['state'] ?? 'critical') ?>">
-                    <strong><?= ($soil_sensor['state'] ?? 'critical') === 'safe' ? 'Kelembapan tanah dalam batas aman' : 'Kelembapan tanah perlu diperiksa' ?></strong>
-                    <p>Nilai saat ini <?= iot_format_value($soil_sensor['value'] ?? null) ?>%. <?= htmlspecialchars($soil_sensor['note'] ?? 'Belum ada data pembacaan.') ?></p>
+                    <strong data-iot-soil-alert-title><?= ($soil_sensor['state'] ?? 'critical') === 'safe' ? 'Kelembapan tanah dalam batas aman' : 'Kelembapan tanah perlu diperiksa' ?></strong>
+                    <p data-iot-soil-alert-text>Nilai saat ini <?= iot_format_value($soil_sensor['value'] ?? null) ?>%. <?= htmlspecialchars($soil_sensor['note'] ?? 'Belum ada data pembacaan.') ?></p>
                 </div>
                 <div class="iot-alert state-<?= $iot_device['status'] === 'online' ? 'safe' : 'warning' ?>">
-                    <strong>Perangkat <?= $iot_device['status'] === 'online' ? 'terhubung stabil' : 'sedang offline' ?></strong>
-                    <p>Data terakhir diterima <?= htmlspecialchars($iot_device['last_seen']) ?>.</p>
+                    <strong data-iot-device-alert-title>Perangkat <?= $iot_device['status'] === 'online' ? 'terhubung stabil' : 'sedang offline' ?></strong>
+                    <p data-iot-device-alert-text>Data terakhir diterima <?= htmlspecialchars($iot_device['last_seen']) ?>.</p>
                 </div>
             </div>
             <a class="iot-text-link" href="pengaturan.php">Atur batas sensor</a>
@@ -169,8 +188,9 @@ $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool =
             <dl>
                 <div><dt>Device ID</dt><dd><?= htmlspecialchars($iot_device['uid']) ?></dd></div>
                 <div><dt>Firmware</dt><dd><?= htmlspecialchars($iot_device['firmware']) ?></dd></div>
-                <div><dt>Interval</dt><dd><?= (int) ($iot_device['interval'] / 60) ?> menit</dd></div>
-                <div><dt>Wi-Fi</dt><dd><?= iot_format_value($iot_device['wifi_rssi']) ?> dBm</dd></div>
+                <div><dt>Latest</dt><dd>15 detik</dd></div>
+                <div><dt>History</dt><dd>5 menit</dd></div>
+                <div><dt>Wi-Fi</dt><dd data-iot-device-wifi><?= iot_format_value($iot_device['wifi_rssi']) ?> dBm</dd></div>
             </dl>
             <a class="iot-button" href="perangkat.php">Kelola Perangkat</a>
         </section>
@@ -178,5 +198,15 @@ $soil_sensor = array_values(array_filter($iot_sensors, fn(array $sensor): bool =
 </main>
 
 <script src="../assets/js/iot_monitoring.js?v=<?= (int) $iot_js_version ?>"></script>
+<script>
+    window.FRESHFARM_IOT_FIREBASE = {
+        databaseURL: 'https://freshfarm-iot-default-rtdb.asia-southeast1.firebasedatabase.app',
+        deviceUid: <?= json_encode($iot_device['uid'], JSON_UNESCAPED_SLASHES) ?>,
+        maxDataAgeMs: 900000,
+        historyLimit: 12,
+        chartRefreshMs: 300000
+    };
+</script>
+<script src="../assets/js/iot_firebase_dashboard.js?v=<?= (int) $iot_firebase_js_version ?>"></script>
 </body>
 </html>

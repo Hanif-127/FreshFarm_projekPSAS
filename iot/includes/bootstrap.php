@@ -119,51 +119,6 @@ if ($device_stmt) {
 }
 
 $iot_latest_reading = null;
-$iot_history = [];
-$iot_chart_readings = [];
-
-if ($iot_device_row) {
-    $device_id = (int) $iot_device_row['id'];
-
-    $latest_stmt = mysqli_prepare(
-        $koneksi,
-        'SELECT * FROM iot_readings WHERE device_id = ? ORDER BY recorded_at DESC, id DESC LIMIT 1'
-    );
-    if ($latest_stmt) {
-        mysqli_stmt_bind_param($latest_stmt, 'i', $device_id);
-        mysqli_stmt_execute($latest_stmt);
-        $latest_result = mysqli_stmt_get_result($latest_stmt);
-        $iot_latest_reading = mysqli_fetch_assoc($latest_result) ?: null;
-        mysqli_stmt_close($latest_stmt);
-    }
-
-    $history_stmt = mysqli_prepare(
-        $koneksi,
-        'SELECT * FROM iot_readings WHERE device_id = ? ORDER BY recorded_at DESC, id DESC LIMIT 50'
-    );
-    if ($history_stmt) {
-        mysqli_stmt_bind_param($history_stmt, 'i', $device_id);
-        mysqli_stmt_execute($history_stmt);
-        $history_result = mysqli_stmt_get_result($history_stmt);
-
-        while ($row = mysqli_fetch_assoc($history_result)) {
-            $iot_history[] = [
-                'time' => date('d M Y, H:i', strtotime($row['recorded_at'])),
-                'chart_label' => date('H:i', strtotime($row['recorded_at'])),
-                'air_temp' => iot_nullable_float($row['air_temperature_c']),
-                'air_humidity' => iot_nullable_float($row['air_humidity_pct']),
-                'light' => iot_nullable_float($row['light_lux']),
-                'soil_moisture' => iot_nullable_float($row['soil_moisture_pct']),
-                'soil_temp' => iot_nullable_float($row['soil_temperature_c']),
-                'wifi_rssi' => $row['wifi_rssi'] === null ? null : (int) $row['wifi_rssi'],
-            ];
-        }
-
-        mysqli_stmt_close($history_stmt);
-    }
-
-    $iot_chart_readings = array_reverse(array_slice($iot_history, 0, 12));
-}
 
 $last_seen_at = $iot_device_row['last_seen_at'] ?? null;
 $interval_seconds = (int) ($iot_device_row['sampling_interval_seconds'] ?? 300);

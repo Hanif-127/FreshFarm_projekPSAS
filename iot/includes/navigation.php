@@ -17,14 +17,18 @@ $iot_navigation_items = [
 
     <nav class="iot-workspace-nav">
         <?php foreach ($iot_navigation_items as $key => $item): ?>
-            <a class="iot-workspace-link <?= $iot_active_page === $key ? 'is-active' : '' ?>" href="<?= htmlspecialchars($item['href']) ?>">
+            <a
+                class="iot-workspace-link <?= $iot_active_page === $key ? 'is-active' : '' ?>"
+                href="<?= htmlspecialchars($item['href']) ?>"
+                <?= $iot_active_page === $key ? 'aria-current="page"' : '' ?>
+            >
                 <?= htmlspecialchars($item['label']) ?>
             </a>
         <?php endforeach; ?>
     </nav>
 
     <div class="iot-workspace-status">
-        <span class="iot-status-dot <?= $iot_device['status'] === 'online' ? '' : 'is-offline' ?>" aria-hidden="true"></span>
-        <span><?= ucfirst(htmlspecialchars($iot_device['status'])) ?>, <?= htmlspecialchars($iot_device['last_seen']) ?></span>
+        <span class="iot-status-dot <?= $iot_device['status'] === 'online' ? '' : 'is-offline' ?>" data-iot-status-dot aria-hidden="true"></span>
+        <span data-iot-workspace-status-text><?= ucfirst(htmlspecialchars($iot_device['status'])) ?>, <?= htmlspecialchars($iot_device['last_seen']) ?></span>
     </div>
 </section>

@@ -1,5 +1,7 @@
-git add docs firmware iot/api iot/dashboard.php iot/pengaturan.php iot/perangkat.php iot/riwayat.php database/migrations/.gitkeep<?php
+<?php
 require __DIR__ . '/includes/bootstrap.php';
+
+$iot_status_js_version = filemtime(__DIR__ . '/../assets/js/iot_firebase_status.js');
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -10,7 +12,7 @@ require __DIR__ . '/includes/bootstrap.php';
     <link rel="stylesheet" href="../assets/css/dashboard_base.css">
     <link rel="stylesheet" href="../assets/css/iot_monitoring.css?v=<?= (int) $iot_css_version ?>">
 </head>
-<body class="module-page iot-page">
+<body class="module-page iot-page" data-iot-page="pengaturan">
 <?php include '../includes/header.php'; ?>
 
 <main class="iot-main">
@@ -21,7 +23,7 @@ require __DIR__ . '/includes/bootstrap.php';
             <div>
                 <span class="iot-eyebrow">Konfigurasi Monitoring</span>
                 <h1>Pengaturan IoT</h1>
-                <p>Atur ambang peringatan dan kalibrasi awal sensor kelembapan tanah.</p>
+                <p>Atur batas aman sensor dan catat nilai kalibrasi yang dipakai firmware ESP32.</p>
             </div>
         </section>
 
@@ -98,7 +100,7 @@ require __DIR__ . '/includes/bootstrap.php';
                     </label>
                 </div>
                 <div class="iot-form-actions">
-                    <button class="iot-button" type="submit">Simpan Pengaturan Demo</button>
+                    <button class="iot-button" type="submit">Simpan Catatan Pengaturan</button>
                 </div>
             </section>
         </form>
@@ -106,5 +108,13 @@ require __DIR__ . '/includes/bootstrap.php';
 </main>
 
 <script src="../assets/js/iot_monitoring.js?v=<?= (int) $iot_js_version ?>"></script>
+<script>
+    window.FRESHFARM_IOT_FIREBASE = {
+        databaseURL: 'https://freshfarm-iot-default-rtdb.asia-southeast1.firebasedatabase.app',
+        deviceUid: <?= json_encode($iot_device['uid'], JSON_UNESCAPED_SLASHES) ?>,
+        maxDataAgeMs: 900000
+    };
+</script>
+<script src="../assets/js/iot_firebase_status.js?v=<?= (int) $iot_status_js_version ?>"></script>
 </body>
 </html>
