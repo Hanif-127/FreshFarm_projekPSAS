@@ -302,9 +302,70 @@ svg {
     align-items: center;
     padding: 96px 0 82px;
     overflow: hidden;
-    background:
-        linear-gradient(90deg, rgba(6, 20, 13, 0.58) 0%, rgba(6, 20, 13, 0.24) 54%, rgba(6, 20, 13, 0.54) 100%),
-        url("../images/background_landing.png") center / cover no-repeat;
+    background: url("../images/background_landing.png") center / cover no-repeat;
+}
+
+.hero-backgrounds,
+.hero-background-slide {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.hero-backgrounds {
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-background-slide {
+    opacity: 0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: scale(1.025);
+    animation: hero-background-crossfade 25s linear infinite;
+    will-change: opacity, transform;
+}
+
+.hero-background-slide--1 {
+    background-image: url("../images/background_landing.png");
+    animation-delay: 0s;
+}
+
+.hero-background-slide--2 {
+    background-image: url("../images/background_hero_farm_2.jpg");
+    animation-delay: 5s;
+}
+
+.hero-background-slide--3 {
+    background-image: url("../images/background_hero_farm_3.jpg");
+    animation-delay: 10s;
+}
+
+.hero-background-slide--4 {
+    background-image: url("../images/background_hero_farm_4.jpg");
+    animation-delay: 15s;
+}
+
+.hero-background-slide--5 {
+    background-image: url("../images/background_hero_farm_5.jpg");
+    animation-delay: 20s;
+}
+
+@keyframes hero-background-crossfade {
+    0% {
+        opacity: 0;
+        transform: scale(1.025);
+    }
+    4%,
+    20% {
+        opacity: 1;
+    }
+    24%,
+    100% {
+        opacity: 0;
+        transform: scale(1.07);
+    }
 }
 
 .hero::before {
@@ -312,7 +373,9 @@ svg {
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(180deg, rgba(6, 20, 13, 0.02), rgba(6, 20, 13, 0.66));
+        linear-gradient(90deg, rgba(6, 20, 13, 0.68) 0%, rgba(6, 20, 13, 0.3) 56%, rgba(6, 20, 13, 0.55) 100%),
+        linear-gradient(180deg, rgba(6, 20, 13, 0.04), rgba(6, 20, 13, 0.7));
+    z-index: 1;
     pointer-events: none;
 }
 
@@ -322,12 +385,13 @@ svg {
     inset: auto 0 0;
     height: 140px;
     background: linear-gradient(180deg, rgba(6, 20, 13, 0), var(--land-bg));
+    z-index: 2;
     pointer-events: none;
 }
 
 .hero-inner {
     position: relative;
-    z-index: 1;
+    z-index: 3;
     width: min(940px, calc(100% - 48px));
     margin: 0 auto;
 }
@@ -485,6 +549,7 @@ svg {
 }
 
 .hero-scroll {
+    z-index: 3;
     position: absolute;
     left: 50%;
     bottom: 24px;
@@ -1121,6 +1186,10 @@ footer p {
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+
+    .hero-background-slide {
+        display: none;
     }
 
     *,

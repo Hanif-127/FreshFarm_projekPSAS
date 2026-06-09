@@ -87,3 +87,4 @@ function sidebar_icon_svg(string $name): string {
         <?php endforeach; ?>
     </nav>
 </aside>
+            

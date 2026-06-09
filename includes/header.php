@@ -11,6 +11,8 @@ if (strpos($current_script, '/artikel.php') !== false || strpos($current_script,
     $active_page = 'artikel';
 } elseif (strpos($current_script, '/harga_pasar.php') !== false || strpos($current_script, '/detail_harga.php') !== false) {
     $active_page = 'harga_pasar';
+} elseif (strpos($current_script, '/iot/') !== false) {
+    $active_page = 'iot';
 } elseif (strpos($current_script, '/pengaturan.php') !== false ||
           strpos($current_script, '/akun_anda.php') !== false) {
     $active_page = 'pengaturan';
@@ -33,6 +35,7 @@ $fitur_href = $is_landing_page ? '#fitur' : $root . 'index.php#fitur';
 $artikel_href = $is_landing_page ? '#artikel' : $root . 'pages/artikel.php';
 $harga_href = $is_landing_page ? '#harga' : $root . 'pages/harga_pasar.php';
 $dashboard_href = isset($_SESSION['user_id']) ? $root . 'pages/dashboard.php' : $root . 'login.php';
+$iot_href = isset($_SESSION['user_id']) ? $root . 'iot/dashboard.php' : $root . 'login.php';
 $pengaturan_href = $root . 'pages/pengaturan.php';
 $akun_href = $root . 'pages/pengaturan.php?tab=account';
 $pengaduan_href = $root . 'pages/pengaduan.php';
@@ -480,6 +483,16 @@ body.ff-dashboard-loading .ff-page-transition__text {
     position: relative;
 }
 
+.nav-dashboard-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-dashboard-btn svg.nav-icon {
+    display: block;
+}
+
 .user-info {
     display: flex;
     flex-direction: column;
@@ -713,6 +726,10 @@ body.ff-dashboard-loading .ff-page-transition__text {
         display: none;
     }
 
+    .nav-dashboard-group {
+        gap: 4px;
+    }
+
     .profile-menu {
         right: -10px;
         width: 190px;
@@ -800,10 +817,23 @@ body.ff-dashboard-loading .ff-page-transition__text {
                     <span class="salam">Hai, <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></span>
                     <span class="role">Petani</span>
                 </div>
-                <a href="<?= $dashboard_href ?>" class="nav-dashboard-btn <?= $active_page === 'dashboard' ? 'active' : '' ?>">
-                    <img src="<?= $root ?>assets/icons/nav_dashboard.svg" alt="Dashboard" class="nav-icon">
-                    <span>Dashboard</span>
-                </a>
+                <div class="nav-dashboard-group">
+                    <a href="<?= htmlspecialchars($dashboard_href) ?>" class="nav-dashboard-btn <?= $active_page === 'dashboard' ? 'active' : '' ?>">
+                        <img src="<?= $root ?>assets/icons/nav_dashboard.svg" alt="" class="nav-icon">
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="<?= htmlspecialchars($iot_href) ?>" class="nav-dashboard-btn <?= $active_page === 'iot' ? 'active' : '' ?>" aria-label="Monitoring IoT">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="5" y="3" width="14" height="15" rx="2"></rect>
+                            <path d="M8 8h8"></path>
+                            <path d="M8 12h2"></path>
+                            <path d="M14 12h2"></path>
+                            <path d="M12 18v3"></path>
+                            <path d="M8 21h8"></path>
+                        </svg>
+                        <span>Monitoring IoT</span>
+                    </a>
+                </div>
                 <button type="button" class="avatar-toggle" id="avatarToggle" aria-expanded="false" aria-haspopup="menu">
                     <span class="avatar"><?= htmlspecialchars(strtoupper(substr((string) $_SESSION['username'], 0, 1))) ?></span>
                 </button>
@@ -939,8 +969,9 @@ body.ff-dashboard-loading .ff-page-transition__text {
         return false;
     }
 
-    function isDashboardUrl(url) {
-        return url.origin === window.location.origin && /\/pages\/dashboard\.php$/.test(url.pathname);
+    function isWorkspaceEntryUrl(url) {
+        return url.origin === window.location.origin &&
+            /\/(?:pages|iot)\/dashboard\.php$/.test(url.pathname);
     }
 
     document.addEventListener('click', function (event) {
@@ -954,7 +985,7 @@ body.ff-dashboard-loading .ff-page-transition__text {
             return;
         }
 
-        if (isLandingPage && isDashboardUrl(url)) {
+        if (isLandingPage && isWorkspaceEntryUrl(url)) {
             event.preventDefault();
             link.classList.add('is-pending');
             body.classList.add('is-leaving');
