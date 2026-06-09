@@ -117,7 +117,7 @@ $total_user = landing_count($koneksi, 'users');
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/index.css?v=<?= filemtime(__DIR__ . '/assets/css/index.css') ?>">
 </head>
 <body class="landing-page">
 
@@ -125,13 +125,20 @@ $total_user = landing_count($koneksi, 'users');
 
 <main class="landing-main">
     <section class="hero" id="beranda" aria-labelledby="hero-title">
+        <div class="hero-backgrounds" aria-hidden="true">
+            <span class="hero-background-slide hero-background-slide--1"></span>
+            <span class="hero-background-slide hero-background-slide--2"></span>
+            <span class="hero-background-slide hero-background-slide--3"></span>
+            <span class="hero-background-slide hero-background-slide--4"></span>
+            <span class="hero-background-slide hero-background-slide--5"></span>
+        </div>
         <div class="hero-inner">
             <div class="hero-logo-mark" aria-label="Fresh Smart Farm">
                 <img src="assets/images/logo.png" alt="Fresh Smart Farm" onerror="this.style.display='none'">
                 <span>Fresh Smart Farm</span>
             </div>
-            <h1 id="hero-title">Kelola Kebun Lebih Tenang, Data Lebih Jelas</h1>
-            <p>Landing baru ini dibuat untuk petani yang butuh alur kerja rapi: catatan tanam, harga pasar, insight pertanian, dan ringkasan kebun dalam satu pengalaman yang cepat dibaca.</p>
+            <h1 id="hero-title">Rawat Kebun dengan Tenang, Tumbuhkan Hasil Terbaik</h1>
+            <p>Fresh Smart Farm membantu Anda memahami kondisi kebun, merawat tanaman tepat waktu, dan mengambil keputusan dengan lebih yakin agar setiap usaha di lahan tumbuh menjadi hasil yang membanggakan.</p>
 
             <div class="hero-actions" aria-label="Aksi utama">
                 <?php if (isset($_SESSION['user_id'])): ?>
